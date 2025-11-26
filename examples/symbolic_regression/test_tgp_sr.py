@@ -11,6 +11,7 @@ Please note: This benchmark is nowadays considered a toy problem and
 no serious benchmark. It only serves as an example for SR as an application
 domain for TinyverseGP:
 """
+from gp import metrics
 
 from src.gp.tiny_tgp import *
 from src.gp.functions import *
@@ -68,7 +69,7 @@ data, actual = benchmark.generate("KOZA1")
 functions = [ADD, SUB, MUL, DIV]
 terminals = [Var(0), Const(1)]
 
-problem = BlackBox(data, actual, loss, 1e-6, True)
+problem = BlackBox(data, actual, metrics.pearson_corr_loss, 1e-6, True)
 
 tgp = TinyTGP(functions, terminals, config, hyperparameters)
 best = tgp.evolve(problem)
