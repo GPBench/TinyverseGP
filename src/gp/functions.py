@@ -42,15 +42,15 @@ def pexp(x, clip=50.0):
 
 # Arithmetic Functions
 ADD = Function(2, "Add", operator.add)
-SUB = Function(2, "Sub", operator.sub, lambda x, y: x - y)
+SUB = Function(2, "Sub", operator.sub)
 MUL = Function(2, "Mul", operator.mul)
-DIV = Function(2, "Div", pdiv, lambda x, y: x / y)
+DIV = Function(2, "Div", pdiv)
 EXP = Function(1, "EXP", np.exp)
 LOG = Function(1, "LOG", plog)
 SQRT = Function(1, "SQRT", psqrt)
 SQR = Function(1, "SQR", square)
 CUBE = Function(1, "CUBE", cube)
-POWER = Function(2, "Power", operator.pow, lambda x, y: x**y)
+POWER = Function(2, "Power", operator.pow)
 
 # Logical Functions
 AND = Function(2, "AND", lambda x, y: int(x) & int(y))

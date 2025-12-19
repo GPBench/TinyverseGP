@@ -92,6 +92,9 @@ class TinyTGP(GPModel):
         self.best_individual = None  # to keep the best program found so far
         self.num_evaluations = 0  # conter of number of evaluations
         # initial population using ramped half-and-half
+        self.init_population()
+
+    def init_population(self):
         self.population = [
             TGPIndividual(genome, None)
             for genome in self.init_ramped_half_half(
@@ -101,7 +104,6 @@ class TinyTGP(GPModel):
                 self.hyperparameters.max_size,
             )
         ]
-        # self.best_individual = self.evaluate() # evaluates the initial population
 
     def tree_random_full(self, max_depth: int, size: int) -> Node:
         """
@@ -190,7 +192,6 @@ class TinyTGP(GPModel):
 
         :return: a `float` representing the fitness of that individual.
         """
-        self.num_evaluations += 1  # update the evaluation counter
         f = problem.evaluate(
             genome, self
         )  # evaluate the solution using the problem instance

@@ -4,13 +4,13 @@ from src.gp.tiny_lgp import TinyLGP
 from src.gp.tiny_tgp import TinyTGP
 
 
-def get_model(representation, functions, terminals, hyperparameters, config):
+def get_model(representation, functions, terminals, hyperparameters, config, grammar=None):
     if representation == "TGP":
         model = TinyTGP(functions, terminals, config, hyperparameters)
     elif representation == "CGP":
         model = TinyCGP(functions, terminals, config, hyperparameters)
     elif representation == "GE":
-        model = TinyGE(functions, terminals, config, hyperparameters)
+        model = TinyGE(functions, grammar, terminals, config, hyperparameters)
     elif representation == "LGP":
         model = TinyLGP(functions, terminals, config, hyperparameters)
     else:

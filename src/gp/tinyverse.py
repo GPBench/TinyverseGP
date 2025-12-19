@@ -301,8 +301,14 @@ class GPModel(ABC):
         self.checkpointer = Checkpointer(self.config, self.hyperparameters)
         self.generation_number = 0
         self.num_evaluations = 0
-        #if self.config.global_seed is not None:
         random.seed(self.config.global_seed)
+
+    @abstractmethod
+    def init_population(self):
+        """
+        Creates the population the way it is done for the respective GP representation.
+        """
+        pass
 
     def evaluate(self, problem) -> GPIndividual:
         """
@@ -312,7 +318,7 @@ class GPModel(ABC):
         """
         best = None
         for individual in self.population:
-            self.num_evaluations += 1
+            self.num_evaluations += 1  # update the evaluation counter
             genome = individual.genome
             if individual.fitness is None:
                 # Dynamic dispatch: pass individual for Tiny3GE, genome for others
@@ -393,7 +399,29 @@ class GPModel(ABC):
 
     @abstractmethod
     def pipeline(self, problem):
+        """
+        Function that executes a single step of the evolutionary process.
+        """
         pass
+
+
+    def reset(self):
+        """
+        Resets the population and the counters.
+        If multiple instances should be executed with different seeds
+        the rng is re-seeded.
+        """
+
+        self.init_population()
+
+        self.num_evaluations = 0
+        self.generation_number = 0
+
+        # Re-seed the random generator if multiple jobs are performed with
+        # different seeds
+        if self.config.num_jobs > 1 and self.config.global_seed is None:
+            random.seed()
+
 
     def evolve(self, problem) -> Any:
         """
@@ -406,13 +434,15 @@ class GPModel(ABC):
         """
         best_individual = None
         best_fitness = None
-        t0 = time.time()
-        elapsed = 0
-        terminate = False
-        silent = self.config.silent_algorithm
 
         for job in range(self.config.num_jobs):
-            self.num_evaluations = 0
+
+            # Reset the state
+            self.reset()
+
+            t0 = time.time()
+            elapsed = 0
+            terminate = False
 
             # Evaluate the population
             best_individual = self.evaluate(problem)

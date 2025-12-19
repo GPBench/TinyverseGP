@@ -136,6 +136,9 @@ class TinyCGP(GPModel):
         self.init_inputs(terminals_)
         self.init_population()
 
+    def init_population(self):
+        self.init_population()
+
     def init_population(self) -> list:
         """
         Initialization routine that creates and inits
@@ -321,7 +324,6 @@ class TinyCGP(GPModel):
         :param genome: the genome of an individual
         :return: fitness of the individual
         """
-        self.num_evaluations += 1
         self.current_paths = None
         return problem.evaluate(genome, self)
 

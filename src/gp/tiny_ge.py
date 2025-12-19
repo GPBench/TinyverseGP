@@ -16,14 +16,19 @@ class GEHyperparameters(GPHyperparameters):
     """
     Specialized hyperparameter configuration space for GE.
     """
-
     genome_length: int
     codon_size: int
     penalty_value: float
 
     def __post_init__(self):
         GPHyperparameters.__post_init__(self)
-
+        self.space["genome_length"] = (10, 1000)
+        self.space["codon_size"] = (1000, 25000)
+        self.space["pop_size"] = (10, 5000)
+        self.space["mutation_rate"] = (0.0, 1.0)
+        self.space["cx_rate"] = (0.0, 1.0)
+        self.space["tournament_size"] = (2, 9)
+        self.space["penalty_value"] = (1, 9999999)
 
 class GEIndividual(GPIndividual):
     genome: list[int]
@@ -60,11 +65,14 @@ class TinyGE(GPModel):
         self.config = config # overall configuration
         self.best_individual = None  # to keep the best program found so far
         self.num_evaluations = 0  # counter of number of evaluations
+        self.init_population()
 
+    def init_population(self):
         # initial population using uniform initialization
-        self.population = [GEIndividual(genome, None) for genome in self.init_uniform(self.hyperparameters.pop_size, self.hyperparameters.genome_length, self.hyperparameters.codon_size)]
+        self.population = [GEIndividual(genome, None) for genome in
+                           self.init_uniform(self.hyperparameters.pop_size, self.hyperparameters.genome_length,
+                                             self.hyperparameters.codon_size)]
 
-        #self.evaluate() # evaluates the initial population
     def init_uniform(self, num_pop: int, max_genome_length: int, codon_size: int):
         """
         Initialize the population uniformly. It will create one genome per output.
@@ -84,7 +92,6 @@ class TinyGE(GPModel):
 
         :return: a `float` representing the fitness of that individual.
         '''
-        self.num_evaluations += 1  # update the evaluation counter
         f = None
         tmp_expr = self.expression(genome)
         if "<" in tmp_expr or ">" in tmp_expr:
