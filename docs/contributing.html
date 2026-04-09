@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contributing – TinyverseGP</title>
+  <meta name="description"
+        content="Learn how to contribute to TinyverseGP: new representations, problem domains, bug fixes, documentation, and more." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>" />
+
+  <style>
+    /* Extra styles specific to the contributing page */
+    .guide-section { margin-bottom: 2.5rem; }
+    .guide-section h3 { font-size: 1.2rem; margin-bottom: .75rem; color: var(--primary-dk); }
+    .guide-section p  { margin-bottom: .75rem; }
+    .guide-section ul, .guide-section ol {
+      padding-left: 1.5rem;
+      margin-bottom: .75rem;
+    }
+    .guide-section li { margin-bottom: .4rem; }
+
+    .callout {
+      background: var(--light);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      font-size: .95rem;
+    }
+    .callout.warning { border-color: #f59e0b; background: #fffbeb; }
+    .callout.info    { border-color: #3b82f6; background: #eff6ff; }
+
+    .toc {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      display: inline-block;
+      min-width: 260px;
+    }
+    .toc h4 { margin-bottom: .6rem; font-size: 1rem; }
+    .toc ol { padding-left: 1.25rem; }
+    .toc li { margin-bottom: .3rem; font-size: .92rem; }
+
+    .contribution-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .contribution-type {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+    .contribution-type .ct-icon { font-size: 1.75rem; margin-bottom: .5rem; }
+    .contribution-type h4 { margin-bottom: .4rem; font-size: 1rem; }
+    .contribution-type p { font-size: .88rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">🧬&nbsp;<span>Tinyverse</span>GP</a>
+    <ul class="navbar-nav">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#representations">Representations</a></li>
+      <li><a href="index.html#install">Get Started</a></li>
+      <li><a href="index.html#examples">Examples</a></li>
+      <li><a href="contributing.html" class="active">Contribute</a></li>
+      <li><a href="index.html#team">Team</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" style="padding: 3.5rem 1.5rem 3rem;">
+  <div class="container">
+    <h1 style="font-size:clamp(1.75rem,4vw,2.8rem)">🤝 Contributing to TinyverseGP</h1>
+    <p class="tagline" style="max-width:680px">
+      TinyverseGP is a community project and we warmly welcome contributions of every kind —
+      from new GP representations and problem domains to bug fixes, experiments, and
+      documentation.
+    </p>
+    <div class="btn-group">
+      <a class="btn btn-white"
+         href="https://github.com/GPBench/TinyverseGP/issues/new"
+         target="_blank" rel="noopener">🐛 Open an Issue</a>
+      <a class="btn btn-outline"
+         href="https://github.com/GPBench/TinyverseGP/pulls"
+         target="_blank" rel="noopener">🔀 Submit a Pull Request</a>
+      <a class="btn btn-outline"
+         href="https://discord.gg/MSv32wHTC6"
+         target="_blank" rel="noopener">💬 Join Discord</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MAIN CONTENT ===== -->
+<section class="section">
+  <div class="container">
+
+    <!-- Table of Contents -->
+    <nav class="toc">
+      <h4>📋 Table of Contents</h4>
+      <ol>
+        <li><a href="#ways-to-contribute">Ways to Contribute</a></li>
+        <li><a href="#getting-started">Getting Started</a></li>
+        <li><a href="#new-representation">Adding a New GP Representation</a></li>
+        <li><a href="#new-domain">Adding a New Problem Domain</a></li>
+        <li><a href="#workflow">Development Workflow</a></li>
+        <li><a href="#code-style">Code Style</a></li>
+        <li><a href="#testing">Testing</a></li>
+        <li><a href="#contact">Contact &amp; Community</a></li>
+      </ol>
+    </nav>
+
+    <!-- Ways to contribute -->
+    <div class="guide-section" id="ways-to-contribute">
+      <h2 class="section-title">Ways to Contribute</h2>
+      <div class="section-line"></div>
+      <p>
+        TinyverseGP is still in its early stages — every contribution matters.
+        Below are the most impactful areas to get involved in.
+      </p>
+
+      <div class="contribution-type-grid">
+        <div class="contribution-type">
+          <div class="ct-icon">🌱</div>
+          <h4>New GP Representations</h4>
+          <p>Push GP, Stack GP, Gene Expression Programming, Semantic GP, …</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">🏋️</div>
+          <h4>New Problem Domains</h4>
+          <p>Time-series forecasting, combinatorial optimisation, multi-objective problems, …</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">⚙️</div>
+          <h4>Operators</h4>
+          <p>Crossover, mutation, and selection operators that plug into the existing framework.</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">📊</div>
+          <h4>Benchmarks &amp; Experiments</h4>
+          <p>Replicate published results, add datasets, or run systematic comparisons.</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">🧪</div>
+          <h4>Tests</h4>
+          <p>Unit tests, integration tests, and regression tests to improve reliability.</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">📝</div>
+          <h4>Documentation</h4>
+          <p>Docstrings, tutorials, Jupyter notebooks, or improvements to this website.</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">🐛</div>
+          <h4>Bug Reports &amp; Fixes</h4>
+          <p>Open a GitHub issue with a minimal reproducer, or directly submit a fix.</p>
+        </div>
+        <div class="contribution-type">
+          <div class="ct-icon">💡</div>
+          <h4>Feature Requests &amp; Ideas</h4>
+          <p>Start a discussion on GitHub or Discord — we love hearing about new use cases.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Getting started -->
+    <div class="guide-section" id="getting-started">
+      <h2 class="section-title">Getting Started</h2>
+      <div class="section-line"></div>
+
+      <h3>1. Fork &amp; clone the repository</h3>
+      <pre><code># Fork on GitHub first, then:
+git clone https://github.com/&lt;your-username&gt;/TinyverseGP.git
+cd TinyverseGP
+git remote add upstream https://github.com/GPBench/TinyverseGP.git</code></pre>
+
+      <h3>2. Set up your environment</h3>
+      <pre><code>python3.10 -m venv env
+source env/bin/activate   # Windows: env\Scripts\activate
+pip install -r requirements.txt</code></pre>
+
+      <div class="callout warning">
+        ⚠️ <strong>Python 3.10 required.</strong>
+        Versions above 3.10 are currently not supported due to a dependency constraint.
+        Use <a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a>
+        if you need to manage multiple Python versions.
+      </div>
+
+      <h3>3. Create a feature branch</h3>
+      <pre><code>git checkout -b feature/my-awesome-contribution</code></pre>
+
+      <h3>4. Make your changes, test, and push</h3>
+      <pre><code># ... make your changes ...
+
+# Run the existing examples to verify nothing is broken
+python3 -m examples.symbolic_regression.test_cgp_sr
+python3 -m examples.symbolic_regression.test_tgp_sr
+
+# Push and open a Pull Request on GitHub
+git push origin feature/my-awesome-contribution</code></pre>
+    </div>
+
+    <!-- New representation -->
+    <div class="guide-section" id="new-representation">
+      <h2 class="section-title">Adding a New GP Representation</h2>
+      <div class="section-line"></div>
+
+      <p>
+        All GP representations live in <code>src/gp/</code> and inherit from
+        <code>GPModel</code> defined in <code>src/gp/tinyverse.py</code>.
+        Follow these steps to add a new one.
+      </p>
+
+      <h3>Step 1 – Create the module file</h3>
+      <p>
+        Name your file <code>tiny_&lt;X&gt;gp.py</code> where <code>&lt;X&gt;</code> is the
+        first letter(s) of the representation (e.g., <code>tiny_pgp.py</code> for Push GP).
+        Place it in <code>src/gp/</code>.
+      </p>
+
+      <h3>Step 2 – Define Config and Hyperparameters</h3>
+      <p>
+        Create dataclasses that inherit from <code>GPConfig</code> and
+        <code>GPHyperparameters</code> respectively. Add any representation-specific fields.
+      </p>
+      <pre><code>from dataclasses import dataclass
+from src.gp.tinyverse import GPConfig, GPHyperparameters
+
+@dataclass(kw_only=True)
+class MyGPConfig(GPConfig):
+    # add representation-specific config fields here
+    my_param: int = 10
+
+@dataclass(kw_only=True)
+class MyGPHyperparameters(GPHyperparameters):
+    # add representation-specific hyperparameters here
+    my_hp: float = 0.1</code></pre>
+
+      <h3>Step 3 – Implement the <code>GPModel</code> subclass</h3>
+      <p>
+        Create a class named <code>Tiny&lt;X&gt;GP</code> (e.g., <code>TinyPGP</code>) that
+        inherits from <code>GPModel</code> and implements all abstract methods:
+      </p>
+
+      <table class="examples-table" style="margin-bottom:1rem">
+        <thead>
+          <tr><th>Method</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>init_population()</code></td>
+            <td>Initialise the population of individuals.</td>
+          </tr>
+          <tr>
+            <td><code>evaluate_individual(genome, problem)</code></td>
+            <td>Compute and return the fitness of a single genome.</td>
+          </tr>
+          <tr>
+            <td><code>pipeline(problem)</code></td>
+            <td>Execute one evolutionary generation (selection → breeding → evaluation).</td>
+          </tr>
+          <tr>
+            <td><code>selection()</code></td>
+            <td>Select an individual from the population (e.g., tournament).</td>
+          </tr>
+          <tr>
+            <td><code>predict(genome, observation)</code></td>
+            <td>Execute a genome on a single input observation and return the output.</td>
+          </tr>
+          <tr>
+            <td><code>expression(genome)</code></td>
+            <td>Return a human-readable representation of the evolved program.</td>
+          </tr>
+          <tr>
+            <td><code>is_valid(genome)</code></td>
+            <td>Return <code>True</code> if the genome is a valid program.</td>
+          </tr>
+          <tr>
+            <td><code>eval_complexity(genome)</code></td>
+            <td>Return a scalar measure of the genome's complexity.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        💡 Look at <code>src/gp/tiny_cgp.py</code> or <code>src/gp/tiny_tgp.py</code> for
+        concrete reference implementations.
+      </div>
+
+      <h3>Step 4 – Add an example</h3>
+      <p>
+        Add at least one runnable example in <code>examples/symbolic_regression/</code> (or
+        another domain) that demonstrates your representation. Update the table in
+        <code>README.md</code>.
+      </p>
+
+      <h3>Step 5 – Update <code>Collaborators.md</code></h3>
+      <p>
+        Add your name and affiliation to <code>Collaborators.md</code> with a short
+        description of your contribution. This is required before your PR can be merged.
+      </p>
+    </div>
+
+    <!-- New domain -->
+    <div class="guide-section" id="new-domain">
+      <h2 class="section-title">Adding a New Problem Domain</h2>
+      <div class="section-line"></div>
+
+      <p>
+        Problem domains live in <code>src/benchmark/</code>. The interface is defined in
+        <code>src/gp/problem.py</code> through the abstract <code>Problem</code> class.
+      </p>
+
+      <h3>Step 1 – Implement a <code>Problem</code> subclass</h3>
+      <p>
+        Open <code>src/gp/problem.py</code> and add a new class that inherits from
+        <code>Problem</code>. The class must implement three methods:
+      </p>
+      <pre><code>from src.gp.problem import Problem
+
+class MyProblem(Problem):
+    def is_ideal(self, fitness) -> bool:
+        """Return True when the optimal fitness has been reached."""
+        return fitness == 0.0
+
+    def is_better(self, fitness1, fitness2) -> bool:
+        """Return True if fitness1 is strictly better than fitness2."""
+        return fitness1 &lt; fitness2
+
+    def evaluate(self, genome, gp_model) -> float:
+        """Compute the fitness of genome using gp_model.predict(…)."""
+        total_error = 0.0
+        for x, y_true in self.data:
+            y_pred = gp_model.predict(genome, x)
+            total_error += abs(y_pred - y_true)
+        return total_error</code></pre>
+
+      <h3>Step 2 – Create a benchmark module</h3>
+      <p>
+        Add your benchmark instances in <code>src/benchmark/&lt;domain&gt;/</code>.
+        If you are wrapping an existing benchmark suite, create a thin interface file
+        (see <code>srbench.py</code> or <code>lsbench.py</code> for examples).
+      </p>
+
+      <h3>Step 3 – Add examples and update the README</h3>
+      <p>
+        Provide at least one example per representation in
+        <code>examples/&lt;domain&gt;/</code> and list them in <code>README.md</code>.
+      </p>
+    </div>
+
+    <!-- Workflow -->
+    <div class="guide-section" id="workflow">
+      <h2 class="section-title">Development Workflow</h2>
+      <div class="section-line"></div>
+
+      <ol>
+        <li>
+          <strong>Keep your fork in sync.</strong>
+          <pre><code>git fetch upstream
+git rebase upstream/main</code></pre>
+        </li>
+        <li>
+          <strong>Write small, focused commits</strong> with descriptive messages
+          (<code>Add TinyPGP representation</code>,
+           <code>Fix mutation operator bug in CGP</code>, …).
+        </li>
+        <li>
+          <strong>Open a Pull Request</strong> against the <code>main</code> branch of
+          <code>GPBench/TinyverseGP</code>. Fill in the PR template, describing what the
+          change does and how you tested it.
+        </li>
+        <li>
+          <strong>Respond to review feedback</strong> promptly. A maintainer will review
+          your PR and may request changes before merging.
+        </li>
+        <li>
+          <strong>Update <code>Collaborators.md</code></strong> in the same PR —
+          this is required before your contribution can be merged.
+        </li>
+      </ol>
+
+      <div class="callout">
+        🏠 The repository is hosted under the
+        <a href="https://github.com/GPBench" target="_blank" rel="noopener">GPBench GitHub Organisation</a>,
+        which is not tied to any single institution. If you want to become a maintainer
+        with write access, please reach out via Discord or by opening a GitHub discussion.
+      </div>
+    </div>
+
+    <!-- Code style -->
+    <div class="guide-section" id="code-style">
+      <h2 class="section-title">Code Style</h2>
+      <div class="section-line"></div>
+
+      <ul>
+        <li>
+          Follow <strong>PEP 8</strong>. The existing codebase uses 4-space indentation
+          and type hints wherever practical.
+        </li>
+        <li>
+          Keep each GP representation <strong>self-contained in a single file</strong>.
+          Avoid adding unnecessary dependencies.
+        </li>
+        <li>
+          Add <strong>docstrings</strong> to every public class and method, matching the
+          style already used in <code>tinyverse.py</code>.
+        </li>
+        <li>
+          Every file should start with the standard licence header:
+          <pre><code># This file is part of TinyverseGP | https://github.com/GPBench/TinyverseGP
+# License: GPL-3.0-or-later</code></pre>
+        </li>
+        <li>
+          Prefer <strong>clarity over cleverness</strong>. The main purpose of the codebase
+          is education — readable code is more valuable than micro-optimised code.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Testing -->
+    <div class="guide-section" id="testing">
+      <h2 class="section-title">Testing</h2>
+      <div class="section-line"></div>
+
+      <p>
+        The project uses <strong>pytest</strong>. Tests live in the
+        <code>tests/</code> directory. Before submitting a PR, run the full test suite:
+      </p>
+      <pre><code>pytest tests/</code></pre>
+
+      <p>
+        If you are adding a new representation or feature, please add corresponding tests
+        in <code>tests/</code>. At minimum:
+      </p>
+      <ul>
+        <li>A smoke test that initialises the model and runs one generation.</li>
+        <li>A test that verifies the <code>predict()</code> and <code>expression()</code>
+            methods return correct types.</li>
+        <li>A regression test if you are fixing a bug.</li>
+      </ul>
+
+      <div class="callout warning">
+        ⚠️ Do <em>not</em> remove or weaken existing tests. If a test needs to change
+        because of your refactoring, explain why in the PR description.
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="guide-section" id="contact">
+      <h2 class="section-title">Contact &amp; Community</h2>
+      <div class="section-line"></div>
+
+      <p>
+        The best places to ask questions, share ideas, or get feedback before starting a
+        large contribution:
+      </p>
+
+      <ul>
+        <li>
+          💬 <strong>Discord</strong> —
+          <a href="https://discord.gg/MSv32wHTC6" target="_blank" rel="noopener">discord.gg/MSv32wHTC6</a>
+          (most active channel for real-time discussion)
+        </li>
+        <li>
+          🐛 <strong>GitHub Issues</strong> —
+          <a href="https://github.com/GPBench/TinyverseGP/issues" target="_blank" rel="noopener">
+            github.com/GPBench/TinyverseGP/issues
+          </a>
+          (bug reports, feature requests)
+        </li>
+        <li>
+          💬 <strong>GitHub Discussions</strong> —
+          <a href="https://github.com/GPBench/TinyverseGP/discussions" target="_blank" rel="noopener">
+            github.com/GPBench/TinyverseGP/discussions
+          </a>
+          (ideas, questions, research collaboration)
+        </li>
+      </ul>
+
+      <div class="callout">
+        🙏 <strong>Thank you</strong> for taking the time to contribute to TinyverseGP!
+        Every contribution — no matter how small — helps build a better tool for the
+        Genetic Programming community.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://github.com/GPBench/TinyverseGP" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://arxiv.org/abs/2504.10253" target="_blank" rel="noopener">Paper (arXiv)</a>
+      <a href="https://discord.gg/MSv32wHTC6" target="_blank" rel="noopener">Discord</a>
+      <a href="index.html">Home</a>
+      <a href="https://github.com/GPBench/TinyverseGP/blob/main/LICENSE" target="_blank" rel="noopener">License (GPL-3.0)</a>
+    </div>
+    <p>
+      © 2025 TinyverseGP Contributors &mdash;
+      Released under the
+      <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GNU GPL v3</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

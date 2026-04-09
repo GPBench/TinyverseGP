@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TinyverseGP – Minimalistic Genetic Programming Framework</title>
+  <meta name="description"
+        content="TinyverseGP is a collection of minimalistic, educational, and extensible implementations of different Genetic Programming representations." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Favicon placeholder – replace with a real icon if desired -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>" />
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">🧬&nbsp;<span>Tinyverse</span>GP</a>
+    <ul class="navbar-nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#representations">Representations</a></li>
+      <li><a href="#install">Get Started</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="contributing.html">Contribute</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="container">
+    <h1>🧬 <span class="highlight">TinyverseGP</span></h1>
+    <p class="tagline">
+      A modular, minimalistic, and cross-domain benchmarking framework for
+      <strong>Genetic Programming</strong> — written in pure Python.
+    </p>
+
+    <div class="badges">
+      <a href="https://arxiv.org/abs/2504.10253" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/badge/arXiv-2504.10253-b31b1b.svg" alt="arXiv" />
+      </a>
+      <a href="https://discord.gg/MSv32wHTC6" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/discord/1418620917436649682?logo=discord" alt="Discord" />
+      </a>
+      <a href="https://github.com/GPBench/TinyverseGP/blob/main/LICENSE" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/github/license/GPBench/TinyverseGP" alt="License" />
+      </a>
+      <img src="https://img.shields.io/badge/python-3.10-blue?logo=python&logoColor=white" alt="Python 3.10" />
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-white" href="https://github.com/GPBench/TinyverseGP" target="_blank" rel="noopener">
+        ⭐ GitHub Repository
+      </a>
+      <a class="btn btn-outline" href="#install">
+        🚀 Get Started
+      </a>
+      <a class="btn btn-outline" href="contributing.html">
+        🤝 Contribute
+      </a>
+      <a class="btn btn-outline" href="https://arxiv.org/abs/2504.10253" target="_blank" rel="noopener">
+        📄 Paper
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== ABOUT ===== -->
+<section class="section" id="about">
+  <div class="container">
+    <h2 class="section-title">About TinyverseGP</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      A common, lightweight home for a growing family of GP implementations and benchmarks.
+    </p>
+
+    <div class="about-grid">
+      <div>
+        <p>
+          <strong>TinyverseGP</strong> is an open-source Python framework that bundles
+          minimalistic implementations of the most popular Genetic Programming (GP)
+          representations under one roof. Whether you are a student learning about
+          evolutionary computation, a researcher running cross-domain experiments, or an
+          engineer looking for a clean baseline — TinyverseGP is designed for you.
+        </p>
+        <br />
+        <p>
+          The framework ships with ready-to-use benchmark interfaces for <em>Symbolic
+          Regression</em>, <em>Logic Synthesis</em>, <em>Policy Search</em>, and
+          <em>Program Synthesis</em>, letting you compare representations on equal footing
+          with minimal boilerplate.
+        </p>
+        <br />
+        <p>
+          A short paper introducing TinyverseGP has been accepted for poster presentation
+          at <a href="https://gecco-2025.sigevo.org/HomePage" target="_blank" rel="noopener">GECCO 2025</a>.
+          Read it on <a href="https://arxiv.org/abs/2504.10253" target="_blank" rel="noopener">arXiv</a>.
+        </p>
+      </div>
+
+      <div>
+        <ul class="feature-list">
+          <li>
+            <span class="icon">🔬</span>
+            <div>
+              <strong>Minimalistic</strong>
+              Each representation is self-contained in a single, readable Python file — no
+              hidden magic, no bloated abstractions.
+            </div>
+          </li>
+          <li>
+            <span class="icon">🎓</span>
+            <div>
+              <strong>Educational</strong>
+              Clear code structure and docstrings make the framework an ideal starting point
+              for learning about GP and evolutionary computation.
+            </div>
+          </li>
+          <li>
+            <span class="icon">🔌</span>
+            <div>
+              <strong>Extensible</strong>
+              A well-defined abstract interface makes it straightforward to add new
+              representations, operators, or problem domains.
+            </div>
+          </li>
+          <li>
+            <span class="icon">📊</span>
+            <div>
+              <strong>Benchmarking</strong>
+              Built-in interfaces to SRBench, GBFS/LSBench, Gymnasium, and more for
+              fair, reproducible cross-domain comparisons.
+            </div>
+          </li>
+          <li>
+            <span class="icon">🤖</span>
+            <div>
+              <strong>AutoML-ready</strong>
+              Integrates with HPO tools (SMAC3) and LLM interfaces for automated
+              hyperparameter optimisation and natural-language program synthesis.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REPRESENTATIONS ===== -->
+<section class="section section-alt" id="representations">
+  <div class="container">
+    <h2 class="section-title">GP Representations</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      Four representations are currently implemented, each in a single self-contained file.
+    </p>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">🌳</div>
+        <h3>Tree-based GP (TGP)</h3>
+        <p>
+          Classic Koza-style GP. Programs are represented as expression trees.
+          Supports multi-tree chromosomes for problems with multiple outputs.
+        </p>
+        <div class="domains">
+          <span class="domain-tag">SR</span>
+          <span class="domain-tag">LS</span>
+          <span class="domain-tag">Policy</span>
+          <span class="domain-tag">PS</span>
+        </div>
+        <p style="margin-top:.75rem;font-size:.82rem;color:var(--muted)">
+          <code>src/gp/tiny_tgp.py</code>
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>Cartesian GP (CGP)</h3>
+        <p>
+          Programs are represented as directed acyclic graphs with fixed topology.
+          Naturally supports multiple outputs through shared computation nodes.
+        </p>
+        <div class="domains">
+          <span class="domain-tag">SR</span>
+          <span class="domain-tag">LS</span>
+          <span class="domain-tag">Policy</span>
+          <span class="domain-tag">PS</span>
+        </div>
+        <p style="margin-top:.75rem;font-size:.82rem;color:var(--muted)">
+          <code>src/gp/tiny_cgp.py</code>
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Linear GP (LGP)</h3>
+        <p>
+          Programs are sequences of register-machine instructions.
+          Efficient representation for imperative-style evolved programs.
+        </p>
+        <div class="domains">
+          <span class="domain-tag">SR</span>
+          <span class="domain-tag">Policy</span>
+        </div>
+        <p style="margin-top:.75rem;font-size:.82rem;color:var(--muted)">
+          <code>src/gp/tiny_lgp.py</code>
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📖</div>
+        <h3>Grammatical Evolution (GE)</h3>
+        <p>
+          Genotypes are integer sequences decoded via a user-supplied BNF grammar,
+          enabling flexible program synthesis in any target language.
+        </p>
+        <div class="domains">
+          <span class="domain-tag">SR</span>
+          <span class="domain-tag">PS</span>
+        </div>
+        <p style="margin-top:.75rem;font-size:.82rem;color:var(--muted)">
+          <code>src/gp/tiny_ge.py</code>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEM DOMAINS ===== -->
+<section class="section" id="domains">
+  <div class="container">
+    <h2 class="section-title">Problem Domains</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      All representations can be benchmarked across multiple domains through a shared problem API.
+    </p>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Symbolic Regression</h3>
+        <p>
+          Discover mathematical expressions that fit a dataset.
+          Interfaces to the
+          <a href="https://cavalab.org/srbench/" target="_blank" rel="noopener">SRBench</a>
+          suite are included.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Logic Synthesis</h3>
+        <p>
+          Evolve Boolean circuits and combinational logic.
+          Benchmarks from GBFS / LSBench are supported out of the box.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🕹️</div>
+        <h3>Policy Search</h3>
+        <p>
+          Learn interpretable control policies for
+          <a href="https://gymnasium.farama.org/" target="_blank" rel="noopener">Gymnasium</a>
+          environments including classic control and Atari (ALE).
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💻</div>
+        <h3>Program Synthesis</h3>
+        <p>
+          Automatically generate programs that satisfy a set of input/output
+          examples — a classic AI benchmark for GP.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== GETTING STARTED ===== -->
+<section class="section section-alt" id="install">
+  <div class="container">
+    <h2 class="section-title">Getting Started</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      TinyverseGP requires <strong>Python 3.10</strong>. Follow the steps below to install
+      and run your first experiment.
+    </p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Clone the repository</h3>
+          <p>Get the source code from GitHub.</p>
+          <pre><code>git clone https://github.com/GPBench/TinyverseGP.git
+cd TinyverseGP</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Set up a virtual environment with Python 3.10</h3>
+          <p>
+            If you have multiple Python versions installed, use
+            <a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a>
+            to switch to 3.10:
+          </p>
+          <pre><code># Optional – if you need to install Python 3.10 via pyenv
+pyenv install 3.10
+pyenv shell 3.10
+
+# Create and activate a virtual environment
+python3 -m venv env
+source env/bin/activate   # Windows: env\Scripts\activate</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Install dependencies</h3>
+          <p>Install all required packages from the provided requirements file.</p>
+          <pre><code>pip install -r requirements.txt</code></pre>
+          <p style="margin-top:.5rem">
+            <strong>Note:</strong> Python versions above 3.10 are currently not supported due
+            to a dependency limitation. See the
+            <a href="https://github.com/automl/random_forest_run/issues/78" target="_blank" rel="noopener">upstream issue</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Run your first example</h3>
+          <p>
+            Try symbolic regression with Cartesian GP — one of the simplest experiments to
+            get started.
+          </p>
+          <pre><code>python3 -m examples.symbolic_regression.test_cgp_sr</code></pre>
+          <p style="margin-top:.5rem">
+            Or with Tree-based GP:
+          </p>
+          <pre><code>python3 -m examples.symbolic_regression.test_tgp_sr</code></pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXAMPLES ===== -->
+<section class="section" id="examples">
+  <div class="container">
+    <h2 class="section-title">Available Examples</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      All examples live in <code>examples/</code> and can be run with
+      <code>python3 -m &lt;module&gt;</code>.
+    </p>
+
+    <table class="examples-table">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>Representation</th>
+          <th>Module</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Symbolic Regression</td>
+          <td>CGP</td>
+          <td><code>examples.symbolic_regression.test_cgp_sr</code></td>
+        </tr>
+        <tr>
+          <td>Symbolic Regression</td>
+          <td>TGP</td>
+          <td><code>examples.symbolic_regression.test_tgp_sr</code></td>
+        </tr>
+        <tr>
+          <td>Logic Synthesis</td>
+          <td>CGP</td>
+          <td><code>examples.logic_synthesis.test_cgp_ls</code></td>
+        </tr>
+        <tr>
+          <td>Logic Synthesis</td>
+          <td>TGP</td>
+          <td><code>examples.logic_synthesis.test_tgp_ls</code></td>
+        </tr>
+        <tr>
+          <td>Policy Learning</td>
+          <td>CGP</td>
+          <td><code>examples.policy_learning.test_cgp_pl</code></td>
+        </tr>
+        <tr>
+          <td>Policy Learning (ALE)</td>
+          <td>CGP</td>
+          <td><code>examples.policy_learning.test_cgp_pl_ale</code></td>
+        </tr>
+        <tr>
+          <td>Policy Learning</td>
+          <td>TGP</td>
+          <td><code>examples.policy_learning.test_tgp_pl</code></td>
+        </tr>
+        <tr>
+          <td>Program Synthesis</td>
+          <td>CGP</td>
+          <td><code>examples.program_synthesis.test_cgp_ps</code></td>
+        </tr>
+        <tr>
+          <td>Program Synthesis</td>
+          <td>TGP</td>
+          <td><code>examples.program_synthesis.test_tgp_ps</code></td>
+        </tr>
+        <tr>
+          <td>HPO (SR)</td>
+          <td>CGP</td>
+          <td><code>examples.hpo.test_cgp_sr</code></td>
+        </tr>
+        <tr>
+          <td>HPO (SR)</td>
+          <td>TGP</td>
+          <td><code>examples.hpo.test_tgp_sr</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== QUICK CODE SNIPPET ===== -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Quick Code Snippet</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">Running CGP on a symbolic regression task in a few lines.</p>
+
+    <pre><code>from src.gp.tiny_cgp import TinyCGP, CGPConfig, CGPHyperparameters
+from src.gp.functions import default_functions
+from src.benchmark.symbolic_regression.sr_benchmark import get_problem
+
+# 1. Define the problem
+problem = get_problem("koza1")
+
+# 2. Configure the algorithm
+config = CGPConfig(
+    global_seed=42, num_jobs=1, max_generations=200,
+    stopping_criteria=0.0, minimizing_fitness=True,
+    ideal_fitness=0.0, silent_algorithm=False,
+    silent_evolver=False, minimalistic_output=False,
+    num_outputs=1, report_interval=10, max_time=3600,
+    n_cols=10, n_rows=1, levels_back=10,
+)
+
+hyperparams = CGPHyperparameters(
+    pop_size=100, mutation_rate=0.05,
+    cx_rate=0.0, tournament_size=3,
+)
+
+# 3. Run the evolution
+model = TinyCGP(config, hyperparams, problem, default_functions())
+best  = model.evolve(problem)
+
+print("Best expression:", model.expression(best.genome))
+print("Best fitness   :", best.fitness)</code></pre>
+  </div>
+</section>
+
+<!-- ===== CONTRIBUTION CALL ===== -->
+<section class="section" id="contribute">
+  <div class="container">
+    <h2 class="section-title">🤝 Call for Contributions</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      TinyverseGP is a community-driven project. We welcome contributions of all kinds!
+    </p>
+
+    <div class="contrib-grid">
+      <div class="contrib-card">
+        <div class="contrib-icon">🌱</div>
+        <h3>New Representations</h3>
+        <p>
+          Implement Push GP, Stack-based GP, or any other representation following the
+          <code>GPModel</code> abstract interface.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🏋️</div>
+        <h3>New Problem Domains</h3>
+        <p>
+          Add problem classes that inherit from <code>Problem</code> and expose your
+          favourite benchmark suite to all representations.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🐛</div>
+        <h3>Bug Reports &amp; Fixes</h3>
+        <p>
+          Found something broken? Open an issue on GitHub or submit a pull request with a
+          fix and a regression test.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">📝</div>
+        <h3>Documentation</h3>
+        <p>
+          Improve docstrings, write tutorials, or extend this website with new content.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🧪</div>
+        <h3>Tests &amp; Experiments</h3>
+        <p>
+          Add unit tests, integration tests, or replicate published experimental results
+          using TinyverseGP.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">⚙️</div>
+        <h3>Operators &amp; Utilities</h3>
+        <p>
+          Contribute new crossover, mutation, or selection operators — either representation-
+          specific or agnostic.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;text-align:center">
+      <a class="btn btn-primary" href="contributing.html">
+        📖 Read the Full Contribution Guide
+      </a>
+      &nbsp;
+      <a class="btn btn-accent"
+         href="https://github.com/GPBench/TinyverseGP/issues/new"
+         target="_blank" rel="noopener">
+        🐛 Open an Issue
+      </a>
+      &nbsp;
+      <a class="btn btn-outline" style="border-color:var(--primary);color:var(--primary)"
+         href="https://discord.gg/MSv32wHTC6"
+         target="_blank" rel="noopener">
+        💬 Join Discord
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section class="section section-alt" id="team">
+  <div class="container">
+    <h2 class="section-title">Team &amp; Collaborators</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      TinyverseGP is developed by an international team of researchers.
+    </p>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="avatar">RK</div>
+        <h3>Roman Kalkreuth</h3>
+        <div class="affil">RWTH Aachen, Germany</div>
+        <div class="role">Framework design &amp; TinyCGP</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">FO</div>
+        <h3>Fabricio O. de França</h3>
+        <div class="affil">UFABC, Brazil</div>
+        <div class="role">TinyTGP &amp; SRBench interface</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">JD</div>
+        <h3>Julian Dierkes</h3>
+        <div class="affil">RWTH Aachen, Germany</div>
+        <div class="role">Policy search domain</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">ZV</div>
+        <h3>Zdenek Vasicek</h3>
+        <div class="affil">Brno University, Czech Republic</div>
+        <div class="role">Logic synthesis domain</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">MA</div>
+        <h3>Marie Anastacio</h3>
+        <div class="affil">RWTH Aachen, Germany</div>
+        <div class="role">HPO interfaces</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">AJ</div>
+        <h3>Anja Jankovic</h3>
+        <div class="affil">RWTH Aachen, Germany</div>
+        <div class="role">HPO interfaces</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">DS</div>
+        <h3>Dominik Sobania</h3>
+        <div class="affil">JGU Mainz, Germany</div>
+        <div class="role">Grammatical Evolution &amp; LLM</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">GS</div>
+        <h3>Giovanni Squillero</h3>
+        <div class="affil">Politecnico di Torino, Italy</div>
+        <div class="role">Linear GP</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">AT</div>
+        <h3>Alberto Tonda</h3>
+        <div class="affil">INRAE, France</div>
+        <div class="role">Linear GP</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">HH</div>
+        <h3>Holger Hoos</h3>
+        <div class="affil">RWTH Aachen, Germany</div>
+        <div class="role">Advisory – HPO &amp; AutoML</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PUBLICATION ===== -->
+<section class="section" id="publication">
+  <div class="container">
+    <h2 class="section-title">Publication</h2>
+    <div class="section-line"></div>
+    <p class="section-subtitle">
+      If you use TinyverseGP in your research, please cite our paper:
+    </p>
+
+    <div class="pub-box">
+      Roman Kalkreuth, Fabricio Olivetti de França, Julian Dierkes, Marie Anastacio,
+      Anja Jankovic, Zdenek Vasicek, and Holger Hoos. 2025.
+      <strong>TinyverseGP: Towards a Modular Cross-domain Benchmarking Framework for
+      Genetic Programming.</strong>
+      In <em>Genetic and Evolutionary Computation Conference (GECCO '25 Companion)</em>,
+      July 14–18, 2025, Malaga, Spain. ACM, New York, NY, USA, 4 pages.
+      <a href="https://doi.org/10.1145/3712255.3726697" target="_blank" rel="noopener">
+        https://doi.org/10.1145/3712255.3726697
+      </a>
+    </div>
+
+    <details style="margin-top:1.25rem">
+      <summary style="cursor:pointer;font-weight:600;color:var(--primary)">BibTeX</summary>
+      <pre style="margin-top:.75rem"><code>@inproceedings{kalkreuth2025tinyversegp,
+  author    = {Kalkreuth, Roman and de Fran{\c c}a, Fabricio Olivetti and
+               Dierkes, Julian and Anastacio, Marie and Jankovic, Anja and
+               Vasicek, Zdenek and Hoos, Holger},
+  title     = {{TinyverseGP}: Towards a Modular Cross-domain Benchmarking
+               Framework for Genetic Programming},
+  booktitle = {Companion Proceedings of the Genetic and Evolutionary
+               Computation Conference (GECCO '25 Companion)},
+  year      = {2025},
+  month     = jul,
+  address   = {Malaga, Spain},
+  publisher = {ACM},
+  doi       = {10.1145/3712255.3726697},
+}</code></pre>
+    </details>
+
+    <p style="margin-top:1.5rem">
+      <strong>Acknowledgements:</strong> This work was supported by an Alexander von Humboldt
+      Professorship in AI held by Holger Hoos, the Czech Science Foundation project
+      25-15490S, and Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq)
+      grant 301596/2022-0.
+    </p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://github.com/GPBench/TinyverseGP" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://arxiv.org/abs/2504.10253" target="_blank" rel="noopener">Paper (arXiv)</a>
+      <a href="https://discord.gg/MSv32wHTC6" target="_blank" rel="noopener">Discord</a>
+      <a href="contributing.html">Contribute</a>
+      <a href="https://github.com/GPBench/TinyverseGP/blob/main/LICENSE" target="_blank" rel="noopener">License (GPL-3.0)</a>
+    </div>
+    <p>
+      © 2025 TinyverseGP Contributors &mdash;
+      Released under the
+      <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GNU GPL v3</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
