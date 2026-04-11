@@ -8,8 +8,12 @@ from src.gp.functions import AND, XOR
 MAX_GENERATIONS = 1000000
 MAX_TIME = 9999999
 N = int(sys.argv[1])
+S = 1
+K = 1.3
 MAX_ARITY = 2
-NUM_GENES = (MAX_ARITY + 1) * N  + 1
+NUM_OUTPUTS = 1
+NUM_FUNCTION_NODES = S * N
+NUM_GENES = (MAX_ARITY + 1) * NUM_FUNCTION_NODES + NUM_OUTPUTS
 MUTATION_RATE = 1 / NUM_GENES
 NUM_FUNCTION_NODES = N + 1
 LEVELS_BACK = NUM_FUNCTION_NODES
@@ -17,13 +21,12 @@ NEGATED_VARIABLES = False
 USE_COMPLETE_TRAINING_SET = True
 
 if NEGATED_VARIABLES:
-    N_TERM = 2 * N
+    NUM_TERMINALS = 2 * N
 else:
-    N_TERM = N
-
+    NUM_TERMINALS = N
 
 functions = [XOR]
-terminals = [Var(i) for i in range(N_TERM)]
+terminals = [Var(i) for i in range(NUM_TERMINALS)]
 
 config = SimpleCGPConfig(
     num_jobs=1,
@@ -35,9 +38,9 @@ config = SimpleCGPConfig(
     silent_evolver=True,
     minimalistic_output=True,
     num_functions=len(functions),
-    max_arity=2,
-    num_inputs=len(terminals),
-    num_outputs=1,
+    max_arity=MAX_ARITY,
+    num_inputs=NUM_TERMINALS,
+    num_outputs=NUM_OUTPUTS,
     report_interval=1,
     max_time=MAX_TIME,
     mutation_type=MutationType.SAM,
@@ -52,7 +55,7 @@ hyperparameters = CGPHyperparameters(
     lmbda=1,
     population_size=2,
     num_function_nodes=N + 1,
-    levels_back= N + 1,
+    levels_back=N + 1,
     mutation_rate=MUTATION_RATE,
     strict_selection=False
 )
@@ -62,7 +65,8 @@ if config.mutation_type == MutationType.SAM:
 else:
     appendix = "prob"
 
-problem = ExclusiveDisjunction(n = N, use_complete_training_set=USE_COMPLETE_TRAINING_SET, negated_vars=NEGATED_VARIABLES)
+problem = ExclusiveDisjunction(n=N, use_complete_training_set=USE_COMPLETE_TRAINING_SET, negated_vars=NEGATED_VARIABLES,
+                               k=K)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleCGP(functions, terminals, config, hyperparameters)

@@ -7,22 +7,24 @@ from src.gp.functions import AND, NOTA
 MAX_GENERATIONS = 1000000
 MAX_TIME = 9999999
 N = int(sys.argv[1])
-K = 2
+K = 1.3
+S = 1
 MAX_ARITY = 2
-NUM_GENES = (MAX_ARITY + 1) * N + 1
-NUM_FUNCTION_NODES = N + 1
+NUM_OUTPUTS = 1
+NUM_FUNCTION_NODES = S * N
+NUM_GENES = (MAX_ARITY + 1) * NUM_FUNCTION_NODES + NUM_OUTPUTS
 LEVELS_BACK = NUM_FUNCTION_NODES
 MUTATION_RATE = 1 / NUM_GENES
 NEGATED_VARIABLES = False
-USE_COMPLETE_TRAINING_SET = False
+USE_COMPLETE_TRAINING_SET = True
 
 if NEGATED_VARIABLES:
-    N_TERM = 2 * N
+    NUM_TERMINALS = 2 * N
 else:
-    N_TERM = N
+    NUM_TERMINALS = N
 
-functions = [AND, NOTA]
-terminals = [Var(i) for i in range(N_TERM)]
+functions = [AND]
+terminals = [Var(i) for i in range(NUM_TERMINALS)]
 
 config = SimpleCGPConfig(
     num_jobs=1,
@@ -34,9 +36,9 @@ config = SimpleCGPConfig(
     silent_evolver=True,
     minimalistic_output=True,
     num_functions=len(functions),
-    max_arity=2,
-    num_inputs=len(terminals),
-    num_outputs=1,
+    max_arity=MAX_ARITY,
+    num_inputs=NUM_TERMINALS,
+    num_outputs=NUM_OUTPUTS,
     report_interval=1,
     max_time=MAX_TIME,
     mutation_type=MutationType.SAM,

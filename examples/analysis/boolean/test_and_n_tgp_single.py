@@ -8,17 +8,17 @@ from src.gp.tiny_tgp import TGPConfig
 MAX_GENERATIONS = 1000000
 MAX_TIME = 9999999
 N = int(sys.argv[1])
-K = 2
-NEGATED_VARIABLES = True
-USE_COMPLETE_TRAINING_SET = False
+K = 1.3
+NEGATED_VARIABLES = False
+USE_COMPLETE_TRAINING_SET = True
 
 if NEGATED_VARIABLES:
-    N_TERM = 2 * N
+    NUM_TERMINALS = 2 * N
 else:
-    N_TERM = N
+    NUM_TERMINALS = N
 
 functions = [AND]
-terminals = [Var(i) for i in range(N_TERM)]
+terminals = [Var(i) for i in range(NUM_TERMINALS)]
 
 config = TGPConfig(
     num_jobs=1,
