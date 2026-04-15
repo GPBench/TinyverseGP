@@ -1,6 +1,6 @@
 import sys
 
-from src.analysis.benchmarks.boolean import ExclusiveDisjunction
+from src.analysis.benchmarks.boolean import ExclusiveDisjunction, DatasetType
 from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
 from src.gp.tiny_cgp import *
 from src.gp.functions import AND, XOR
@@ -18,7 +18,7 @@ MUTATION_RATE = 1 / NUM_GENES
 NUM_FUNCTION_NODES = N + 1
 LEVELS_BACK = NUM_FUNCTION_NODES
 NEGATED_VARIABLES = False
-USE_COMPLETE_TRAINING_SET = True
+DATASET_TYPE = DatasetType.SPLIT
 
 if NEGATED_VARIABLES:
     NUM_TERMINALS = 2 * N
@@ -65,8 +65,7 @@ if config.mutation_type == MutationType.SAM:
 else:
     appendix = "prob"
 
-problem = ExclusiveDisjunction(n=N, use_complete_training_set=USE_COMPLETE_TRAINING_SET, negated_vars=NEGATED_VARIABLES,
-                               k=K)
+problem = ExclusiveDisjunction(n=N, negated_vars=NEGATED_VARIABLES, k=K, dataset_type=DATASET_TYPE)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleCGP(functions, terminals, config, hyperparameters)

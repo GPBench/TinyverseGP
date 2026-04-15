@@ -1,128 +1,193 @@
+import random
+from enum import Enum
 from math import pow, ceil
 from dataclasses import dataclass
 from typing_extensions import override
+from sklearn.model_selection import train_test_split
 from src.gp.loss import hamming_distance_bitwise
 from src.gp.problem import BlackBox
 from functools import reduce
 import numpy as np
 
 
+class DatasetType(Enum):
+    COMPLETE = 0
+    SPLIT = 1
+    SAMPLE = 2
+
+
 @dataclass
-class TrainingSet:
+class Dataset:
     data: np.array
-    rows: int
-    cols: int
+    n_rows: int = None
+    n_cols: int = None
+    X: np.array = None
+    y: np.array = None
 
     def __len__(self):
-        return self.rows
+        return self.n_rows
+
+    def __post_init__(self):
+        if self.data is None:
+            return
+
+        if len(self.data) == 0:
+            return
+
+        if self.n_rows is None:
+            self.n_rows = len(self.data)
+
+        if self.n_cols is None:
+            self.n_cols = len(self.data[0])
+
+        if self.X is None:
+            self.X = self.data[:, : self.n_cols - 1]
+
+        if self.y is None:
+            self.y = self.data[:, self.n_cols - 1]
 
     def get_observations(self):
-        return self.data[:, : self.cols - 1]
+        return self.X
 
     def get_actual(self):
-        return self.data[:, self.cols - 1]
+        return self.y
 
 
 class BooleanFunction(BlackBox):
     n_in: int
     n_out: int
-    training_set: TrainingSet
+    dataset: Dataset
+    train: Dataset
+    test: Dataset
     operator: callable
-    use_complete_training_set: bool
-    training_set_size: int
+    train_size: int
+    test_size: int
     k: float
 
-    def __init__(self, n_in: int, n_out: int, operator: callable, use_complete_training_set: bool = True,
-                 negated_vars = False, k: float = None):
+    def __init__(self, n_in: int, n_out: int, operator: callable,
+                 negated_vars=False, k: float = None, dataset_type: DatasetType = DatasetType.COMPLETE):
 
-        training_set = BooleanFunction.init_training_set(n_in, n_out, operator, negated_vars)
-        super().__init__(actual_=training_set.get_actual(),
-                         observations_=training_set.get_observations(),
+        super().__init__(actual_=[0],
+                         observations_=[0],
                          loss_=hamming_distance_bitwise,
                          ideal_=0,
                          minimizing_=True)
+
+        if dataset_type == DatasetType.COMPLETE or dataset_type == DatasetType.SPLIT:
+            self.dataset = self.init_dataset(n_in, n_out, operator, negated_vars)
+
         self.n_in = n_in
         self.n_out = n_out
         self.operator = operator
-        self.training_set = training_set
-        self.use_complete_training_set = use_complete_training_set
         self.negated_vars = negated_vars
         self.k = k
 
-        if use_complete_training_set:
-            self.training_set_size = len(self.training_set)
-        else:
+        if dataset_type == DatasetType.SPLIT or dataset_type == DatasetType.SAMPLE:
             assert k is not None
-            self.training_set_size = ceil(pow(self.n_in, self.k))
-
-    @staticmethod
-    def init_variables(n_in, n_out, negated_vars = False) -> np.array:
-        rows = int(pow(2, n_in))
-        if not negated_vars:
-            cols = n_in + 1
+            self.train_size = ceil(pow(self.n_in, self.k))
         else:
-            cols = (2 * n_in) + 1
+            self.train_size = self.dataset.n_rows
+
+        match dataset_type:
+            case DatasetType.COMPLETE:
+                self.train = self.test = self.dataset
+            case DatasetType.SPLIT:
+                self.test_size = self.dataset.n_rows - self.train_size
+                self.train, self.test = self.split_dataset()
+            case DatasetType.SAMPLE:
+                self.test_size = self.train_size
+                self.train = self.sample_dataset(self.train_size, n_in, self.operator)
+                self.test = self.sample_dataset(self.test_size, n_in, self.operator)
+
+        self.observations, self.actual = self.train.get_observations(), self.train.get_actual()
+
+    def init_variables(self, n_in, n_out, negated_vars=False) -> tuple:
+        n_rows = int(pow(2, n_in))
+        if not negated_vars:
+            n_cols = n_in + 1
+        else:
+            n_cols = (2 * n_in) + 1
         n_vars = n_in
-        training_set = np.zeros(shape=(rows, cols), dtype=np.int8)
+        dataset = np.zeros(shape=(n_rows, n_cols), dtype=np.int8)
 
         for c in range(n_vars):
             d = pow(2, n_vars - c)
-            for r in range(rows):
+            for r in range(n_rows):
                 if r % d >= d / 2:
-                    training_set[r][c] = 1
+                    dataset[r][c] = 1
 
         if negated_vars:
-            for r in range(rows):
+            for r in range(n_rows):
                 for c in range(n_vars):
-                    training_set[r][n_vars + c] = 1 if training_set[r][c] == 0 else 0
+                    dataset[r][n_vars + c] = 1 if dataset[r][c] == 0 else 0
 
-        return rows, cols, training_set
+        return n_rows, n_cols, dataset
 
-    @staticmethod
-    def init_training_set(n_in, n_out, operator, negated_vars = False) -> TrainingSet:
-        rows, cols, training_set = BooleanFunction.init_variables(n_in, n_out, negated_vars)
+    def sample_observation(self, n_in, negated_vars=False) -> np.array:
+        if not negated_vars:
+            n_vars = n_in
+        else:
+            n_vars = 2 * n_in
+
+        obs = []
+        for _ in range(n_vars):
+            val = 0 if random.random() < 0.5 else 1
+            obs.append(val)
+        return obs
+
+    def sample_dataset(self, size, n_in, operator, negated_vars=False) -> np.array:
+        data = []
+        for _ in range(size):
+            obs = self.sample_observation(n_in, negated_vars=False)
+            if negated_vars:
+                args = obs[0:n_in]
+            else:
+                args = obs
+            act = reduce(operator, args)
+            row = obs + [act]
+            data.append(row)
+        return Dataset(data=np.array(data))
+
+
+    def init_dataset(self, n_in, n_out, operator, negated_vars=False) -> Dataset:
+        n_rows, n_cols, training_set = self.init_variables(n_in, n_out, negated_vars)
 
         for row in training_set:
             args = row[0:n_in]
             res = reduce(operator, args)
-            row[cols - 1] = res
+            row[n_cols - n_out] = res
 
-        return TrainingSet(data=training_set, cols=cols, rows=rows)
+        return Dataset(data=training_set, n_cols=n_cols, n_rows=n_rows)
 
-    def sample_training_subset(self, s) -> np.array:
-        rand_indices = np.random.choice(self.training_set.rows,
-                                        size=s,
-                                        replace=False)
-        return self.training_set.data[rand_indices, :]
+    def split_dataset(self) -> tuple:
+        assert self.dataset is not None
+        test_frac = self.test_size / self.dataset.n_rows
+        X_train, X_test, y_train, y_test = train_test_split(
+            self.dataset.X, self.dataset.y, test_size=test_frac)
+        train_data = np.column_stack((X_train, y_train))
+        test_data = np.column_stack((X_test, y_test))
+        return Dataset(data=train_data), Dataset(data=test_data)
 
     def calc_generalization_error(self, program, model) -> float:
-        self.observations, self.actual = self.get_training_set(complete=True)
+        self.observations, self.actual = self.test.get_observations(), self.test.get_actual()
         return self.evaluate(program, model)
-
-    def get_training_set(self, complete = None) -> tuple:
-        if complete or self.use_complete_training_set:
-            return self.training_set.get_observations(), self.training_set.get_actual()
-        else:
-            training_subset = self.sample_training_subset(self.training_set_size)
-            return training_subset[:, : self.training_set.cols - 1], training_subset[:, self.training_set.cols - 1]
 
     @override
     def cost(self, predictions: list) -> float:
-        self.observations, self.actual = self.get_training_set()
         return super().cost(predictions)
 
 
 class Conjunction(BooleanFunction):
-    def __init__(self, n, use_complete_training_set=True, negated_vars = False, k = 1.5):
+    def __init__(self, n, negated_vars=False, k=1.3, dataset_type=DatasetType.COMPLETE):
         super().__init__(n_in=n, n_out=1, operator=lambda x, y: x & y,
-                         use_complete_training_set=use_complete_training_set,
                          negated_vars=negated_vars,
-                         k=k)
+                         k=k,
+                         dataset_type=dataset_type)
 
 
 class ExclusiveDisjunction(BooleanFunction):
-    def __init__(self, n, use_complete_training_set=True, negated_vars = False, k = 1.5):
+    def __init__(self, n, negated_vars=False, k=1.3, dataset_type=DatasetType.COMPLETE):
         super().__init__(n_in=n, n_out=1, operator=lambda x, y: x ^ y,
-                         use_complete_training_set=use_complete_training_set,
                          negated_vars=negated_vars,
-                         k=k)
+                         k=k,
+                         dataset_type=dataset_type)

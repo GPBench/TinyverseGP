@@ -1,5 +1,5 @@
 import sys
-from src.analysis.benchmarks.boolean import Conjunction
+from src.analysis.benchmarks.boolean import Conjunction, DatasetType
 from src.analysis.models.simple_tgp import SimpleTGPHyperparameters, SimpleTGP
 from src.gp.tiny_cgp import *
 from src.gp.functions import AND, NOTA
@@ -10,7 +10,7 @@ MAX_TIME = 9999999
 N = int(sys.argv[1])
 K = 1.3
 NEGATED_VARIABLES = False
-USE_COMPLETE_TRAINING_SET = True
+DATASET_TYPE = DatasetType.SPLIT
 
 if NEGATED_VARIABLES:
     NUM_TERMINALS = 2 * N
@@ -52,7 +52,7 @@ if hyperparameters.multi:
 else:
     appendix = "single"
 
-problem = Conjunction(n=N, use_complete_training_set=USE_COMPLETE_TRAINING_SET, negated_vars=NEGATED_VARIABLES, k=K)
+problem = Conjunction(n=N, negated_vars=NEGATED_VARIABLES, k=K, dataset_type=DATASET_TYPE)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 tgp = SimpleTGP(functions, terminals, config, hyperparameters)
