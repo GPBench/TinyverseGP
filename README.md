@@ -1,4 +1,4 @@
-# This is a cloned version of TinyverseGP that has been anonymized.
+# This is a cloned version of TinyverseGP that has been anonymised.
 
 - It serves to compare Tree-based GP (TGP) and Cartesian GP (CGP) for evolving boolean functions called AND_n and XOR_n
 - Provides two simplified GP models that have been used in literature to perform runtime analysis
