@@ -107,6 +107,9 @@ class BooleanFunction(BlackBox):
     Provides methods for creating the datasets in three different ways (see description
     above).
 
+    Negated input values that do not contribute to the search can be
+    added to the observation to increase the difficulty of the problem.
+
     Attributes:
         n_in: number of inputs
         n_out: number of outputs
