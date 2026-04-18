@@ -5,6 +5,6 @@
   - [src/analysis/models/simple_tgp.py](https://github.com/GPBench/TinyverseGP/blob/runtime-analysis/src/analysis/models/simple_tgp.py): implementation of simple (1+1)-TGP with HVL prime mutation
   - [src/analysis/models/simple_cgp.py](https://github.com/GPBench/TinyverseGP/blob/runtime-analysis/src/analysis/models/simple_cgp.py)`: implementation of simple (1+1)-CGP with SAM mutation
 - The problem class implementation of AND_n and XOR_n
-  - [src/analysis/benchmark/boolean.py](https://github.com/GPBench/TinyverseGP/blob/runtime-analysis/src/analysis/benchmark/boolean.py)
+  - [src/analysis/benchmarks/boolean.py](https://github.com/GPBench/TinyverseGP/blob/runtime-analysis/src/analysis/benchmarks/boolean.py)
   
 
