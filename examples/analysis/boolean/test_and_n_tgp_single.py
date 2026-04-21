@@ -58,4 +58,4 @@ config.global_seed = int(time.time_ns())
 tgp = SimpleTGP(functions, terminals, config, hyperparameters)
 program = tgp.evolve(problem)
 
-print(f"{N},simple_tgp_{appendix},{tgp.generation_number}, {problem.calc_generalization_error(program.genome, tgp)}")
+print(f"{N},simple_tgp_{appendix},{tgp.generation_number}, {problem.calc_generalisation_error(program.genome, tgp)}")

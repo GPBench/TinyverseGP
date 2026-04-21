@@ -320,7 +320,7 @@ class Conjunction(BooleanFunction):
     Derived class to represent logical conjunction (AND) as benchmark problem.
     """
 
-    def __init__(self, n: int, negated_vars: bool = False, k: int = 1.3,
+    def __init__(self, n: int, negated_vars: bool = False, k: float = 1.3,
                  dataset_type: DatasetType = DatasetType.COMPLETE, error_type: ErrorType = ErrorType.EXACT):
         super().__init__(n_in=n, n_out=1, operator=lambda x, y: x & y,
                          negated_vars=negated_vars,
@@ -333,7 +333,7 @@ class ExclusiveDisjunction(BooleanFunction):
     Derived class to represent logical exclusive disjunction (XOR) as benchmark problem.
     """
 
-    def __init__(self, n: int, negated_vars: bool = False, k: int = 1.3, dataset_type=DatasetType.COMPLETE,
+    def __init__(self, n: int, negated_vars: bool = False, k: float = 1.3, dataset_type=DatasetType.COMPLETE,
                  error_type: ErrorType = ErrorType.EXACT):
         super().__init__(n_in=n, n_out=1, operator=lambda x, y: x ^ y,
                          negated_vars=negated_vars,
