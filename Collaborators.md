@@ -12,7 +12,7 @@ Marie Anastacio, Anja Jankovic (RWTH Aachen, Germany) - Inclusion of the interfa
 
 Holger Hoos (RWTH Aachen, Germany) - Advisory role in the areas of hyperparamter optimisation and automated machine learning (AutoML). 
 
-Dominik Sobania (Johannes Gutenberg University Mainz, Germany) - Implementation of Grammatical Evolution and LLM interface.
+Dominik Sobania (University of Duisburg-Essen, Germany) - Implementation of Grammatical Evolution and LLM interface.
 
 Giovanni Squillero (Politecnico di Torino, Italy) - Implementation of Linear GP.
 
