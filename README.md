@@ -8,5 +8,6 @@
   - [src/analysis/benchmarks/max/max.py](https://github.com/GPBench/TinyverseGP/blob/max-analysis/src/analysis/benchmarks/max/max.py)
 - Run scripts used for our experiments
   - [examples/analysis/max](https://github.com/GPBench/TinyverseGP/tree/max-analysis/examples/analysis/max)
-  
+- Datafiles of the experiments in CSV format and the plot script 
+  - [results/](https://github.com/GPBench/TinyverseGP/tree/max-analysis/results)
 
