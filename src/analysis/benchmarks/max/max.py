@@ -26,12 +26,12 @@ from src.gp.tinyverse import GPModel
 class Max(Problem):
     log_transform: bool
 
-    def __init__(self, t, log_scaling_ = False):
+    def __init__(self, t: int, log_scaling_: bool = False):
         assert(t > 0)
         self.log_transform = log_scaling_
 
 
-    def evaluate(self, genome, model: GPModel, scale_log_ = False) -> int:
+    def evaluate(self, genome: any, model: GPModel, scale_log_: bool = False) -> int:
         return model.predict(genome=genome, observation=None)[0]
 
 
@@ -41,9 +41,8 @@ class MaxPlus(Max):
 
     Ideal value is calculated accordingly und used to check if the
     correct solution has been obtained.
-
     """
-    def __init__(self, d, t):
+    def __init__(self, d: int, t: int):
         super().__init__(t=t, log_scaling_=False)
         self.ideal = t * pow(2, d)
         self.minimizing = False
@@ -56,7 +55,7 @@ class MaxPlusMul(Max):
     Ideal value is calculated accordingly und used to check if the
     correct solution has been obtained.
     """
-    def __init__(self, d, t, log_scaling = False):
+    def __init__(self, d: int, t: int, log_scaling: bool = False):
         super().__init__(t = t, log_scaling_=log_scaling)
 
         # Maximum output value of the program depends on whether log-scaling
