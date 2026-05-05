@@ -19,14 +19,18 @@ def b2f(input: bool) -> float:
     """
     return 1.0 if input else -1.0
 
-def p2i(x):
-    if isinstance(x, int):
-        return x
-    if not isinstance(x, float):
-        x = int(x)
-    if np.isinf(x):
-        x = np.nan
-    return np.int64(np.nan_to_num(x)) if np.isnan(x) else x
+def p2i(x, clip=1e100):
+    """
+    Protected to integer conversion method.
+    Checks for infinity values and converts nan values
+    to to valid integer numbers.
+    """
+    if np.isnan(x) or np.isinf(x) or np.isneginf(x):
+        x = np.nan_to_num(x)
+    if not isinstance(x, int):
+        np.clip(x, -clip, clip)
+        return int(x)
+    return x
 
 def pdiv(x, y, eps=1e-8):
     return np.divide(x, y + (np.abs(y) < eps) * eps)
@@ -73,11 +77,11 @@ SIN = Function(1, "SIN", np.sin)
 COS = Function(1, "COS", np.cos)
 TAN = Function(1, "TAN", np.tan)
 ARCSIN = Function(1, "ARCSIN", np.arcsin)
-ARCCOS = Function(1, "ARCSIN", np.arccos)
-ARCTAN = Function(1, "ARCSIN", np.arctan)
+ARCCOS = Function(1, "ARCCOS", np.arccos)
+ARCTAN = Function(1, "ARCTAN", np.arctan)
 ID = Function(1, "ID", lambda x: x)
-CEIL = Function(1, "ID", np.ceil)
-FLOOR = Function(1, "ID", np.floor)
+CEIL = Function(1, "CEIL", np.ceil)
+FLOOR = Function(1, "FLOOR", np.floor)
 MOD = Function(2, "MOD", lambda x, y: x % y)
 NEG = Function(1, "NEG", lambda x: -x)
 
@@ -91,8 +95,8 @@ NAND = Function(2, "NAND", lambda x, y: ~(p2i(x) & p2i(y)))
 NOR = Function(2, "NOR", lambda x, y: ~(p2i(x) | p2i(y)))
 XOR = Function(2, "XOR", lambda x, y: p2i(x) ^ p2i(y))
 XNOR = Function(2, "XNOR", lambda x, y: ~(p2i(x) ^ p2i(y)))
-BUFA = Function(2, "BUFa", lambda x, y: x)
-BUFB = Function(2, "BUFb", lambda x, y: y)
+BUFA = Function(2, "BUFa", lambda x, y: p2i(x))
+BUFB = Function(2, "BUFb", lambda x, y: p2i(x))
 SHFTL = Function(1, "SHFTL", lambda x: p2i(x) << 1)
 SHFTR = Function(1, "SHFTR", lambda x: p2i(x) >> 1)
 
