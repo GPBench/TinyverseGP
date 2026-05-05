@@ -1,9 +1,16 @@
+"""
+Run script to apply TGP to the MAX problem.
+
+This is a multi-instance run script that performs n instances for each setting of D in the
+closed interval [d_min, d_max].
+
+"""
 import numpy as np
 import csv
 import seaborn as sns
 import pandas as pd
 from matplotlib import pyplot as plt
-from src.analysis.problems import MaxPlusMul, MaxPlus
+from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tiny_tgp import TGPConfig
@@ -11,7 +18,7 @@ from src.gp.tinyverse import Const
 from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
 
 NUM_INSTANCES = 30
-MAX_GENERATIONS = 1000000
+MAX_GENERATIONS = 2000000
 MAX_TIME = 9999999
 EXPORT_CSV = True
 PLOT = True

@@ -1,9 +1,17 @@
+"""
+Run script to apply CGP to the log-scaled MAX problem.
+
+This is a single-instance run script that performs one instances for a predefined setting of D.
+
+The parameters for MAX, T and D, are passed to script via argv.
+"""
+
 import sys
 from math import log2
 from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
-from src.analysis.problems import MaxPlusMul
+from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.gp.tiny_cgp import *
-from src.analysis.log_scaling import LOG_ADD, LOG_MUL
+from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
 from src.gp.tinyverse import Const
 
 MAX_GENERATIONS = 2000000

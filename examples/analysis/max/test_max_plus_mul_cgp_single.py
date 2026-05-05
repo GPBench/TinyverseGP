@@ -1,11 +1,19 @@
+"""
+Run script to apply CGP to the MAX problem.
+
+This is a single-instance run script that performs one instances for a predefined setting of D.
+
+The parameters for MAX, T and D, are passed to script via argv.
+"""
+
 import sys
 from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
-from src.analysis.problems import MaxPlusMul
+from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tinyverse import Const
 
-MAX_GENERATIONS = 1000000
+MAX_GENERATIONS = 2000000
 MAX_TIME = 9999999
 D = int(sys.argv[1])
 T = int(sys.argv[2])
