@@ -1,6 +1,9 @@
-# This branch of TinyverseGP that has been anonymized and freezed for peer-review
+# This branch of TinyverseGP has been freezed 
 
 - It serves as a codebase for recombination-based Cartesian Genetic Programming (CGP)
+- The code was used for experiments with recombination-based CGP
+    - Results are reported in the paper _Improving Evaluation of Recombination-based Cartesian Genetic Programming_
+    - The work has been presented in the Graph-based GP Workshop (GGP) at GECCO'26 
 - Implementations for two recombination operators are provided:
     - Discrete Phenotypic Recombination
     - Subgraph Crossover
