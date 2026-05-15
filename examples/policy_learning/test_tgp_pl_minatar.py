@@ -12,7 +12,6 @@ import gymnasium as gym
 
 gym_ma.register_envs()
 
-
 if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
 
@@ -23,7 +22,7 @@ NUM_EPISODES = 10
 NUM_EVAL_EPISODES = 4
 MAX_EPISODE_STEPS = 2500
 MAX_STEPS = 2e8
-GAME = 'MinAtar/Asterix-v1'
+GAME = 'MinAtar/Breakout-v1'
 
 minatar_args = MinAtarArgs(max_steps= MAX_STEPS,
                            max_episode_steps= MAX_EPISODE_STEPS,
@@ -38,11 +37,9 @@ wrapped_env = benchmark.wrapped_env
 num_inputs = benchmark.len_observation_space()
 num_outputs = benchmark.len_action_space()
 
-functions_ext = [ADD, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR,
-                 AND, OR, NAND, NOR, NOTA, NOTB, BUFA, BUFB, XOR, XNOR, SHFTL, SHFTR,
-                 LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, MUL, DIV, AND, OR, NAND, NOR, NOT, LT, GT, EQ, MIN, MAX, IF]
+functions_ext = [ADD, SUB, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_ext
 terminals = [Var(i) for i in range(num_inputs)]
 

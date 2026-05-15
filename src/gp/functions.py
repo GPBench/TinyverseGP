@@ -85,7 +85,7 @@ FLOOR = Function(1, "FLOOR", np.floor)
 MOD = Function(2, "MOD", lambda x, y: x % y)
 NEG = Function(1, "NEG", lambda x: -x)
 
-# Logical/Bitwise
+# Bitwise
 AND = Function(2, "AND", lambda x, y: p2i(x) & p2i(y))
 OR = Function(2, "OR", lambda x, y: p2i(x) | p2i(y))
 NOT = Function(1, "NOT", lambda x: ~p2i(x))
@@ -99,6 +99,13 @@ BUFA = Function(2, "BUFa", lambda x, y: p2i(x))
 BUFB = Function(2, "BUFb", lambda x, y: p2i(x))
 SHFTL = Function(1, "SHFTL", lambda x: p2i(x) << 1)
 SHFTR = Function(1, "SHFTR", lambda x: p2i(x) >> 1)
+
+# Logical
+lAND = Function(2, "AND", lambda x, y: b2f(f2b(x) and f2b(y)))
+lOR = Function(2, "OR", lambda x, y: b2f(f2b(x) and f2b(y)))
+lNOT = Function(1, "NOT", lambda x: not b2f(f2b(x)))
+lNAND = Function(2, "NAND", lambda x, y: b2f(not (f2b(x) and f2b(y))))
+lNOR = Function(2, "NOR", lambda x, y: b2f(not (f2b(x) or f2b(y))))
 
 # Comparison
 LT = Function(2, 'LT', lambda x,y : b2f(x < y))

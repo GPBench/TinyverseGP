@@ -6,6 +6,9 @@ Evolves a policy for Battle Zone onother games from Atari5:
 
 import warnings
 import numpy
+from PIL.BlpImagePlugin import AlphaEncoding
+from yaml import AliasEvent
+
 from src.benchmark.policy_search.pl_benchmark import ALEArgs
 from src.benchmark.policy_search.plbench.plbench import PLBench
 from src.gp.functions import *
@@ -19,8 +22,9 @@ if numpy.version.version[0] == "2":
 
 MAX_TIME = 3600  # 1 hour
 MAX_GENERATIONS = 9999999
-IDEAL = 1000
-GAME = "battle_zone"
+IDEAL = 10000
+ATARI5_ID = "battle_zone"
+ALE_ID = "ALE/BattleZone-v5"
 NUM_EPISODES = 10
 MAX_STEPS = 2e8
 LAMBDA = 1
@@ -43,10 +47,8 @@ ale_args = ALEArgs(
 )
 
 functions_ext = [ADD, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR,
-                 AND, OR, NAND, NOR, NOTA, NOTB, BUFA, BUFB, XOR, XNOR, SHFTL, SHFTR,
-                 LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, MUL, DIV, AND, OR, NAND, NOR, NOT, LT, GT, EQ, MIN, MAX, IF]
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_ext
 
 config = CGPConfig(
@@ -82,7 +84,7 @@ hyperparameters = CGPHyperparameters(
 
 
 atari_five = PLBench.AtariFive(args=ale_args)
-benchmark = atari_five.problems["battle_zone"]
+benchmark = atari_five.problems[ATARI5_ID]
 
 env = benchmark.wrapped_env
 
@@ -99,7 +101,7 @@ cgp = TinyCGP(functions, terminals, config, hyperparameters)
 policy = cgp.evolve(problem)
 env.close()
 
-env = gym.make("ALE/BattleZone-v5", render_mode="human")
+env = gym.make(id=ALE_ID, render_mode="human")
 problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False)
 problem.evaluate(policy.genome, cgp, num_episodes=1, wait_key=True)
 env.close()

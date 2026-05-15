@@ -26,19 +26,18 @@ minatar_args = MinAtarArgs(
     max_steps=MAX_STEPS,
     max_episode_steps=MAX_EPISODE_STEPS,
     difficulty=0,
-    flatten_obs=True)
+    flatten_obs=True,
+    use_minimal_action_set=False)
 
 env = gym.make(id=GAME, max_episode_steps=MAX_EPISODE_STEPS, render_mode="array")
-benchmark = PLBenchmark(env, args_=None)
+benchmark = PLBenchmark(env, args_=minatar_args)
 wrapped_env = benchmark.wrapped_env
 num_inputs = benchmark.len_observation_space()
 num_outputs = benchmark.len_action_space()
 
-functions_ext = [ADD, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR,
-                 AND, OR, NAND, NOR, NOTA, NOTB, BUFA, BUFB, XOR, XNOR, SHFTL, SHFTR,
-                 LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, MUL, DIV, AND, OR, NAND, NOR, NOT, LT, GT, EQ, MIN, MAX, IF]
+functions_ext = [ADD, SUB, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_ext
 terminals = [Var(i) for i in range(num_inputs)]
 

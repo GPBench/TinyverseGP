@@ -18,7 +18,7 @@ from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs
 from src.gp.tiny_cgp import *
 from src.gp.problem import PolicySearch
 from src.gp.functions import *
-import ale_py
+
 import warnings
 import numpy
 import gymnasium as gym
@@ -58,10 +58,8 @@ env = gym.make(id=GAME, frameskip=1, difficulty=ale_args.difficulty,
 benchmark = PLBenchmark(env, args_=ale_args)
 wrapped_env = benchmark.wrapped_env
 functions_ext = [ADD, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR,
-                 AND, OR, NAND, NOR, NOTA, NOTB, BUFA, BUFB, XOR, XNOR, SHFTL, SHFTR,
-                 LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, MUL, DIV, AND, OR, NAND, NOR, NOT, LT, GT, EQ, MIN, MAX, IF]
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_ext
 terminals = benchmark.gen_terminals()
 num_inputs = benchmark.len_observation_space()
