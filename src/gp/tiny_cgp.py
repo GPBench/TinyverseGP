@@ -9,16 +9,16 @@ TinyCGP: A minimalistic implementation of Cartesian Genetic Programming for
 
 import math
 import random
-import time
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Optional
+
 from src.gp.tinyverse import (
     GPModel,
-    Hyperparameters,
     GPConfig,
     Var,
     GPIndividual,
-    GPHyperparameters,
+    Hyperparameters,
 )
 
 
@@ -31,19 +31,25 @@ class CGPHyperparameters(Hyperparameters):
     mu: int
     lmbda: int
     num_function_nodes: int
-    population_size: int
-    levels_back: int
     strict_selection: bool
-    mutation_rate: float = None
+    levels_back: int
+    mutation_rate: float
+    population_size: Optional[int] = None
     mutation_rate_genes: int = None
+
 
     def __post_init__(self):
         Hyperparameters.__post_init__(self)
-        self.space["mu"] = (1, 4)
-        self.space["lmbda"] = (1, 1024)
-        self.space["num_function_nodes"] = (1, 10000)
+        self.space["mu"] = (1, 128)
+        self.space["lmbda"] = (1, 4096)
+        self.space["num_function_nodes"] = (10, 10000)
+        self.space["levels_back"] = (1, 10000)
         self.space["strict_selection"] = [True, False]
         self.space["mutation_rate"] = (0.0, 1.0)
+        self.space["penalization_complexity_factor"] = (0.0, 1.0)
+        self.space["penalization_feasibility_factor"] = (0.0, 1.0)
+        self.space["penalization_validity_factor"] = (0.0, 1.0)
+        self.population_size = self.mu + self.lmbda
 
 @dataclass(kw_only=True)
 class CGPConfig(GPConfig):
@@ -134,9 +140,6 @@ class TinyCGP(GPModel):
         self.inputs = dict()
         self.current_paths = None
         self.init_inputs(terminals_)
-        self.init_population()
-
-    def init_population(self):
         self.init_population()
 
     def init_population(self) -> list:

@@ -12,3 +12,4 @@ ale_py==0.10.1
 smac==2.3.1
 ConfigSpace~=1.2.1
 dill
+pmlb

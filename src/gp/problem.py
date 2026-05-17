@@ -9,6 +9,7 @@ Currently, the following problem types are provided:
 - ProgramSynthesis: Used for the provided coding problems
 
 """
+from typing import override
 
 import gymnasium as gym
 import numpy as np
@@ -49,6 +50,13 @@ class Problem(ABC):
         """
         return fitness1 < fitness2 if self.minimizing else fitness1 > fitness2
 
+    def is_stop(self):
+        """
+        Check for additional stop conditions besides the optimum of the defined problem.
+        By default, there are no additional stop conditions in place.
+        """
+        return False
+
     def evaluate(self, genome, model: GPModel):
         """
         This method implements how to evaluate the genome using the model.
@@ -71,12 +79,12 @@ class BlackBox(Problem):
     actual: list
 
     def __init__(
-        self,
-        observations_: list,
-        actual_: list,
-        loss_: callable,
-        ideal_: float,
-        minimizing_: bool,
+            self,
+            observations_: list,
+            actual_: list,
+            loss_: callable,
+            ideal_: float,
+            minimizing_: bool,
     ):
         self.observations = observations_
         self.actual = actual_
@@ -133,21 +141,38 @@ class PolicySearch(Problem):
 
     agent: GPAgent
     num_episodes: int
+    max_steps: int
+    step_cnt: int
+    frames_per_step = int
 
     def __init__(
-        self, env: gym.Env, ideal_: float, minimizing_: bool, num_episodes_: int = 100
-    ):
+            self, env: gym.Env, ideal_: float, minimizing_: bool, num_episodes_: int = 100,
+            frames_per_step_: int = None,
+            max_steps_: float = 2e6):
         self.agent = GPAgent(env)
         self.ideal = ideal_
         self.minimizing = minimizing_
         self.num_episodes = num_episodes_
+        self.frames_per_step = frames_per_step_
+        self.max_steps = int(max_steps_)
+        self.step_cnt = 0
+
+    @override
+    def is_stop(self):
+        return self.step_cnt >= self.max_steps
 
     def evaluate(
-        self, genome, model: GPModel, num_episodes: int = None, wait_key: bool = False
+            self, genome, model: GPModel, num_episodes: int = None, wait_key: bool = False
     ) -> float:
         if num_episodes is None:
             num_episodes = self.num_episodes
-        return self.agent.evaluate_policy(genome, model, num_episodes, wait_key)
+        reward, num_steps = self.agent.evaluate_policy(genome, model, num_episodes, wait_key)
+
+        if self.frames_per_step is not None:
+            self.step_cnt += num_steps * self.frames_per_step
+        else:
+            self.step_cnt += num_steps
+        return reward
 
 
 class ProgramSynthesis(Problem):

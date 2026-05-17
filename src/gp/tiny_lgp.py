@@ -106,7 +106,7 @@ class LGPHyperparameters(Hyperparameters):
         self.space["insertion_rate"] = (0.3, 0.9)
         self.space["max_segment"] = (5, 15)
         self.space["reproduction_rate"] = (0.3, 0.8)
-        self.space["branch_probability"] = (0, 0.5)
+        self.space["branch_probability"] = (0.0, 0.5)
 
 
 @dataclass(kw_only=True)

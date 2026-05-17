@@ -5,18 +5,14 @@ General Boolean Function Benchmark Suite (GBFS):
 https://dl.acm.org/doi/abs/10.1145/3594805.3607131
 """
 
-import os
 from argparse import ArgumentError
-
 from sklearn.base import RegressorMixin
-from pathlib import Path
 from src.benchmark.benchmark import Benchmark
 from src.gp.functions import AND, OR, BUFA, NOTA, NOR, NAND, XOR, XNOR, NOT
-from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark
+from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark, FSType
 from src.benchmark.logic_synthesis.boolean_benchmark_tools.benchmark_evaluator import BenchmarkEvaluator
 from src.gp.problem import BlackBox
 import src.gp.util as util
-import numpy as np
 
 strfun = {
     "AND": AND,
@@ -40,53 +36,87 @@ class LSBench(Benchmark):
         self.data_dir = data_dir_
         self.generate()
 
+        self.functions_reduced = ["AND", "OR", "BUFA", "NOT"]
+        self.functions_extended = ["AND", "OR", "BUFA", "NOT", "XOR", "NAND", "NOR", "XNOR"]
+
     def generate(self, args: any = None):
-        self.benchmarks["add3"] = LSBenchmark(file_=self.data_dir + "/tt/add3.tt", name_="add3")
-        self.benchmarks["add4"] = LSBenchmark(file_=self.data_dir + "/tt/add4.tt", name_="add4")
-        self.benchmarks["add5"] = LSBenchmark(file_=self.data_dir + "/tt/add5.tt", name_="add7")
-        self.benchmarks["add6"] = LSBenchmark(file_=self.data_dir + "/tt/add6.tt", name_="add6")
-        self.benchmarks["add7"] = LSBenchmark(file_=self.data_dir + "/tt/add7.tt", name_="add7")
-        self.benchmarks["add8"] = LSBenchmark(file_=self.data_dir + "/tt/add8.tt", name_="add8")
+        self.benchmarks["add3"] = LSBenchmark(file_=self.data_dir + "/tt/add3.tt", name_="add3", fstype_=FSType.reduced)
+        self.benchmarks["add4"] = LSBenchmark(file_=self.data_dir + "/tt/add4.tt", name_="add4", fstype_=FSType.reduced)
+        self.benchmarks["add5"] = LSBenchmark(file_=self.data_dir + "/tt/add5.tt", name_="add7", fstype_=FSType.reduced)
+        self.benchmarks["add6"] = LSBenchmark(file_=self.data_dir + "/tt/add6.tt", name_="add6", fstype_=FSType.reduced)
+        self.benchmarks["add7"] = LSBenchmark(file_=self.data_dir + "/tt/add7.tt", name_="add7", fstype_=FSType.reduced)
+        self.benchmarks["add8"] = LSBenchmark(file_=self.data_dir + "/tt/add8.tt", name_="add8", fstype_=FSType.reduced)
 
-        self.benchmarks["mul3"] = LSBenchmark(file_=self.data_dir + "/tt/mul3.tt", name_="mul3")
-        self.benchmarks["mul4"] = LSBenchmark(file_=self.data_dir + "/tt/mul4.tt", name_="mul4")
-        self.benchmarks["mul5"] = LSBenchmark(file_=self.data_dir + "/tt/mul5.tt", name_="mul5")
+        self.benchmarks["mul3"] = LSBenchmark(file_=self.data_dir + "/tt/mul3.tt", name_="mul3", fstype_=FSType.reduced)
+        self.benchmarks["mul4"] = LSBenchmark(file_=self.data_dir + "/tt/mul4.tt", name_="mul4",
+                                              fstype_=FSType.extended)
+        self.benchmarks["mul5"] = LSBenchmark(file_=self.data_dir + "/tt/mul5.tt", name_="mul5",
+                                              fstype_=FSType.extended)
 
-        self.benchmarks["epar8"] = LSBenchmark(file_=self.data_dir + "/tt/epar8.tt", name_="epar8")
-        self.benchmarks["epar9"] = LSBenchmark(file_=self.data_dir + "/tt/epar9.tt", name_="epar9")
-        self.benchmarks["epar10"] = LSBenchmark(file_=self.data_dir + "/tt/epar10.tt", name_="epar10")
-        self.benchmarks["epar11"] = LSBenchmark(file_=self.data_dir + "/tt/epar11.tt", name_="epar11")
+        self.benchmarks["epar8"] = LSBenchmark(file_=self.data_dir + "/tt/epar8.tt", name_="epar8",
+                                               fstype_=FSType.reduced)
+        self.benchmarks["epar9"] = LSBenchmark(file_=self.data_dir + "/tt/epar9.tt", name_="epar9",
+                                               fstype_=FSType.reduced)
+        self.benchmarks["epar10"] = LSBenchmark(file_=self.data_dir + "/tt/epar10.tt", name_="epar10",
+                                                fstype_=FSType.reduced)
+        self.benchmarks["epar11"] = LSBenchmark(file_=self.data_dir + "/tt/epar11.tt", name_="epar11",
+                                                fstype_=FSType.reduced)
 
-        self.benchmarks["icomp5"] = LSBenchmark(file_=self.data_dir + "/tt/icomp5.tt", name_="icomp5")
-        self.benchmarks["icomp6"] = LSBenchmark(file_=self.data_dir + "/tt/icomp6.tt", name_="icomp6")
-        self.benchmarks["icomp7"] = LSBenchmark(file_=self.data_dir + "/tt/icomp7.tt", name_="icomp7")
-        self.benchmarks["icomp8"] = LSBenchmark(file_=self.data_dir + "/tt/icomp8.tt", name_="icomp8")
-        self.benchmarks["icomp9"] = LSBenchmark(file_=self.data_dir + "/tt/icomp9.tt", name_="icomp9")
+        self.benchmarks["icomp5"] = LSBenchmark(file_=self.data_dir + "/tt/icomp5.tt", name_="icomp5",
+                                                fstype_=FSType.reduced)
+        self.benchmarks["icomp6"] = LSBenchmark(file_=self.data_dir + "/tt/icomp6.tt", name_="icomp6",
+                                                fstype_=FSType.reduced)
+        self.benchmarks["icomp7"] = LSBenchmark(file_=self.data_dir + "/tt/icomp7.tt", name_="icomp7",
+                                                fstype_=FSType.reduced)
+        self.benchmarks["icomp8"] = LSBenchmark(file_=self.data_dir + "/tt/icomp8.tt", name_="icomp8",
+                                                fstype_=FSType.reduced)
+        self.benchmarks["icomp9"] = LSBenchmark(file_=self.data_dir + "/tt/icomp9.tt", name_="icomp9",
+                                                fstype_=FSType.reduced)
 
-        self.benchmarks["mcomp3"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp3.tt", name_="mcomp3")
-        self.benchmarks["mcomp4"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp4.tt", name_="mcomp4")
-        self.benchmarks["mcomp5"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp5.tt", name_="mcomp5")
-        self.benchmarks["mcomp6"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp6.tt", name_="mcomp6")
+        self.benchmarks["mcomp3"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp3.tt", name_="mcomp3",
+                                                fstype_=FSType.extended)
+        self.benchmarks["mcomp4"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp4.tt", name_="mcomp4",
+                                                fstype_=FSType.extended)
+        self.benchmarks["mcomp5"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp5.tt", name_="mcomp5",
+                                                fstype_=FSType.extended)
+        self.benchmarks["mcomp6"] = LSBenchmark(file_=self.data_dir + "/tt/mcomp6.tt", name_="mcomp6",
+                                                fstype_=FSType.extended)
 
-        self.benchmarks["alu3"] = LSBenchmark(file_=self.data_dir + "/tt/alu3.tt", name_="alu3")
-        self.benchmarks["alu4"] = LSBenchmark(file_=self.data_dir + "/tt/alu4.tt", name_="alu4")
-        self.benchmarks["alu5"] = LSBenchmark(file_=self.data_dir + "/tt/alu5.tt", name_="alu5")
-        self.benchmarks["alu6"] = LSBenchmark(file_=self.data_dir + "/tt/alu6.tt", name_="alu6")
-        self.benchmarks["alu7"] = LSBenchmark(file_=self.data_dir + "/tt/alu7.tt", name_="alu7")
-        self.benchmarks["alu8"] = LSBenchmark(file_=self.data_dir + "/tt/alu8.tt", name_="alu8")
+        self.benchmarks["alu3"] = LSBenchmark(file_=self.data_dir + "/tt/alu3.tt", name_="alu3",
+                                              fstype_=FSType.extended)
+        self.benchmarks["alu4"] = LSBenchmark(file_=self.data_dir + "/tt/alu4.tt", name_="alu4",
+                                              fstype_=FSType.extended)
+        self.benchmarks["alu5"] = LSBenchmark(file_=self.data_dir + "/tt/alu5.tt", name_="alu5",
+                                              fstype_=FSType.extended)
+        self.benchmarks["alu6"] = LSBenchmark(file_=self.data_dir + "/tt/alu6.tt", name_="alu6",
+                                              fstype_=FSType.extended)
+        self.benchmarks["alu7"] = LSBenchmark(file_=self.data_dir + "/tt/alu7.tt", name_="alu7",
+                                              fstype_=FSType.extended)
+        self.benchmarks["alu8"] = LSBenchmark(file_=self.data_dir + "/tt/alu8.tt", name_="alu8",
+                                              fstype_=FSType.extended)
 
-        self.benchmarks["enc8"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_enc8.tt", name_="enc8")
-        self.benchmarks["enc16"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_enc16.tt", name_="enc16")
-        self.benchmarks["enc32"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_enc32.tt", name_="enc32")
+        self.benchmarks["enc8"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_enc8.tt", name_="enc8",
+                                              fstype_=FSType.reduced)
+        self.benchmarks["enc16"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_enc16.tt", name_="enc16",
+                                               fstype_=FSType.reduced)
+        self.benchmarks["enc32"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_enc32.tt", name_="enc32",
+                                               fstype_=FSType.reduced)
 
-        self.benchmarks["dec4"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_dec4.tt", name_="dec4")
-        self.benchmarks["dec8"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_dec8.tt", name_="dec8")
-        self.benchmarks["dec16"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_dec16.tt", name_="dec16")
+        self.benchmarks["dec4"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_dec4.tt", name_="dec4",
+                                              fstype_=FSType.reduced)
+        self.benchmarks["dec8"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_dec8.tt", name_="dec8",
+                                              fstype_=FSType.reduced)
+        self.benchmarks["dec16"] = LSBenchmark(file_=self.data_dir + "/tt/onehot_dec16.tt", name_="dec16",
+                                               fstype_=FSType.reduced)
 
-        self.benchmarks["count4"] = LSBenchmark(file_=self.data_dir + "/tt/onescount4.tt", name_="count4")
-        self.benchmarks["count6"] = LSBenchmark(file_=self.data_dir + "/tt/onescount6.tt", name_="count6")
-        self.benchmarks["count8"] = LSBenchmark(file_=self.data_dir + "/tt/onescount8.tt", name_="count8")
-        self.benchmarks["count10"] = LSBenchmark(file_=self.data_dir + "/tt/onescount10.tt", name_="count10")
+        self.benchmarks["count4"] = LSBenchmark(file_=self.data_dir + "/tt/onescount4.tt", name_="count4",
+                                                fstype_=FSType.extended)
+        self.benchmarks["count6"] = LSBenchmark(file_=self.data_dir + "/tt/onescount6.tt", name_="count6",
+                                                fstype_=FSType.extended)
+        self.benchmarks["count8"] = LSBenchmark(file_=self.data_dir + "/tt/onescount8.tt", name_="count8",
+                                                fstype_=FSType.extended)
+        self.benchmarks["count10"] = LSBenchmark(file_=self.data_dir + "/tt/onescount10.tt", name_="count10",
+                                                 fstype_=FSType.extended)
 
     def add3(self) -> LSBenchmark:
         return self.benchmarks["add3"]
@@ -208,6 +238,9 @@ class LSBench(Benchmark):
         else:
             raise ArgumentError("Benchmark does not exist")
 
+    def get_fs(self, name: str) -> list:
+        return self.functions_reduced if self.benchmarks[name].fstype == FSType.reduced else self.functions_extended
+
 
 class LSRegressor(RegressorMixin):
 
@@ -215,7 +248,7 @@ class LSRegressor(RegressorMixin):
                  representation_,
                  config_,
                  hyperparameters_,
-                 functions_=["AND", "OR", "BUFA", "NOT"],
+                 functions_,
                  terminals_=None):
 
         if terminals_ is None:
@@ -231,21 +264,31 @@ class LSRegressor(RegressorMixin):
         self.loss = self.evaluator.hamming_distance
         self.fitted_ = False
 
-    def _make_default_grammar(self, functions, terminals):
+        if self.representation == "GE":
+            self.arguments = [f"{t.name}" for t in self.terminals]
+            self.grammar = self._make_default_grammar(self.functions, self.arguments, self.config.num_outputs)
+        else:
+            self.arguments = self.terminals
+            self.grammar = None
+
+    def _make_default_grammar(self, functions, arguments, num_outputs):
         # Ensure grammar uses uppercase function names matching Function objects
         return {
-            "<expr>": [f"{f.name.upper()}(<expr>, <expr>)" for f in functions if f.arity == 2]
-                    + [f"{f.name.upper()}(<expr>)" for f in functions if f.arity == 1]
-                    + ["<const>", "<var>"],
-            "<const>": [],
-            "<var>": [],
+            "<expr>": ["[" + ', '.join([f"<lexpr>" for _ in range(num_outputs)]) + "]"],
+            "<lexpr>": [f"{f.name.upper()}(<vexpr>, <vexpr>)" for f in functions if f.arity == 2]
+                       + [f"{f.name.upper()}(<vexpr>)" for f in functions if f.arity == 1],
+            "<vexpr>": [f"{f.name.upper()}(<vexpr>, <vexpr>)" for f in functions if f.arity == 2]
+                       + [f"{f.name.upper()}(<vexpr>)" for f in functions if f.arity == 1]
+                       + ["<var>"],
+            "<var>": arguments
         }
 
     def fit(self, X, y, checkpoint=None):
-        problem = BlackBox(X, y, self.loss, ideal_=0, minimizing_=True)
+        problem = BlackBox(X, y, self.loss, ideal_=self.config.ideal_fitness,
+                           minimizing_=self.config.minimizing_fitness)
 
-        self.model = util.get_model(self.representation, self.functions, self.terminals,
-                                    self.hyperparameters, self.config)
+        self.model = util.get_model(self.representation, self.functions, self.arguments,
+                                    self.hyperparameters, self.config, self.grammar)
 
         if checkpoint is not None:
             self.model.resume(checkpoint, problem)

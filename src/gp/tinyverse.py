@@ -481,6 +481,13 @@ class GPModel(ABC):
                         )
                     break
 
+                if problem.is_stop():
+                    if not self.config.silent_algorithm:
+                        print(
+                            f"Stop condition has been triggered"
+                        )
+                    break
+
                 if (
                     self.generation_number & 15
                 ) == 0:  # check periodically if the time limit is reached
