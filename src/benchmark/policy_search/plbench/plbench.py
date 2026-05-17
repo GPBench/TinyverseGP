@@ -76,6 +76,9 @@ class PLBench(Benchmark):
                 "qbert": PLBenchmark(env_=gym.make("ALE/Qbert-v5"), args_=args),
             }
 
+        def get_ale_id(self, id):
+            return self.problems[id].env.spec.id
+
 
 class PLRegressor(RegressorMixin):
     """

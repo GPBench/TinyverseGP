@@ -1,3 +1,10 @@
+"""
+Example module to test TGP with policy search problems.
+Evolves a policy for Breakout from the MinAtar benchmark:
+https://arxiv.org/abs/1903.03176
+https://github.com/kenjyoung/MinAtar
+"""
+
 from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, PLArgs, MinAtarArgs
 from src.gp.tiny_cgp import *
 from src.gp.problem import PolicySearch
@@ -37,10 +44,10 @@ wrapped_env = benchmark.wrapped_env
 num_inputs = benchmark.len_observation_space()
 num_outputs = benchmark.len_action_space()
 
-functions_ext = [ADD, SUB, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
+functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
                  CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
-functions = functions_ext
+functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
+functions = functions_red
 terminals = [Var(i) for i in range(num_inputs)]
 
 config = GPConfig(
@@ -63,7 +70,6 @@ config = GPConfig(
 
 hyperparameters = TGPHyperparameters(
     pop_size=50,
-    max_size=50,
     max_depth=6,
     cx_rate=0.9,
     mutation_rate=0.3,

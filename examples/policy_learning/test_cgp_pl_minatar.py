@@ -1,3 +1,9 @@
+"""
+Example module to test CGP with policy search problems.
+Evolves a policy for Breakout from the MinAtar benchmark:
+https://github.com/kenjyoung/MinAtar
+"""
+
 from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, MinAtarArgs
 from src.gp.tiny_cgp import *
 from src.gp.problem import PolicySearch
@@ -35,10 +41,10 @@ wrapped_env = benchmark.wrapped_env
 num_inputs = benchmark.len_observation_space()
 num_outputs = benchmark.len_action_space()
 
-functions_ext = [ADD, SUB, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
-functions = functions_ext
+functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
+functions = functions_red
 terminals = [Var(i) for i in range(num_inputs)]
 
 config = CGPConfig(
@@ -64,11 +70,11 @@ config = CGPConfig(
 
 hyperparameters = CGPHyperparameters(
     mu=1,
-    lmbda=1,
-    population_size=1,
+    lmbda=8,
+    population_size=9,
+    levels_back=50,
     num_function_nodes=50,
-    levels_back=100,
-    mutation_rate=0.1,
+    mutation_rate=0.02,
     strict_selection=False,
 )
 

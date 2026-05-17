@@ -1,20 +1,19 @@
 """
-Example script to test CGP with PLBench,
-Evolves a policy for Battle Zone onother games from Atari5:
+Example script to test CGP with PLBench.
+Evolves a policy for ALE Battle Zone from Atari5.
 
+https://ale.farama.org/environments/battle_zone/
+https://arxiv.org/abs/2210.02019
 """
 
 import warnings
 import numpy
-from PIL.BlpImagePlugin import AlphaEncoding
-from yaml import AliasEvent
 
 from src.benchmark.policy_search.pl_benchmark import ALEArgs
 from src.benchmark.policy_search.plbench.plbench import PLBench
 from src.gp.functions import *
 from src.gp.problem import PolicySearch
 from src.gp.tiny_cgp import CGPHyperparameters, CGPConfig, TinyCGP
-import ale_py
 import gymnasium as gym
 
 if numpy.version.version[0] == "2":
@@ -24,7 +23,6 @@ MAX_TIME = 3600  # 1 hour
 MAX_GENERATIONS = 9999999
 IDEAL = 10000
 ATARI5_ID = "battle_zone"
-ALE_ID = "ALE/BattleZone-v5"
 NUM_EPISODES = 10
 MAX_STEPS = 2e8
 LAMBDA = 1
@@ -46,10 +44,10 @@ ale_args = ALEArgs(
     flatten_obs=True
 )
 
-functions_ext = [ADD, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
-functions = functions_ext
+functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
+functions = functions_red
 
 config = CGPConfig(
     num_jobs=1,
@@ -101,7 +99,7 @@ cgp = TinyCGP(functions, terminals, config, hyperparameters)
 policy = cgp.evolve(problem)
 env.close()
 
-env = gym.make(id=ALE_ID, render_mode="human")
+env = gym.make(id=atari_five.get_ale_id(ATARI5_ID), render_mode="human")
 problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False)
 problem.evaluate(policy.genome, cgp, num_episodes=1, wait_key=True)
 env.close()

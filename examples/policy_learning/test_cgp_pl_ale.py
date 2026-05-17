@@ -23,6 +23,8 @@ import warnings
 import numpy
 import gymnasium as gym
 
+import ale_py
+
 if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
 
@@ -30,7 +32,7 @@ gym.envs.registry.keys()
 
 MAX_GENERATIONS = 9999999
 IDEAL = 1000
-GAME = "ALE/Breakout-v5"
+GAME = "ALE/Pong-v5"
 NUM_EPISODES = 10
 MAX_STEPS = 2e8
 
@@ -51,16 +53,12 @@ ale_args = ALEArgs(
     flatten_obs=True
 )
 
-env = gym.make(id=GAME, frameskip=1, difficulty=ale_args.difficulty,
-               repeat_action_probability=ale_args.repeat_action_probability,
-               full_action_space = ale_args.full_action_space,
-               max_episode_steps = ale_args.max_episode_steps, render_mode='rgb_array')
-benchmark = PLBenchmark(env, args_=ale_args)
-wrapped_env = benchmark.wrapped_env
-functions_ext = [ADD, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
-                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
-functions_red = [ADD, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
-functions = functions_ext
+benchmark = PLBenchmark(env_=gym.make(GAME), args_=ale_args)
+env = benchmark.wrapped_env
+functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
+                 CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
+functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
+functions = functions_red
 terminals = benchmark.gen_terminals()
 num_inputs = benchmark.len_observation_space()
 num_outputs = benchmark.len_action_space()
@@ -90,13 +88,13 @@ hyperparameters = CGPHyperparameters(
     mu=1,
     lmbda=8,
     population_size=9,
-    levels_back=100,
+    levels_back=50,
     num_function_nodes=50,
     mutation_rate=0.02,
-    strict_selection=True,
+    strict_selection=False,
 )
 
-problem = PolicySearch(env=wrapped_env, ideal_=IDEAL, minimizing_=False, num_episodes_=NUM_EPISODES,
+problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False, num_episodes_=NUM_EPISODES,
                        max_steps_=MAX_STEPS)
 cgp = TinyCGP(functions, terminals, config, hyperparameters)
 policy = cgp.evolve(problem)

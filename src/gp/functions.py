@@ -7,17 +7,20 @@ from src.gp.tinyverse import Function
 import operator
 import numpy as np
 
+
 def f2b(input: float) -> bool:
     """
     Converts a float to a boolean.
     """
     return True if input > 0 else False
 
+
 def b2f(input: bool) -> float:
     """
     Converts a boolean to a float.
     """
-    return 1.0 if input else -1.0
+    return 1.0 if input else 0.0
+
 
 def p2i(x, clip=1e100):
     """
@@ -32,41 +35,51 @@ def p2i(x, clip=1e100):
         return int(x)
     return x
 
+
 def pdiv(x, y, eps=1e-8):
     return np.divide(x, y + (np.abs(y) < eps) * eps)
+
 
 def square(x, clip=1e100):
     return np.clip(np.square(x), -clip, clip)
 
+
 def cube(x, clip=1e100):
     return np.clip(np.power(x, 3), -clip, clip)
 
+
 def pow(x, y, clip=1e100):
-    return np.clip(np.pow(x,y), -clip, clip)
+    return np.clip(np.pow(x, y), -clip, clip)
+
 
 def inv(x):
-    return pdiv(1.0,x)
+    return pdiv(1.0, x)
+
 
 def plog(x):
     if x == 0.0:
         return 0.0
     return np.log(np.abs(x))
 
+
 def psqrt(x):
     return np.sqrt(np.abs(x))
+
 
 def pexp(x, clip=50.0):
     return np.clip(np.exp(x), -clip, clip)
 
 
-
 # Mathematical/Arithmetic
 ADD = Function(2, "ADD", operator.add)
 SUB = Function(2, "SUB", operator.sub)
+# SUB2F is used for policy learning to handle Boolean values in the observation data
+# to prevent numpy Boolean subtract which is deprecated
+SUB2F = Function(2, "SUB", lambda x, y: np.float32(x) - np.float32(y))
 MUL = Function(2, "MUL", operator.mul)
 DIV = Function(2, "DIV", pdiv)
 INV = Function(1, "INV", inv)
-ABS =  Function(1, "ABS", np.abs)
+ABS = Function(1, "ABS", np.abs)
 EXP = Function(1, "EXP", pexp)
 LOG = Function(1, "LOG", plog)
 SQRT = Function(1, "SQRT", psqrt)
@@ -86,38 +99,37 @@ MOD = Function(2, "MOD", lambda x, y: x % y)
 NEG = Function(1, "NEG", lambda x: -x)
 
 # Bitwise
-AND = Function(2, "AND", lambda x, y: p2i(x) & p2i(y))
-OR = Function(2, "OR", lambda x, y: p2i(x) | p2i(y))
-NOT = Function(1, "NOT", lambda x: ~p2i(x))
-NOTA = Function(2, "NOTa", lambda x,y: ~p2i(x))
-NOTB = Function(2, "NOTb", lambda x,y: ~p2i(y))
-NAND = Function(2, "NAND", lambda x, y: ~(p2i(x) & p2i(y)))
-NOR = Function(2, "NOR", lambda x, y: ~(p2i(x) | p2i(y)))
-XOR = Function(2, "XOR", lambda x, y: p2i(x) ^ p2i(y))
-XNOR = Function(2, "XNOR", lambda x, y: ~(p2i(x) ^ p2i(y)))
-BUFA = Function(2, "BUFa", lambda x, y: p2i(x))
-BUFB = Function(2, "BUFb", lambda x, y: p2i(x))
-SHFTL = Function(1, "SHFTL", lambda x: p2i(x) << 1)
-SHFTR = Function(1, "SHFTR", lambda x: p2i(x) >> 1)
+AND = Function(2, "AND", lambda x, y: int(x) & int(y))
+OR = Function(2, "OR", lambda x, y: int(x) | int(y))
+NOT = Function(1, "NOT", lambda x: ~int(x))
+NOTA = Function(2, "NOTa", lambda x, y: ~int(x))
+NOTB = Function(2, "NOTb", lambda x, y: ~int(y))
+NAND = Function(2, "NAND", lambda x, y: ~(int(x) & int(y)))
+NOR = Function(2, "NOR", lambda x, y: ~(int(x) | int(y)))
+XOR = Function(2, "XOR", lambda x, y: int(x) ^ int(y))
+XNOR = Function(2, "XNOR", lambda x, y: ~(int(x) ^ int(y)))
+BUFA = Function(2, "BUFa", lambda x, y: int(x))
+BUFB = Function(2, "BUFb", lambda x, y: int(x))
+SHFTL = Function(1, "SHFTL", lambda x: int(x) << 1)
+SHFTR = Function(1, "SHFTR", lambda x: int(x) >> 1)
 
 # Logical
 lAND = Function(2, "AND", lambda x, y: b2f(f2b(x) and f2b(y)))
 lOR = Function(2, "OR", lambda x, y: b2f(f2b(x) and f2b(y)))
-lNOT = Function(1, "NOT", lambda x: not b2f(f2b(x)))
+lNOT = Function(1, "NOT", lambda x: b2f(not f2b(x)))
 lNAND = Function(2, "NAND", lambda x, y: b2f(not (f2b(x) and f2b(y))))
 lNOR = Function(2, "NOR", lambda x, y: b2f(not (f2b(x) or f2b(y))))
+lXOR = Function(2, "XOR", lambda x, y: b2f((f2b(x) and not f2b(y)) or (not f2b(x) and f2b(y))))
 
 # Comparison
-LT = Function(2, 'LT', lambda x,y : b2f(x < y))
-LTE = Function(2, 'LTE', lambda x,y : b2f(x <= y))
-GT = Function(2, 'GT', lambda x,y : b2f(x > y))
-GTE = Function(2, 'GTE',lambda x,y : b2f(x >= y))
-EQ = Function(2, 'EQ', lambda x,y : b2f(x == y))
-NEQ = Function(2, 'NEQ', lambda x,y : b2f(x != y))
-MIN = Function(2, 'MIN', lambda x,y : min(x,y))
-MAX = Function(2, 'MAX', lambda x,y : max(x,y))
-IF = Function(3, 'IF', lambda x,y,z : y if f2b(x) else z)
-IFLEZ = Function(3, 'IFLEZ', lambda x,y,z : y if x <= 0 else z)
-IFGTZ = Function(3, 'IFGTZ', lambda x,y,z : y if x > 0 else z)
-
-
+LT = Function(2, 'LT', lambda x, y: b2f(x < y))
+LTE = Function(2, 'LTE', lambda x, y: b2f(x <= y))
+GT = Function(2, 'GT', lambda x, y: b2f(x > y))
+GTE = Function(2, 'GTE', lambda x, y: b2f(x >= y))
+EQ = Function(2, 'EQ', lambda x, y: b2f(x == y))
+NEQ = Function(2, 'NEQ', lambda x, y: b2f(x != y))
+MIN = Function(2, 'MIN', lambda x, y: min(x, y))
+MAX = Function(2, 'MAX', lambda x, y: max(x, y))
+IF = Function(3, 'IF', lambda x, y, z: y if f2b(x) else z)
+IFLEZ = Function(3, 'IFLEZ', lambda x, y, z: y if x <= 0 else z)
+IFGTZ = Function(3, 'IFGTZ', lambda x, y, z: y if x > 0 else z)
