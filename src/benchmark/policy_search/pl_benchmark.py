@@ -12,19 +12,24 @@ import gymnasium as gym
 
 from src.benchmark.benchmark import Benchmark
 from gymnasium.wrappers import FlattenObservation
-from ale_py import ALEInterface
 from functools import reduce
 
 from src.gp.tinyverse import Var
 
 
 @dataclass
-class ALEArgs:
+class PLArgs:
+    max_steps: int
+    max_episode_steps: int
+    difficulty: int
+    flatten_obs: bool
+
+@dataclass
+class ALEArgs(PLArgs):
     """
     Arguments for the preprocessing of
     Gymnasium Arcade Learning Environment (A.L.E).
     """
-
     noop_max: int
     frame_skip: int
     screen_size: int
@@ -32,6 +37,17 @@ class ALEArgs:
     terminal_on_life_loss: int
     scale_obs: int
     frame_stack: int
+    frames_per_step: int
+    full_action_space: bool
+    repeat_action_probability: float
+
+
+@dataclass
+class MinAtarArgs(PLArgs):
+    """
+    Arguments for the MinAtar benchmarks.
+    """
+    use_minimal_action_set: bool
 
 
 class PLBenchmark(Benchmark):
@@ -42,13 +58,13 @@ class PLBenchmark(Benchmark):
     """
 
     def __init__(
-            self, env_: gym.Env, ale_=False, ale_args: ALEArgs = None, flatten_obs_=True
+            self, env_: gym.Env, args_: PLArgs
     ):
         self.env = env_
         self.wrapped_env = env_
-        self.ale = ale_
-        self.flatten_obs = flatten_obs_
-        self.generate(args=ale_args)
+        self.ale = True if isinstance(args_, ALEArgs) else False
+        self.flatten_obs = args_.flatten_obs
+        self.generate(args=args_)
 
     def generate(self, args: any):
         """

@@ -28,7 +28,7 @@ if numpy.version.version[0] == "2":
 
 env = gym.make("LunarLander-v3")
 wrapped_env = FlattenObservation(env)
-functions = [ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT]
+functions = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT]
 terminals = [Var(i) for i in range(wrapped_env.observation_space.shape[0])] + [
     Const(1),
     Const(2),

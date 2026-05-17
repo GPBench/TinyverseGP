@@ -1,40 +1,31 @@
 """
-Example module to test CGP with policy search problems.
-Evolves a policy for Pong from the Gymnasium Atari Learning Environment:
+Example script to test CGP with PLBench.
+Evolves a policy for ALE Battle Zone from Atari5.
 
-https://ale.farama.org/
-https://ale.farama.org/environments/
-
-https://ale.farama.org/environments/pong/
-
-Pong has the following specifications that are adapted to
-the GP mode in this example:
-
-Action space: Discrete(6)
-
-Observation space: Box(0, 255, (210, 160, 3), uint8)
+https://ale.farama.org/environments/battle_zone/
+https://arxiv.org/abs/2210.02019
 """
-from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs
-from src.gp.tiny_cgp import *
-from src.gp.problem import PolicySearch
-from src.gp.functions import *
 
 import warnings
 import numpy
-import gymnasium as gym
 
-import ale_py
+from src.benchmark.policy_search.pl_benchmark import ALEArgs
+from src.benchmark.policy_search.plbench.plbench import PLBench
+from src.gp.functions import *
+from src.gp.problem import PolicySearch
+from src.gp.tiny_cgp import CGPHyperparameters, CGPConfig, TinyCGP
+import gymnasium as gym
 
 if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
 
-gym.envs.registry.keys()
-
+MAX_TIME = 3600  # 1 hour
 MAX_GENERATIONS = 9999999
-IDEAL = 1000
-GAME = "ALE/Pong-v5"
+IDEAL = 10000
+ATARI5_ID = "battle_zone"
 NUM_EPISODES = 10
 MAX_STEPS = 2e8
+LAMBDA = 1
 
 ale_args = ALEArgs(
     noop_max=30,
@@ -53,15 +44,10 @@ ale_args = ALEArgs(
     flatten_obs=True
 )
 
-benchmark = PLBenchmark(env_=gym.make(GAME), args_=ale_args)
-env = benchmark.wrapped_env
 functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
                  CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
 functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_red
-terminals = benchmark.gen_terminals()
-num_inputs = benchmark.len_observation_space()
-num_outputs = benchmark.len_action_space()
 
 config = CGPConfig(
     num_jobs=1,
@@ -74,10 +60,10 @@ config = CGPConfig(
     minimalistic_output=True,
     num_functions=len(functions),
     max_arity=3,
-    num_inputs=num_inputs,
-    num_outputs=num_outputs,
+    num_inputs=None,
+    num_outputs=None,
     report_interval=1,
-    max_time=9999999,
+    max_time=MAX_TIME,
     global_seed=42,
     checkpoint_interval=10,
     checkpoint_dir='checkpoint',
@@ -86,21 +72,34 @@ config = CGPConfig(
 
 hyperparameters = CGPHyperparameters(
     mu=1,
-    lmbda=8,
-    population_size=9,
-    levels_back=50,
-    num_function_nodes=50,
-    mutation_rate=0.02,
+    lmbda=LAMBDA,
+    population_size=(1+LAMBDA),
+    levels_back=100,
+    num_function_nodes=100,
+    mutation_rate=0.05,
     strict_selection=False,
 )
 
-problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False, num_episodes_=NUM_EPISODES,
-                       max_steps_=MAX_STEPS)
+
+atari_five = PLBench.AtariFive(args=ale_args)
+benchmark = atari_five.problems[ATARI5_ID]
+
+env = benchmark.wrapped_env
+
+num_inputs = benchmark.len_observation_space()
+num_outputs = benchmark.len_action_space()
+
+config.num_inputs = num_inputs
+config.num_outputs = num_outputs
+
+terminals = benchmark.gen_terminals()
+
+problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False, num_episodes_=NUM_EPISODES)
 cgp = TinyCGP(functions, terminals, config, hyperparameters)
 policy = cgp.evolve(problem)
 env.close()
 
-env = gym.make(id=GAME, render_mode="human", full_action_space = ale_args.full_action_space)
+env = gym.make(id=atari_five.get_ale_id(ATARI5_ID), render_mode="human")
 problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False)
 problem.evaluate(policy.genome, cgp, num_episodes=1, wait_key=True)
 env.close()

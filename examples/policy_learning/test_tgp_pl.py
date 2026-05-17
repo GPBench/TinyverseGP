@@ -31,7 +31,7 @@ env = gym.make("LunarLander-v3")
 wrapped_env = FlattenObservation(env)
 
 NUM_INPUTS = wrapped_env.observation_space.shape[0]
-functions = [ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT]
+functions = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT]
 terminals = [Var(i) for i in range(NUM_INPUTS)] + [
     Const(1),
     Const(2),

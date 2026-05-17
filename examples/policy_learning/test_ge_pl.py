@@ -57,7 +57,7 @@ hyperparameters = GEHyperparameters(
 
 problem = PolicySearch(env=env, ideal_=300, minimizing_=False)
 
-functions = [ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT]
+functions = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT]
 arguments = ["a", "b", "c", "d", "e", "f", "g", "h"]  # Inputs for the functions
 grammar = {
     "<expr>": ["[<lfun>, <lfun>, <lfun>, <lfun>]"],
