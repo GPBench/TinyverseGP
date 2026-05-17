@@ -23,13 +23,14 @@ functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, 
 functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_red
 
-NUM_GENERATIONS = 10
+NUM_GENERATIONS = 1000
 MAX_TIME = 3600
 IDEAL = 100
-NUM_EPISODES = 10
+NUM_EPISODES = 100
 MAX_EPISODE_STEPS = 2500
 MAX_STEPS = 2e8
 POP_SIZE = 50
+LAMBDA = 4
 
 
 minatar_args = MinAtarArgs(
@@ -53,12 +54,12 @@ tgp_hyperparams = TGPHyperparameters(
 
 cgp_hyperparams = CGPHyperparameters(
     mu=1,
-    lmbda=4,
-    num_function_nodes=10,
-    strict_selection=True,
-    mutation_rate=0.2,
-    levels_back=10,
-    population_size=5
+    lmbda=LAMBDA,
+    num_function_nodes=50,
+    strict_selection=False,
+    mutation_rate=0.02,
+    levels_back=50,
+    population_size=1+LAMBDA
 )
 
 lgp_hyperparams = LGPHyperparameters(

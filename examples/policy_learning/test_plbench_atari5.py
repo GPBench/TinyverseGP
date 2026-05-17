@@ -19,12 +19,12 @@ if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
 
 MAX_TIME = 3600  # 1 hour
-MAX_GENERATIONS = 9999999
+MAX_GENERATIONS = 100
 IDEAL = 1000
-NUM_EPISODES = 10
+NUM_EPISODES = 100
 MAX_STEPS = 2e8
 POP_SIZE = 50
-LAMBDA = 1
+LAMBDA = 4
 
 ale_args = ALEArgs(
     noop_max=30,
@@ -50,22 +50,22 @@ functions = functions_red
 
 tgp_hyperparams = TGPHyperparameters(
     max_depth=4,
-    max_size=50,
+    max_size=30,
     pop_size=POP_SIZE,
     tournament_size=4,
-    mutation_rate=0.2,
+    mutation_rate=0.02,
     cx_rate=0.9,
     erc=None
 )
 
 cgp_hyperparams = CGPHyperparameters(
     mu=1,
-    lmbda=4,
-    num_function_nodes=10,
-    strict_selection=True,
-    mutation_rate=0.2,
-    levels_back=10,
-    population_size=5
+    lmbda=LAMBDA,
+    num_function_nodes=50,
+    strict_selection=False,
+    mutation_rate=0.02,
+    levels_back=50,
+    population_size=1+LAMBDA
 )
 
 lgp_hyperparams = LGPHyperparameters(
@@ -174,15 +174,22 @@ ge_config = GPConfig(
 ale_args = ALEArgs(
     noop_max=30,
     frame_skip=1,
-    screen_size=32,
+    screen_size=84,
     grayscale_obs=True,
-    terminal_on_life_loss=True,
+    terminal_on_life_loss=False,
     scale_obs=False,
-    frame_stack=4,
+    frame_stack=1,
+    repeat_action_probability=0.0,
+    max_steps=MAX_STEPS,
+    full_action_space=False,
+    difficulty=0,
+    frames_per_step=4,
+    max_episode_steps=2500,
+    flatten_obs=True
 )
 
-plbench = PLBench(ale_args)
-problems = plbench.benchmark["atari_5"]
+atari_five = PLBench.AtariFive(args=ale_args)
+problems = atari_five.problems
 
 for name, p in problems.items():
 
