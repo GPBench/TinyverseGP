@@ -9,8 +9,6 @@ Currently, the following problem types are provided:
 - ProgramSynthesis: Used for the provided coding problems
 
 """
-from typing import override
-
 import gymnasium as gym
 import numpy as np
 from dataclasses import dataclass
@@ -157,7 +155,6 @@ class PolicySearch(Problem):
         self.max_steps = int(max_steps_)
         self.step_cnt = 0
 
-    @override
     def is_stop(self):
         return self.step_cnt >= self.max_steps
 

@@ -48,7 +48,7 @@ The current version supports Python3.10. To install the requirements it is sugge
 ```bash
 python3 -m venv env
 . env/bin/activate
-pip3 install -r requirements.txt
+pip3 install .
 ```
 
 If you have a different Python version, you can use [Pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) to switch between versions:
