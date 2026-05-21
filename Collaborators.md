@@ -8,7 +8,7 @@ Julian Dierkes (RWTH Aachen, Germany) - Inclusion of policy search problem domai
 
 Zdenek Vasicek (Brno University, Czech Republic) - Inclusion of logic synthesis problem domain.
 
-Marie Anastacio, Anja Jankovic (RWTH Aachen, Germany) - Inclusion of the interfaces for hyperparamter optimisation (HPO). 
+Marie Anastacio, Anja Jankovic (RWTH Aachen, Germany) - Inclusion of the interfaces for hyperparameter optimisation (HPO). 
 
 Holger Hoos (RWTH Aachen, Germany) - Advisory role in the areas of hyperparamter optimisation and automated machine learning (AutoML). 
 
