@@ -38,7 +38,7 @@ This repository is organized as follows:
   - `logic_synthesis/ls_benchmark.py`: sample logic synthesis benchmark problems.
   - `logic_synthesis/lsbench/lsbench.py`:  interface to the GBFS/LSBench benchmark.
   - `policy_search/policy_evaluation.py`: interface to the gymnasium environment.
-- `src/examples`: examples on how to use the different benchmarks.
+- `examples`: examples on how to use the different benchmarks.
 
 # Requirements and testing
 
