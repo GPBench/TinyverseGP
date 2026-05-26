@@ -1,5 +1,0 @@
-# This file is part of TinyverseGP | https://github.com/GPBench/TinyverseGP
-# License: GPL-3.0-or-later
-
-[virtualenvs]
-in-project = true
