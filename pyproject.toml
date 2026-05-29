@@ -57,6 +57,7 @@ dependencies = [
     "pyyaml >=6.0.2",
     "smac >=2.3.1",
     "dill >=0.4.0",
+    "ioh >= 0.3.22",
 ]
 
 [project.optional-dependencies]
