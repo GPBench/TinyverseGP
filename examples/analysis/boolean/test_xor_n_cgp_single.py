@@ -18,7 +18,7 @@ MUTATION_RATE = 1 / NUM_GENES
 NUM_FUNCTION_NODES = N + 1
 LEVELS_BACK = NUM_FUNCTION_NODES
 NEGATED_VARIABLES = False
-DATASET_TYPE = DatasetType.SPLIT
+DATASET_TYPE = DatasetType.SAMPLE
 
 if NEGATED_VARIABLES:
     NUM_TERMINALS = 2 * N
@@ -71,4 +71,4 @@ config.global_seed = int(time.time_ns())
 cgp = SimpleCGP(functions, terminals, config, hyperparameters)
 program = cgp.evolve(problem)
 
-print(f"{N},simple_cgp_{appendix},{cgp.generation_number}, {problem.calc_generalisation_error(program.genome, cgp)}")
+print(f"{N},simple_cgp_{appendix},{cgp.generation_number}, {problem.calc_error(program.genome, cgp)}")

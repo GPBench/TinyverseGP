@@ -11,7 +11,7 @@ MAX_TIME = 9999999
 N = int(sys.argv[1])
 K = 1.3
 NEGATED_VARIABLES = False
-DATASET_TYPE = DatasetType.SPLIT
+DATASET_TYPE = DatasetType.SAMPLE
 
 if NEGATED_VARIABLES:
     NUM_TERMINALS = 2 * N
@@ -59,4 +59,4 @@ config.global_seed = int(time.time_ns())
 tgp = SimpleTGP(functions, terminals, config, hyperparameters)
 program = tgp.evolve(problem)
 
-print(f"{N},simple_tgp_{appendix},{tgp.generation_number}, {problem.calc_generalisation_error(program.genome, tgp)}")
+print(f"{N},simple_tgp_{appendix},{tgp.generation_number}, {problem.calc_error(program.genome, tgp)}")

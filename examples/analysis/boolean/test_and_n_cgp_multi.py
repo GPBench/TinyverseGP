@@ -75,4 +75,4 @@ for n in range(N_MIN, N_MAX + 1):
         config.global_seed = int(time.time_ns())
         cgp = SimpleCGP(functions, terminals, config, hyperparameters)
         program = cgp.evolve(problem)
-        print(f"{n},simple_cgp_{appendix},{cgp.generation_number},{problem.calc_generalisation_error(program.genome, cgp)}")
+        print(f"{n},simple_cgp_{appendix},{cgp.generation_number},{problem.calc_error(program.genome, cgp)}")

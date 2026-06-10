@@ -63,4 +63,4 @@ for n in range(N_MIN, N_MAX + 1):
         config.global_seed = int(time.time_ns())
         tgp = SimpleTGP(functions, terminals, config, hyperparameters)
         program = tgp.evolve(problem)
-        print(f"{n},simple_tgp_{appendix},{tgp.generation_number}, {problem.calc_generalisation_error(program.genome, tgp)}")
+        print(f"{n},simple_tgp_{appendix},{tgp.generation_number}, {problem.calc_error(program.genome, tgp)}")

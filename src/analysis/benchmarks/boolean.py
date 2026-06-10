@@ -299,16 +299,28 @@ class BooleanFunction(BlackBox):
         test_data = np.column_stack((X_test, y_test))
         return Dataset(data=train_data), Dataset(data=test_data)
 
-    def calc_generalisation_error(self, program: Any, model: GPModel) -> float:
+    def calc_error(self, program: Any, model: GPModel) -> float:
         """
         Calculates the generalisation error by evaluating the best program found on the test set.
         Depending on the dataset scenario the error is either exact or approximated.
 
         :param program: best program found so far
         :param model: the gp model that is used for evaluation
+        :return
         """
         self.observations, self.actual = self.test.get_observations(), self.test.get_actual()
         return self.evaluate(program, model)
+
+    def calc_generalization_ability(self, error: int) -> float:
+        """
+        Calculates the approximate generalization ability based on the number
+        of number of incorrect rows and the size of the validation set.
+
+        :param error: Number of mismatched rows in the validation set
+        :return approximate generalization ability
+        """
+        num_incorrect_rows = error
+        return 1.0 - (num_incorrect_rows/self.test_size)
 
     @override
     def cost(self, predictions: list) -> float:
