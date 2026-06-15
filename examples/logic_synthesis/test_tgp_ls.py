@@ -17,7 +17,7 @@ from src.gp.functions import *
 from src.gp.loss import *
 from src.gp.problem import BlackBox
 
-benchmark = LSBenchmark('data/logic_synthesis/plu/alu2.plu')
+benchmark = LSBenchmark('../../data/logic_synthesis/plu/add3.plu')
 benchmark.generate()
 truth_table = benchmark.get_truth_table()
 num_inputs = benchmark.benchmark.num_inputs
