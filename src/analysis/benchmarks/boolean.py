@@ -70,7 +70,7 @@ class Dataset:
 
     def __post_init__(self):
         """
-        Post-initialisation procedures determines the dimensions of the
+        Post-initialization procedures determines the dimensions of the
         data and splits the dataset into observations and actual values.
         """
         if self.data is None:
