@@ -283,9 +283,9 @@ class LSRegressor(RegressorMixin):
             "<var>": arguments
         }
 
-    def fit(self, X, y, checkpoint=None):
+    def fit(self, X, y, checkpoint=None, **log_kwargs):
         problem = BlackBox(X, y, self.loss, ideal_=self.config.ideal_fitness,
-                           minimizing_=self.config.minimizing_fitness)
+                           minimizing_=self.config.minimizing_fitness, **log_kwargs)
 
         self.model = util.get_model(self.representation, self.functions, self.arguments,
                                     self.hyperparameters, self.config, self.grammar)

@@ -81,8 +81,8 @@ class SRBench(RegressorMixin):
             "<var>": [],
         }
 
-    def fit(self, X, y, checkpoint=None):
-        problem = BlackBox(X, y, self.loss, 1e-16, True)
+    def fit(self, X, y, checkpoint=None, **log_kwargs):
+        problem = BlackBox(X, y, self.loss, 1e-16, True, **log_kwargs)
         self.terminals = [Var(i) for i in range(X.shape[1])] + self.terminals
         # Always set <var> in grammar to correct variable names before fitting
         self.grammar["<var>"] = [f"x{i}" for i in range(X.shape[1])]

@@ -124,10 +124,10 @@ class PLRegressor(RegressorMixin):
             "<var>": arguments
         }
 
-    def fit(self, env, checkpoint=None):
+    def fit(self, env, checkpoint=None, **log_kwargs):
 
         self.problem = PolicySearch(env=env, ideal_=self.config.ideal_fitness, minimizing_=False,
-                                    num_episodes_=self.num_episodes)
+                                    num_episodes_=self.num_episodes, **log_kwargs)
 
         self.model = util.get_model(self.representation, self.functions, self.arguments,
                                     self.hyperparameters, self.config, self.grammar)
