@@ -15,13 +15,13 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
         SimpleTGP.__init__(self,functions_, terminals_, config_, hyperparameters_)
         SimpleQD.__init__(self)
 
-    def depth(self, root: Node, d:int=0):
+    def height(self, root: Node, d:int=0):
         if root.function in self.terminals:
             return d
         else:
             depths = []
             for child in root.children:
-                depths.append(self.depth(child, d+1))
+                depths.append(self.height(child, d + 1))
             return max(depths)
 
     def is_better(self, ind1, ind2):
@@ -29,7 +29,7 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
             else ind1.fitness >= ind2.fitness
 
     def update(self, y: TGPIndividual):
-        depth = self.depth(y.genome[0])
+        depth = self.height(y.genome[0])
         if self.m.get(depth) is None:
             self.m[depth] = y
         else:
@@ -45,7 +45,7 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
         else:
             x = random.choice(list(self.m.values()))
 
-        y = TGPIndividual(genome_=copy.copy(x.genome))
+        y = TGPIndividual(genome_=copy.deepcopy(x.genome))
         self.mutation(y.genome[0])
         y.fitness = self.evaluate_individual(y.genome, problem)
         self.update(y)
