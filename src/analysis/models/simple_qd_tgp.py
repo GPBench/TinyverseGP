@@ -29,13 +29,13 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
             else ind1.fitness >= ind2.fitness
 
     def update(self, y: TGPIndividual):
-        depth = self.height(y.genome[0])
-        if self.m.get(depth) is None:
-            self.m[depth] = y
+        max_depth = self.height(y.genome[0])
+        if self.m.get(max_depth) is None:
+            self.m[max_depth] = y
         else:
-            x = self.m[depth]
+            x = self.m[max_depth]
             if self.is_better(y, x):
-                self.m[depth] = y
+                self.m[max_depth] = y
 
     @override
     def pipeline(self, problem: Problem):
