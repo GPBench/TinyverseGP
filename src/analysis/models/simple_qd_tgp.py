@@ -1,7 +1,7 @@
 import copy
+import operator
 import random
 from typing import override
-
 from src.analysis.models.simple_qd import SimpleQD
 from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
 from src.gp.problem import Problem
@@ -24,9 +24,15 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
                 depths.append(self.height(child, d + 1))
             return max(depths)
 
-    def is_better(self, ind1, ind2):
-        return ind1.fitness <= ind2.fitness if self.config.minimizing_fitness \
-            else ind1.fitness >= ind2.fitness
+    def is_better(self, y, xs: list):
+        if self.config.minimizing_fitness:
+            comp = operator.gt
+        else:
+            comp = operator.lt
+        for x in xs:
+            if comp(y.fitness, x.fitness):
+                return False
+        return True
 
     def update(self, y: TGPIndividual):
         max_depth = self.height(y.genome[0])
@@ -34,20 +40,33 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
             self.m[max_depth] = y
         else:
             x = self.m[max_depth]
-            if self.is_better(y, x):
+            if self.is_better(y, [x]):
                 self.m[max_depth] = y
 
     @override
-    def pipeline(self, problem: Problem):
+    def selection(self) -> TGPIndividual:
         if len(self.m) == 0:
             x = random.choice(self.population)
             self.update(x)
         else:
             x = random.choice(list(self.m.values()))
+        return x
 
-        y = TGPIndividual(genome_=copy.deepcopy(x.genome))
-        self.mutation(y.genome[0])
-        y.fitness = self.evaluate_individual(y.genome, problem)
+    @override
+    def crossover(self, x1: Node, x2: Node) -> TGPIndividual:
+        n = Node(function=random.choice(self.functions), children=[])
+        n.children.append(x1)
+        n.children.append(x2)
+        return TGPIndividual(genome_=[n])
+
+    @override
+    def pipeline(self, problem: Problem):
+        x1 = self.selection()
+        x2 = self.selection()
+        y = self.crossover(x1.genome[0], x2.genome[0])
+        y.fitness = y.genome[0].function(x1.fitness,
+                                         x2.fitness)
+
         self.update(y)
 
-        return y if problem.is_better(y.fitness, x.fitness) else x
+        return y if self.is_better(y,[x1,x2]) else random.choice([x1,x2])

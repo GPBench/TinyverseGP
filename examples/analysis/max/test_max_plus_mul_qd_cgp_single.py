@@ -9,7 +9,7 @@ The parameters for MAX, T and D, are passed to script via argv.
 import sys
 from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
 from src.analysis.benchmarks.max.max import MaxPlusMul
-from src.analysis.models.simple_qd_cgp import SimpleQdCGP
+from src.analysis.models.simple_qd_cgp import SimpleQdCGP, QdCGPConfig
 from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tinyverse import Const
@@ -24,7 +24,7 @@ MUTATION_RATE = 1 / NUM_GENES
 functions = [ADD, MUL]
 terminals = [Const(T)]
 
-config = SimpleCGPConfig(
+config = QdCGPConfig(
     num_jobs=1,
     max_generations=MAX_GENERATIONS,
     stopping_criteria=None,
@@ -39,6 +39,7 @@ config = SimpleCGPConfig(
     num_outputs=1,
     report_interval=1,
     max_time=MAX_TIME,
+    crossover = True,
     mutation_type=MutationType.SAM,
     global_seed=None,
     checkpoint_interval=9999999,
