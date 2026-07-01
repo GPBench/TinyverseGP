@@ -7,8 +7,10 @@ The parameters for MAX, T and D, are passed to script via argv.
 """
 
 import sys
+from math import log2
 from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
 from src.analysis.benchmarks.max.max import MaxPlusMul
+from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
 from src.analysis.models.simple_qd_cgp import SimpleQdCGP, QdCGPConfig
 from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
@@ -18,11 +20,12 @@ MAX_GENERATIONS = 2000000
 MAX_TIME = 9999999
 D = int(sys.argv[1])
 T = int(sys.argv[2])
+assert(T > 1)
 MAX_ARITY = 2
 NUM_GENES = (MAX_ARITY + 1) * D  + 1
 MUTATION_RATE = 1 / NUM_GENES
-functions = [ADD, MUL]
-terminals = [Const(T)]
+functions = [LOG_ADD, LOG_MUL]
+terminals = [Const(log2(T))]
 
 config = QdCGPConfig(
     num_jobs=1,
@@ -62,10 +65,10 @@ if config.mutation_type == MutationType.SAM:
 else:
     appendix = "prob"
 
-problem = MaxPlusMul(d=D, t=T)
+problem = MaxPlusMul(d=D, t=T, log_scaling=True)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleQdCGP(functions, terminals, config, hyperparameters)
 cgp.evolve(problem)
 
-print(f"{D},simple_qd_cgp_log,{cgp.generation_number}")
+print(f"{D},simple_qd_cgp,{cgp.generation_number}")
