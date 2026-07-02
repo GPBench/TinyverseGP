@@ -73,13 +73,13 @@ class SimpleQdCGP(SimpleCGP, SimpleQD):
         if self.config.crossover:
             x1 = self.selection()
             x2 = self.selection()
-            y = self.crossover(x1.genome, x2.genome)
             xs.append(x1)
             xs.append(x2)
+            y = self.crossover(x1.genome, x2.genome)
         else:
             x = self.selection()
-            y = CGPIndividual(genome_=copy.copy(x.genome))
             xs.append(x)
+            y = CGPIndividual(genome_=copy.copy(x.genome))
         self.mutation(y.genome)
         y.fitness = self.evaluate_individual(y.genome, problem)
         self.update(y)
