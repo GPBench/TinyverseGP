@@ -32,19 +32,30 @@ class SimpleQdCGP(SimpleCGP, SimpleQD):
             x = random.choice(list(self.m.values()))
         return x
 
-    def crossover(self, x: list[int]):
-        y = copy.copy(x)
+    def recombine(self, x: list[int], clone=False):
+        if clone:
+            y = copy.copy(x)
+        else:
+            y = x
+
         if y[-1] < self.num_nodes - 1:
             out = y[-1] + 1
             pos = self.node_position(out)
         else:
-            return CGPIndividual(genome_=y)
+            return y
 
         y[pos + 1] = y[-1]
         for i in range(1,self.config.max_arity):
             idx = pos + i + 1
             y[idx] = self.new_value(idx,y[idx])
         y[-1] = out
+        return y
+
+    def crossover(self, x1: list[int], x2: list[int]):
+        cx_node = random.randint(1, self.num_nodes)
+        cx_pos = self.node_position(cx_node)
+        y = x1[:cx_pos] + x2[cx_pos:]
+        y = self.recombine(y)
         return CGPIndividual(genome_=y)
 
     def update(self, y: CGPIndividual):
@@ -58,14 +69,19 @@ class SimpleQdCGP(SimpleCGP, SimpleQD):
 
     @override
     def pipeline(self, problem: Problem):
-        x = self.selection()
-
+        xs = []
         if self.config.crossover:
-            y = self.crossover(x.genome)
+            x1 = self.selection()
+            x2 = self.selection()
+            y = self.crossover(x1.genome, x2.genome)
+            xs.append(x1)
+            xs.append(x2)
         else:
+            x = self.selection()
             y = CGPIndividual(genome_=copy.copy(x.genome))
+            xs.append(x)
         self.mutation(y.genome)
         y.fitness = self.evaluate_individual(y.genome, problem)
         self.update(y)
 
-        return y if self.is_better(y,[x]) else random.choice([x])
+        return y if self.is_better(y,xs) else random.choice(xs)

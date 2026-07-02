@@ -8,12 +8,11 @@ The parameters for MAX, T and D, are passed to script via argv.
 
 import sys
 from math import log2
-from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
+from src.analysis.models.simple_cgp import MutationType
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
 from src.analysis.models.simple_qd_cgp import SimpleQdCGP, QdCGPConfig
 from src.gp.tiny_cgp import *
-from src.gp.functions import ADD, MUL
 from src.gp.tinyverse import Const
 
 MAX_GENERATIONS = 2000000
@@ -71,4 +70,4 @@ config.global_seed = int(time.time_ns())
 cgp = SimpleQdCGP(functions, terminals, config, hyperparameters)
 cgp.evolve(problem)
 
-print(f"{D},simple_qd_cgp,{cgp.generation_number}")
+print(f"{D},simple_qd_cgp_log,{cgp.generation_number}")
