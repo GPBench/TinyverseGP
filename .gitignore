@@ -2,6 +2,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+*.pyc
 
 # C extensions
 *.so
@@ -205,6 +206,7 @@ __marimo__/
 # MacOS
 .DS_Store
 *.pyc
-smac3_output/
+*smac3-output*
 wd/
 checkpoints/
+experiments_scripts/output_data

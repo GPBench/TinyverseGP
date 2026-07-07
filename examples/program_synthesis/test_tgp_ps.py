@@ -21,6 +21,7 @@ functions = [ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT]
 terminals = [Var(i) for i in range(NUM_INPUTS)] + [Const(1), Const(2)]
 
 config = GPConfig(
+    global_seed=42,
     num_jobs=1,
     max_generations=1000,
     stopping_criteria=100,
@@ -41,6 +42,7 @@ hyperparameters = TGPHyperparameters(
     cx_rate=0.9,
     mutation_rate=0.3,
     tournament_size=2,
+    erc=True  # NOTE: What does this do?
 )
 
 generator = gen_power_of_two
@@ -49,5 +51,5 @@ m = 100
 
 benchmark = PSBenchmark(generator, [n, m])
 problem = ProgramSynthesis(benchmark.dataset)
-tgp = TinyTGP(problem, functions, terminals, config, hyperparameters)
-tgp.evolve()
+tgp = TinyTGP(functions, terminals, config, hyperparameters)
+tgp.evolve(problem)

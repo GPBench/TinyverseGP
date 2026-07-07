@@ -1,10 +1,13 @@
 """
 Benchmark representation module for logic synthesis.
 """
-
+from enum import Enum
 from src.benchmark.benchmark import Benchmark
 import src.benchmark.logic_synthesis.boolean_benchmark_tools.benchmark_reader as BenchmarkReader
 
+class FSType(Enum):
+    reduced = 1,
+    extended = 2,
 
 class LSBenchmark(Benchmark):
     """
@@ -16,10 +19,12 @@ class LSBenchmark(Benchmark):
     reader: BenchmarkReader.BenchmarkReader
     file: str
     name: str
+    fstype: FSType
 
-    def __init__(self, file_: str, name_ = ""):
+    def __init__(self, file_: str, name_ = "", fstype_ = None):
         self.file = file_
         self.name = name_
+        self.fstype = fstype_
         self.reader = BenchmarkReader.BenchmarkReader()
         self.generate()
 

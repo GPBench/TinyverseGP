@@ -9,15 +9,16 @@ Currently, the following problem types are provided:
 - ProgramSynthesis: Used for the provided coding problems
 
 """
-
 import gymnasium as gym
 import numpy as np
 from dataclasses import dataclass
 from abc import ABC
+from collections.abc import Callable
 from src.benchmark.policy_search.policy_evaluation import GPAgent
 from src.gp.tinyverse import GPModel
 import numbers
-
+import ioh
+import atexit
 
 class Problem(ABC):
     """
@@ -25,8 +26,59 @@ class Problem(ABC):
     Provides a skeleton for the child classes that provide actual
     implementations of problems.
     """
-
+    __protected_attributes__ = (
+        "logger",
+        "num_evaluations",
+        "reset",
+        "meta_data",
+        "log_evaluation"
+    )
     ideal: float
+    logger: ioh.logger.AbstractLogger
+
+    def __init__(self, fid, name, minimizing: bool = True, logger: ioh.logger.AbstractLogger = None):
+        self.logger = logger
+        self.minimizing = minimizing
+        self.num_evaluations = 0
+        if logger is None:
+            return
+        self.meta_data = ioh.MetaData(
+            fid,
+            1,
+            name,
+            1,
+            ioh.OptimizationType.MIN if minimizing else ioh.OptimizationType.MAX,
+        )
+        self.logger.attach_problem(self.meta_data)
+        atexit.register(self.logger.close)
+
+
+    def log_evaluation(self, f1, x):
+            self.num_evaluations += 1
+            if self.logger is None:
+                return
+            info = ioh.LogInfo(
+                self.num_evaluations,
+                f1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                [0], #If we want to log the genome, we need to log an ID here, and store the {ID, genome}-pairs in a separate file (or think of a better solution)
+                [],
+                [],
+                ioh.iohcpp.RealSolution([], 0),
+                True,
+            )
+            self.logger.call(info)
+
+    def reset(self):
+        self.num_evaluations = 0
+        if self.logger is None:
+            return
+        self.logger.reset()
+        self.logger.attach_problem(self.meta_data)
 
     def is_ideal(self, fitness: float) -> bool:
         """
@@ -58,7 +110,17 @@ class Problem(ABC):
         :param model: The respective GP model that is used
         """
         pass
-
+    
+    def is_stop(self):
+        """
+        Check for additional stop conditions besides the optimum of the defined problem.
+        By default, there are no additional stop conditions in place.
+        """
+        return False
+    
+    def __del__(self, *args, **kwargs):
+        if self.logger is not None:
+            self.logger.close()
 
 @dataclass
 class BlackBox(Problem):
@@ -71,13 +133,17 @@ class BlackBox(Problem):
     actual: list
 
     def __init__(
-        self,
-        observations_: list,
-        actual_: list,
-        loss_: callable,
-        ideal_: float,
-        minimizing_: bool,
+            self,
+            observations_: list,
+            actual_: list,
+            loss_: Callable[[list, list], float],
+            ideal_: float,
+            minimizing_: bool,
+            fid: int = 1,
+            name: str = "None",
+            logger: ioh.logger.AbstractLogger = None
     ):
+        super().__init__(fid, name, minimizing_, logger=logger)
         self.observations = observations_
         self.actual = actual_
         self.loss = loss_
@@ -102,8 +168,10 @@ class BlackBox(Problem):
         for observation in self.observations:
             prediction = model.predict(genome, observation)
             predictions.append(prediction)
-        return self.cost(predictions)
-
+        result = self.cost(predictions)
+        self.log_evaluation(result, genome)
+        return result
+    
     def cost(self, predictions: list) -> float:
         """
         Calculates the cost function value based on the
@@ -133,21 +201,39 @@ class PolicySearch(Problem):
 
     agent: GPAgent
     num_episodes: int
+    max_steps: int
+    step_cnt: int
+    frames_per_step = int
 
     def __init__(
-        self, env: gym.Env, ideal_: float, minimizing_: bool, num_episodes_: int = 100
-    ):
+            self, env: gym.Env, ideal_: float, minimizing_: bool, num_episodes_: int = 100,
+            frames_per_step_: int = 1,
+            max_steps_: float = 2e6, fid: int = 1, name: str = "None", logger: ioh.logger.AbstractLogger = None):
+        super().__init__(fid=fid, name=name, minimizing=minimizing_, logger=logger)
         self.agent = GPAgent(env)
         self.ideal = ideal_
         self.minimizing = minimizing_
         self.num_episodes = num_episodes_
+        self.frames_per_step = frames_per_step_
+        self.max_steps = int(max_steps_)
+        self.step_cnt = 0
+
+    def is_stop(self):
+        return self.step_cnt >= self.max_steps
 
     def evaluate(
-        self, genome, model: GPModel, num_episodes: int = None, wait_key: bool = False
+            self, genome, model: GPModel, num_episodes: int = None, wait_key: bool = False
     ) -> float:
         if num_episodes is None:
             num_episodes = self.num_episodes
-        return self.agent.evaluate_policy(genome, model, num_episodes, wait_key)
+        reward, num_steps = self.agent.evaluate_policy(genome, model, num_episodes, wait_key)
+
+        if self.frames_per_step is not None:
+            self.step_cnt += num_steps * self.frames_per_step
+        else:
+            self.step_cnt += num_steps
+        self.log_evaluation(reward, genome)
+        return reward
 
 
 class ProgramSynthesis(Problem):
@@ -160,7 +246,9 @@ class ProgramSynthesis(Problem):
     dataset.
     """
 
-    def __init__(self, dataset_, minimizing_: bool = False):
+    def __init__(self, dataset_, minimizing_: bool = False,
+                 fid: int = 1, name: str = "None", logger: ioh.logger.AbstractLogger = None):
+        super().__init__(fid=fid, name=name, minimizing=minimizing_, logger=logger)
         self.dataset = dataset_
         self.minimizing = minimizing_
 
@@ -179,7 +267,9 @@ class ProgramSynthesis(Problem):
             prediction = model.predict(genome, observation)
             prediction = self.binary_step(prediction[0])
             predictions.append(prediction)
-        return self.cost(predictions)
+        result = self.cost(predictions)
+        self.log_evaluation(result, genome)
+        return result
 
     def cost(self, predictions):
         cost = 0

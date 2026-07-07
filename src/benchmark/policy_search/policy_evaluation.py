@@ -6,11 +6,8 @@ Benchmark representation module for policy search.
 """
 
 import gymnasium as gym
-
-from src.benchmark.benchmark import Benchmark
 from src.gp.tinyverse import GPModel
 from gymnasium.wrappers import FlattenObservation
-
 import statistics
 
 
@@ -28,6 +25,8 @@ class GPAgent:
         if flatten_obs:
             self.wrapped_env = FlattenObservation(self.env)
 
+
+
     def evaluate_policy(self, policy, model, num_episodes=100, wait_key=False):
         """
         Evaluates a policy in an environment with the selected number of episodes.
@@ -40,7 +39,9 @@ class GPAgent:
         :return: Mean of cumulative rewards
         """
         rewards = []
-        for episode in range(num_episodes):
+        step_cnt = 0
+        for episode \
+                in range(num_episodes):
             obs, info = self.env.reset()
             done = False
             cumulative_reward = 0
@@ -53,11 +54,12 @@ class GPAgent:
                 next_obs, reward, terminated, truncated, info = self.env.step(action)
                 done = terminated or truncated
                 obs = next_obs
+                step_cnt += 1
                 cumulative_reward += reward
             if wait_key:
                 input("Press Enter to continue...")
             rewards.append(cumulative_reward)
-        return statistics.mean(rewards)
+        return statistics.mean(rewards), step_cnt
 
     def get_action(self, policy: list[int], model: GPModel, obs):
         """

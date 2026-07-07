@@ -1,5 +1,10 @@
 # TinyverseGP: Minimalistic implementations of different representations for Genetic Programming
 
+[![arXiv](https://img.shields.io/badge/arXiv-2504.10253-b31b1b.svg)](https://arxiv.org/abs/2504.10253)
+[![discord](https://img.shields.io/discord/1418620917436649682?logo=discord)](https://discord.gg/MSv32wHTC6)
+[![license](https://img.shields.io/github/license/GPBench/TinyverseGP)](https://img.shields.io/github/license/GPBench/TinyverseGP)
+![python-version](https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/GPBench/TinyverseGP/main/pyproject.toml)
+
 TinyverseGP is a collection of minimalistic implementations of different representations for Genetic Programming. The goal is to provide a simple and easy-to-understand codebase with the following goals in mind:
 
 - **Minimalistic**: The codebase should be as small as possible, while still being able to demonstrate the core concepts of the representation.
@@ -11,6 +16,8 @@ The codebase is written in Python trying to keep the requirements to a minimal. 
 
 - Tree-based Genetic Programming (TGP) (also known as Koza-style): the programs are represented as trees. This version supports multi-tree chromosomes, where each individual is represented by a set of trees when the problem requires multiple outputs.
 - Cartesian Genetic Programming (CGP): the programs are represented graphs and naturally encodes multiple outputs with shared components.
+- Linear Genetic Programming (LGP): the programs are represented as a sequence of instructions with memory registers.
+- Grammatical Evolution (GE): the programas are generated following an specified grammar.
 
 This repository is organized as follows:
 
@@ -29,18 +36,19 @@ This repository is organized as follows:
   - `symbolic_regression/sr_benchmark.py`: sample symbolic regression benchmark problems.
   - `symbolic_regression/srbench.py`:  interface to the SRBench benchmark suite.
   - `logic_synthesis/ls_benchmark.py`: sample logic synthesis benchmark problems.
+  - `logic_synthesis/lsbench/lsbench.py`:  interface to the GBFS/LSBench benchmark.
   - `policy_search/policy_evaluation.py`: interface to the gymnasium environment.
-- `src/examples`: examples on how to use the different benchmarks.
+- `examples`: examples on how to use the different benchmarks.
 
 # Requirements and testing
 
-The current version supports Python3.9 and Python3.10. To install the requirements it is suggest to run:
+The current version supports Python3.10. To install the requirements it is suggest to run:
 
 
 ```bash
 python3 -m venv env
 . env/bin/activate
-pip3 install -r requirements.txt
+pip3 install .
 ```
 
 If you have a different Python version, you can use [Pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) to switch between versions:
@@ -88,9 +96,9 @@ To create a new representation, you can follow the following steps:
 - functions: a list of functions (non-terminals)
 
 - Implement the following methods in the `Tiny<first letter of the representation>GP` class:
-
+  - `init_population`: the initialisation function for the population.
   - `fitness(self, individual)`: the fitness function of a single individual.
-  - `evolve(self)`: the evolution method that evolves the population.
+  - `pipeline(self)`: the function for the evolutionary pipeline including breeding and selection
   - `selection(self)`: the selection method that selects individuals for recombination and perturbation.
   - `predict(self, genome, observation)`: the prediction method that predicts the output of `genome` to a single `observation`.
   - `expression(self, genome)`: the expression method that returns the expression represented by `genome`.

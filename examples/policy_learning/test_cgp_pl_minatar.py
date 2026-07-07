@@ -1,71 +1,55 @@
 """
 Example module to test CGP with policy search problems.
-Evolves a policy for Pong from the Gymnasium Atari Learning Environment:
-
-https://ale.farama.org/
-https://ale.farama.org/environments/
-
-https://ale.farama.org/environments/pong/
-
-Pong has the following specifications that are adapted to
-the GP mode in this example:
-
-Action space: Discrete(6)
-
-Observation space: Box(0, 255, (210, 160, 3), uint8)
+Evolves a policy for Breakout from the MinAtar benchmark:
+https://github.com/kenjyoung/MinAtar
 """
-from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs
+
+from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, MinAtarArgs
 from src.gp.tiny_cgp import *
 from src.gp.problem import PolicySearch
 from src.gp.functions import *
-
+from src.gp.tinyverse import Var
 import warnings
 import numpy
+
+from minatar import gym as gym_ma
 import gymnasium as gym
 
-import ale_py
+gym_ma.register_envs()
 
 if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
 
-gym.envs.registry.keys()
-
-MAX_GENERATIONS = 9999999
-IDEAL = 1000
-GAME = "ALE/Pong-v5"
+NUM_GENERATIONS = 10000
+MAX_TIME = 3600
+IDEAL = 100
 NUM_EPISODES = 10
+MAX_EPISODE_STEPS = 2500
 MAX_STEPS = 2e8
+GAME = 'MinAtar/Breakout-v1'
 
-ale_args = ALEArgs(
-    noop_max=30,
-    frame_skip=1,
-    screen_size=84,
-    grayscale_obs=True,
-    terminal_on_life_loss=False,
-    scale_obs=False,
-    frame_stack=1,
-    repeat_action_probability=0.0,
+minatar_args = MinAtarArgs(
     max_steps=MAX_STEPS,
-    full_action_space=False,
+    max_episode_steps=MAX_EPISODE_STEPS,
     difficulty=0,
-    frames_per_step=4,
-    max_episode_steps=2500,
-    flatten_obs=True
-)
+    flatten_obs=True,
+    use_minimal_action_set=False)
 
-benchmark = PLBenchmark(env_=gym.make(GAME), args_=ale_args)
-env = benchmark.wrapped_env
+env = gym.make(id=GAME, max_episode_steps=MAX_EPISODE_STEPS, render_mode="array")
+benchmark = PLBenchmark(env, args_=minatar_args)
+wrapped_env = benchmark.wrapped_env
+num_inputs = benchmark.len_observation_space()
+num_outputs = benchmark.len_action_space()
+
 functions_ext = [ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT,
                  CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ]
 functions_red = [ADD, SUB2F, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, LT, GT, EQ, MIN, MAX, IF]
 functions = functions_red
-terminals = benchmark.gen_terminals()
-num_inputs = benchmark.len_observation_space()
-num_outputs = benchmark.len_action_space()
+terminals = [Var(i) for i in range(num_inputs)]
 
 config = CGPConfig(
     num_jobs=1,
-    max_generations=MAX_GENERATIONS,
+    max_generations=NUM_GENERATIONS,
     stopping_criteria=IDEAL,
     minimizing_fitness=False,
     ideal_fitness=IDEAL,
@@ -76,12 +60,12 @@ config = CGPConfig(
     max_arity=3,
     num_inputs=num_inputs,
     num_outputs=num_outputs,
-    report_interval=1,
-    max_time=9999999,
+    report_interval=1000,
+    max_time=99999999,
     global_seed=42,
-    checkpoint_interval=10,
+    checkpoint_interval=1,
     checkpoint_dir='checkpoint',
-    experiment_name='pl_cgp_ale'
+    experiment_name='pl_cgp'
 )
 
 hyperparameters = CGPHyperparameters(
@@ -94,13 +78,13 @@ hyperparameters = CGPHyperparameters(
     strict_selection=False,
 )
 
-problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False, num_episodes_=NUM_EPISODES,
+problem = PolicySearch(env=wrapped_env, ideal_=config.ideal_fitness, minimizing_=False, num_episodes_=NUM_EPISODES,
                        max_steps_=MAX_STEPS)
 cgp = TinyCGP(functions, terminals, config, hyperparameters)
 policy = cgp.evolve(problem)
 env.close()
 
-env = gym.make(id=GAME, render_mode="human", full_action_space = ale_args.full_action_space)
-problem = PolicySearch(env=env, ideal_=IDEAL, minimizing_=False)
+env = gym.make(id=GAME, render_mode="human")
+problem = PolicySearch(env=env, ideal_=config.ideal_fitness, minimizing_=False)
 problem.evaluate(policy.genome, cgp, num_episodes=1, wait_key=True)
 env.close()
