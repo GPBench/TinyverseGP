@@ -2,26 +2,43 @@ import copy
 import random
 from dataclasses import dataclass
 from typing import override
-from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig
+from src.analysis.models.simple_cgp import SimpleCGP
 from src.analysis.models.simple_qd import SimpleQD
 from src.gp.problem import Problem
-from src.gp.tiny_cgp import CGPHyperparameters, CGPIndividual, TinyCGP
+from src.gp.tiny_cgp import CGPHyperparameters, CGPIndividual, CGPConfig
+from src.gp.tinyverse import GPIndividual
 
-@dataclass(kw_only=True)
-class QdCGPConfig(SimpleCGPConfig):
-    crossover: bool = True
 
-class SimpleQdCGP(SimpleCGP, SimpleQD):
-    config: QdCGPConfig
+@dataclass
+class QdCGPHyperparameters(CGPHyperparameters):
+    cx_rate: float
+
+class SimpleQdCGP(SimpleQD, SimpleCGP):
     num_nodes: int
+    xs: list
 
-    def __init__(self, functions_: list, terminals_: list, config_: QdCGPConfig,
-                 hyperparameters_: CGPHyperparameters):
-        SimpleCGP.__init__(self, functions_, terminals_, config_, hyperparameters_)
+    def __init__(self, functions_: list, terminals_: list, config_: CGPConfig,
+                 hyperparameters_: QdCGPHyperparameters):
         SimpleQD.__init__(self)
+        SimpleCGP.__init__(self, functions_, terminals_, config_, hyperparameters_)
 
         self.config = config_
         self.num_nodes = self.hyperparameters.num_function_nodes + self.config.num_inputs
+        self.xs = []
+        self.y = None
+
+    def genome(self, x: GPIndividual):
+        return x.genome
+
+    def behavior(self, y: GPIndividual):
+        return y.genome[-1]
+
+    def clone(self, x: GPIndividual) -> GPIndividual:
+        return CGPIndividual(genome_=copy.copy(x.genome))
+
+    @override
+    def init(self):
+        self.y = self.init_individual()
 
     @override
     def selection(self) -> CGPIndividual:
@@ -51,37 +68,26 @@ class SimpleQdCGP(SimpleCGP, SimpleQD):
         y[-1] = out
         return y
 
-    def crossover(self, x1: list[int], x2: list[int]):
+    def crossover(self, x1: CGPIndividual, x2: CGPIndividual, recombine=True):
+        x1, x2 = x1.genome, x2.genome
         cx_node = random.randint(1, self.num_nodes)
         cx_pos = self.node_position(cx_node)
         y = x1[:cx_pos] + x2[cx_pos:]
-        y = self.recombine(y)
+        if recombine:
+            y = self.recombine(y)
         return CGPIndividual(genome_=y)
 
-    def update(self, y: CGPIndividual):
-        out = y.genome[-1]
-        if self.m.get(out) is None:
-            self.m[out] = y
-        else:
-            x = self.m[out]
-            if self.is_better(y, [x]):
-                self.m[out] = y
+    @override
+    def evaluate(self, problem) -> GPIndividual:
+        self.y.fitness = self.evaluate_individual(self.y.genome, problem)
+        self.update(self.y)
+        return self.y
 
     @override
     def pipeline(self, problem: Problem):
-        xs = []
-        if self.config.crossover:
-            x1 = self.selection()
-            x2 = self.selection()
-            xs.append(x1)
-            xs.append(x2)
-            y = self.crossover(x1.genome, x2.genome)
-        else:
-            x = self.selection()
-            xs.append(x)
-            y = CGPIndividual(genome_=copy.copy(x.genome))
-        self.mutation(y.genome)
-        y.fitness = self.evaluate_individual(y.genome, problem)
-        self.update(y)
-
-        return y if self.is_better(y,xs) else random.choice(xs)
+        if self.y.fitness is None:
+            self.evaluate(problem)
+            self.update(self.y)
+        self.y = self.variation(self.mutation, self.crossover)
+        self.evaluate(problem)
+        return self.y if self.is_better(self.y, self.xs) else random.choice(self.xs)

@@ -16,7 +16,7 @@ import numpy as np
 from dataclasses import dataclass
 from typing import override
 from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
-from src.gp.tinyverse import Var, Const, Hyperparameters
+from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters
 
 
 @dataclass(kw_only=True)

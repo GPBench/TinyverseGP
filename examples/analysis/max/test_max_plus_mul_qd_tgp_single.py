@@ -8,12 +8,10 @@ The parameters for MAX, T and D, are passed to script via argv.
 
 import sys
 from src.analysis.benchmarks.max.max import MaxPlusMul
-from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPConfig, InitMethod
+from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPConfig, InitMethod, QdTGPHyperparameters
 from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
-from src.gp.tiny_tgp import TGPConfig
 from src.gp.tinyverse import Const
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
 
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
@@ -30,7 +28,6 @@ config = QdTGPConfig(
     minimizing_fitness=False,
     ideal_fitness=None,
     silent_algorithm=True,
-    mutation=True,
     init_method=InitMethod.MIN,
     silent_evolver=True,
     minimalistic_output=True,
@@ -43,9 +40,10 @@ config = QdTGPConfig(
     experiment_name='max_tgp'
 )
 
-hyperparameters = SimpleTGPHyperparameters(
+hyperparameters = QdTGPHyperparameters(
     lmbda=1,
     k=1,
+    cx_rate = 0.5,
     strict_selection=False,
     check_size=False,
     max_depth=MAX_DEPTH,

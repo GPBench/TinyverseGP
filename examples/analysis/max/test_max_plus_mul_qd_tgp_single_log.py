@@ -29,7 +29,6 @@ config = QdTGPConfig(
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
-    mutation=False,
     init_method=InitMethod.MIN,
     silent_algorithm=True,
     silent_evolver=True,
@@ -50,7 +49,7 @@ hyperparameters = QdTGPHyperparameters(
     check_size=False,
     max_depth=D,
     multi=True,
-    erc = False
+    cx_rate=0.5
 )
 
 if hyperparameters.multi:

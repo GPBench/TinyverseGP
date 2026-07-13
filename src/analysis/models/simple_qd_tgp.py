@@ -18,26 +18,38 @@ class InitMethod(Enum):
 
 @dataclass(kw_only=True)
 class QdTGPConfig(GPConfig):
-    mutation: bool = True
     init_method: InitMethod = InitMethod.MIN
 
-
-@dataclass(kw_only=True)
+@dataclass
 class QdTGPHyperparameters(SimpleTGPHyperparameters):
-    erc: bool = False
+    cx_rate: float
 
-
-class SimpleQdTGP(SimpleTGP, SimpleQD):
-    xs: list
-    y: TGPIndividual
+class SimpleQdTGP(SimpleQD, SimpleTGP):
     config: QdTGPConfig
 
     def __init__(self, functions_: list, terminals_: list, config_: QdTGPConfig,
-                 hyperparameters_: SimpleTGPHyperparameters):
+                 hyperparameters_: QdTGPHyperparameters):
         SimpleQD.__init__(self)
         SimpleTGP.__init__(self, functions_, terminals_, config_, hyperparameters_)
         self.xs = []
         self.y = None
+
+    def genome(self, x: GPIndividual):
+        return x.genome[0]
+
+    def behavior(self, y: GPIndividual):
+        return self.height(y.genome[0])
+
+    def clone(self, x: GPIndividual) -> GPIndividual:
+        return TGPIndividual(genome_=copy.deepcopy(x.genome))
+
+    def height(self, root: Node, d: int = 0):
+        if root.function in self.terminals:
+            return d
+        else:
+            left = self.height(root.children[0], d + 1)
+            right = self.height(root.children[1], d + 1)
+            return max(left, right)
 
     @override
     def init(self):
@@ -57,32 +69,12 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
             return TGPIndividual(genome_=[self.tree_random_full(max_depth=self.hyperparameters.max_depth,
                                                                 size=self.hyperparameters.max_size())])
 
-    def height(self, root: Node, d: int = 0):
-        if root.function in self.terminals:
-            return d
-        else:
-            left = self.height(root.children[0], d + 1)
-            right = self.height(root.children[1], d + 1)
-            return max(left, right)
-
-    def update(self, y: TGPIndividual):
-        max_depth = self.height(y.genome[0])
-        if self.m.get(max_depth) is None:
-            self.m[max_depth] = y
-        else:
-            x = self.m[max_depth]
-            if self.is_better(y, [x]):
-                self.m[max_depth] = y
-
     @override
-    def selection(self) -> TGPIndividual:
-        return random.choice(list(self.m.values()))
-
-    @override
-    def crossover(self, x1: Node, x2: Node) -> TGPIndividual:
+    def crossover(self, x1: TGPIndividual, x2: TGPIndividual) -> TGPIndividual:
+        x1, x2 = x1.genome[0], x2.genome[0]
         n = Node(function=random.choice(self.functions), children=[])
-        n.children.append(x1)
-        n.children.append(x2)
+        n.children.append(copy.deepcopy(x1))
+        n.children.append(copy.deepcopy(x2))
         return TGPIndividual(genome_=[n], fitness_=None)
 
     @override
@@ -90,7 +82,7 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
         if self.y.fitness is not None:
             return self.y
 
-        if self.config.mutation or len(self.xs) == 0:
+        if len(self.xs) <= 1:
             self.y.fitness = self.evaluate_individual(self.y.genome, problem)
         else:
             self.y.fitness = self.y.genome[0].function(self.xs[0].fitness,
@@ -100,26 +92,10 @@ class SimpleQdTGP(SimpleTGP, SimpleQD):
         return self.y
 
     @override
-    def breed(self):
-        self.xs.clear()
-
-        x1 = self.selection()
-        x2 = self.selection()
-
-        self.xs.append(x1)
-        self.xs.append(x2)
-
-        y = self.crossover(x1.genome[0], x2.genome[0])
-
-        if self.config.mutation:
-            y.genome[0] = copy.deepcopy(y.genome[0])
-            self.mutation(y.genome[0])
-
-        return y
-
-    @override
     def pipeline(self, problem: Problem):
-        self.y = self.breed()
+        if self.y.fitness is None:
+            self.evaluate(problem)
+            self.update(self.y)
+        self.y = self.variation(self.mutation, self.crossover)
         self.evaluate(problem)
-
         return self.y if self.is_better(self.y, self.xs) else random.choice(self.xs)
