@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import override
 from src.analysis.models.simple_cgp import SimpleCGP
 from src.analysis.models.simple_qd import SimpleQD
-from src.gp.problem import Problem
 from src.gp.tiny_cgp import CGPHyperparameters, CGPIndividual, CGPConfig
 from src.gp.tinyverse import GPIndividual
 
@@ -15,17 +14,14 @@ class QdCGPHyperparameters(CGPHyperparameters):
 
 class SimpleQdCGP(SimpleQD, SimpleCGP):
     num_nodes: int
-    xs: list
 
     def __init__(self, functions_: list, terminals_: list, config_: CGPConfig,
                  hyperparameters_: QdCGPHyperparameters):
-        SimpleQD.__init__(self)
+        SimpleQD.__init__(self, functions_, terminals_, config_, hyperparameters_)
         SimpleCGP.__init__(self, functions_, terminals_, config_, hyperparameters_)
 
-        self.config = config_
         self.num_nodes = self.hyperparameters.num_function_nodes + self.config.num_inputs
-        self.xs = []
-        self.y = None
+        self.population = None
 
     def genome(self, x: GPIndividual):
         return x.genome
@@ -39,15 +35,6 @@ class SimpleQdCGP(SimpleQD, SimpleCGP):
     @override
     def init(self):
         self.y = self.init_individual()
-
-    @override
-    def selection(self) -> CGPIndividual:
-        if len(self.m) == 0:
-            x = random.choice(self.population)
-            self.update(x)
-        else:
-            x = random.choice(list(self.m.values()))
-        return x
 
     def recombine(self, x: list[int], clone=False):
         if clone:
@@ -80,14 +67,7 @@ class SimpleQdCGP(SimpleQD, SimpleCGP):
     @override
     def evaluate(self, problem) -> GPIndividual:
         self.y.fitness = self.evaluate_individual(self.y.genome, problem)
+        if self.best_individual is None:
+            self.best_individual = self.y
         self.update(self.y)
-        return self.y
-
-    @override
-    def pipeline(self, problem: Problem):
-        if self.y.fitness is None:
-            self.evaluate(problem)
-            self.update(self.y)
-        self.y = self.variation(self.mutation, self.crossover)
-        self.evaluate(problem)
-        return self.y if self.is_better(self.y, self.xs) else random.choice(self.xs)
+        return self.best_individual

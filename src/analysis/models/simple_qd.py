@@ -1,18 +1,24 @@
 import operator
 import random
 from abc import ABC, abstractmethod
-from src.gp.tinyverse import GPIndividual, GPConfig, Hyperparameters
+from typing import Callable
+
+from src.gp.problem import Problem
+from src.gp.tinyverse import GPIndividual, GPModel
 
 
-class SimpleQD(ABC):
+class SimpleQD(GPModel):
     m: dict
-    xs: list[GPIndividual]
     y: GPIndividual
     cx_rate: float
+    minimizing_fitness: bool
 
-    def __init__(self, cx_rate_: float = 0.5):
+    def __init__(self, functions_, terminals_, config_, hyperparameters_):
+        super().__init__(functions_, terminals_, config_, hyperparameters_)
         self.m = {}
-        self.cx_rate = cx_rate_
+        self.cx_rate = self.hyperparameters.cx_rate
+        self.minimizing_fitness = self.config.minimizing_fitness
+        self.best_individual = None
 
     @abstractmethod
     def behavior(self, y: GPIndividual):
@@ -29,42 +35,44 @@ class SimpleQD(ABC):
     def selection(self) -> GPIndividual:
         return random.choice(list(self.m.values()))
 
+    def best(self) -> GPIndividual:
+        return sorted(list(self.m.values()), key=lambda x: x.fitness,
+                      reverse=not self.minimizing_fitness)[0]
+
+    def is_better(self, y: GPIndividual, x: GPIndividual):
+        if self.minimizing_fitness:
+            comp = operator.ge
+        else:
+            comp = operator.le
+
+        if comp(y.fitness, x.fitness):
+            return False
+        return True
+
     def update(self, y: GPIndividual):
         b = self.behavior(y)
         if self.m.get(b) is None:
             self.m[b] = y
         else:
             x = self.m[b]
-            if self.is_better(y, [x]):
+            if self.is_better(y, x):
                 self.m[b] = y
 
-    def is_better(self, y, xs: list[GPIndividual]):
-        if self.config.minimizing_fitness:
-            comp = operator.gt
-        else:
-            comp = operator.lt
-        for x in xs:
-            if comp(y.fitness, x.fitness):
-                return False
-        return True
+        if self.is_better(self.y, self.best_individual):
+            self.best_individual = self.y
 
-    def variation(self, mutation: callable, crossover: callable):
-        self.xs.clear()
+    def pipeline(self, problem: Problem):
+        self.y = self.variation(self.mutation, self.crossover)
+        self.evaluate(problem)
+        return self.best_individual
+
+    def variation(self, mutation: Callable, crossover: Callable):
         if random.random() <= self.cx_rate:
             x1 = self.selection()
-            self.xs.append(x1)
             x2 = self.selection()
-            self.xs.append(x2)
             y = crossover(x1, x2)
         else:
             x = self.selection()
-            self.xs.append(x)
             y = self.clone(x)
             mutation(self.genome(y))
         return y
-
-
-
-
-
-

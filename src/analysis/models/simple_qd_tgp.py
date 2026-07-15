@@ -5,7 +5,6 @@ from enum import Enum
 from typing import override
 from src.analysis.models.simple_qd import SimpleQD
 from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
-from src.gp.problem import Problem
 from src.gp.tiny_tgp import TGPIndividual, Node
 from src.gp.tinyverse import GPConfig, GPIndividual
 
@@ -26,13 +25,14 @@ class QdTGPHyperparameters(SimpleTGPHyperparameters):
 
 class SimpleQdTGP(SimpleQD, SimpleTGP):
     config: QdTGPConfig
+    xs: list[GPIndividual]
 
     def __init__(self, functions_: list, terminals_: list, config_: QdTGPConfig,
                  hyperparameters_: QdTGPHyperparameters):
-        SimpleQD.__init__(self)
+        SimpleQD.__init__(self, functions_, terminals_, config_, hyperparameters_)
         SimpleTGP.__init__(self, functions_, terminals_, config_, hyperparameters_)
         self.xs = []
-        self.y = None
+        self.population = None
 
     def genome(self, x: GPIndividual):
         return x.genome[0]
@@ -71,10 +71,12 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
 
     @override
     def crossover(self, x1: TGPIndividual, x2: TGPIndividual) -> TGPIndividual:
-        x1, x2 = x1.genome[0], x2.genome[0]
+        self.xs.append(x1)
+        self.xs.append(x2)
+        g1, g2 = x1.genome[0], x2.genome[0]
         n = Node(function=random.choice(self.functions), children=[])
-        n.children.append(copy.deepcopy(x1))
-        n.children.append(copy.deepcopy(x2))
+        n.children.append(copy.deepcopy(g1))
+        n.children.append(copy.deepcopy(g2))
         return TGPIndividual(genome_=[n], fitness_=None)
 
     @override
@@ -82,20 +84,13 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
         if self.y.fitness is not None:
             return self.y
 
-        if len(self.xs) <= 1:
+        if len(self.xs) == 0:
             self.y.fitness = self.evaluate_individual(self.y.genome, problem)
         else:
             self.y.fitness = self.y.genome[0].function(self.xs[0].fitness,
                                                        self.xs[1].fitness)
+            self.xs.clear()
+
         self.update(self.y)
 
-        return self.y
-
-    @override
-    def pipeline(self, problem: Problem):
-        if self.y.fitness is None:
-            self.evaluate(problem)
-            self.update(self.y)
-        self.y = self.variation(self.mutation, self.crossover)
-        self.evaluate(problem)
-        return self.y if self.is_better(self.y, self.xs) else random.choice(self.xs)
+        return self.best_individual
