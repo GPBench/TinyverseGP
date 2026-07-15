@@ -11,7 +11,7 @@ from math import log2
 from src.analysis.models.simple_cgp import MutationType, SimpleCGPConfig
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
-from src.analysis.models.simple_qd_cgp import SimpleQdCGP
+from src.analysis.models.simple_qd_cgp import SimpleQdCGP, QdCGPHyperparameters
 from src.gp.tiny_cgp import *
 from src.gp.tinyverse import Const
 
@@ -48,7 +48,7 @@ config = SimpleCGPConfig(
     experiment_name='max_tgp'
 )
 
-hyperparameters = CGPHyperparameters(
+hyperparameters = QdCGPHyperparameters(
     mu=1,
     lmbda=1,
     population_size=2,
@@ -56,6 +56,7 @@ hyperparameters = CGPHyperparameters(
     levels_back=D,
     mutation_rate=MUTATION_RATE,
     strict_selection=False,
+    cx_rate=0.5
 )
 
 if config.mutation_type == MutationType.SAM:
