@@ -10,6 +10,7 @@ import sys
 from math import log2
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPConfig, InitMethod, QdTGPHyperparameters
+from src.analysis.models.simple_tgp import MutationType
 from src.gp.tiny_cgp import *
 from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
 from src.gp.tinyverse import Const
@@ -49,7 +50,8 @@ hyperparameters = QdTGPHyperparameters(
     check_size=False,
     max_depth=D,
     multi=True,
-    cx_rate=0.5
+    cx_rate=0.5,
+    mutation_type=MutationType.HVL_GEN
 )
 
 if hyperparameters.multi:

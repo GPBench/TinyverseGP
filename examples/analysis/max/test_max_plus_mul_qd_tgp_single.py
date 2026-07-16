@@ -9,6 +9,7 @@ The parameters for MAX, T and D, are passed to script via argv.
 import sys
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPConfig, InitMethod, QdTGPHyperparameters
+from src.analysis.models.simple_tgp import MutationType
 from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tinyverse import Const
@@ -47,7 +48,8 @@ hyperparameters = QdTGPHyperparameters(
     strict_selection=False,
     check_size=False,
     max_depth=MAX_DEPTH,
-    multi=True
+    multi=True,
+    mutation_type=MutationType.HVL_GEN
 )
 
 if hyperparameters.multi:

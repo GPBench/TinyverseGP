@@ -12,27 +12,14 @@ A description of SimpleTGP can be found in the work of Neumann et al.
 import copy
 import math
 import random
+from enum import Enum
+
 import numpy as np
 from dataclasses import dataclass
-from typing import override
+from typing import override, overload
 from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
 from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters
 
-
-@dataclass(kw_only=True)
-class SimpleTGPHyperparameters(Hyperparameters):
-    """
-    Set of hyperparameters used to configure simple TGP.
-    """
-    lmbda: int = 1
-    k: int = 1
-    max_depth: int
-    check_size: bool = True
-    strict_selection: bool = False
-    multi: bool = False
-
-    def max_size(self):
-        return math.pow(2, self.max_depth + 1) - 1
 
 class HVLPrime:
     """
@@ -41,6 +28,7 @@ class HVLPrime:
         https://doi.org/10.1145/2330163.2330348
         https://doi.org/10.1016/j.tcs.2013.06.014
     """
+
     def __init__(self, functions_: list, terminals_: list):
         self.functions = functions_
         self.terminals = terminals_
@@ -132,7 +120,80 @@ class HVLPrime:
         p.children = u.children
 
     def as_list(self):
-        return [self.substitute, self.insert,  self.delete]
+        return [self.substitute, self.insert, self.delete]
+
+
+class HVLPrimeGen(HVLPrime):
+
+    def rnd_node(self, n: Node, prob: float, p: Node = None) -> tuple[Node, Node]:
+        """
+        Return a random node.
+        """
+        if random.random() <= prob:
+            return n, p
+
+        c = [child for child in n.children]
+
+        if len(c) > 0:
+            n = self.rnd_node(random.choice(c), prob, n)
+        return n, p
+
+    def count_nodes(self, node: Node) -> int:
+        """
+        Return the number of nodes in a tree.
+        """
+        if len(node.children) == 0:
+            return 1
+        s = 0
+        for child in node.children:
+            s += self.count_inner_nodes(child)
+        return 1 + s
+
+    @override
+    def delete(self, n: Node):
+
+        if n is None:
+            return
+
+        n_nodes = self.count_nodes(n)
+
+        prob = 1.0 / n_nodes
+        u, p = self.rnd_node(n, prob)
+
+        if p is None:
+            return None
+
+        if p.children[0] is u:
+            p = p.children[1]
+        else:
+            p = p.children[0]
+
+
+class MutationType(Enum):
+    """
+    Used for the selection of the mutation method.
+        - HVL_STD:
+        - HVL_GEN:
+    """
+    HVL_STD = 0
+    HVL_GEN = 1
+
+
+@dataclass(kw_only=True)
+class SimpleTGPHyperparameters(Hyperparameters):
+    """
+    Set of hyperparameters used to configure simple TGP.
+    """
+    lmbda: int = 1
+    k: int = 1
+    max_depth: int
+    check_size: bool = True
+    strict_selection: bool = False
+    multi: bool = False
+    mutation_type: MutationType = MutationType.HVL_STD
+
+    def max_size(self):
+        return math.pow(2, self.max_depth + 1) - 1
 
 
 class SimpleTGP(TinyTGP):
@@ -146,9 +207,15 @@ class SimpleTGP(TinyTGP):
     from TinyTGP are overwritten  to simplify aspects of the standard TGP model.
     """
     hyperparameters: SimpleTGPHyperparameters
-    def __init__(self, functions_: list, terminals_: list, config_: TGPConfig, hyperparameters_: SimpleTGPHyperparameters):
+
+    def __init__(self, functions_: list, terminals_: list, config_: TGPConfig,
+                 hyperparameters_: SimpleTGPHyperparameters):
         super().__init__(functions_, terminals_, config_, hyperparameters_)
-        self.hvl_prime = HVLPrime(functions_, terminals_).as_list()
+
+        if self.hyperparameters.mutation_type == MutationType.HVL_STD:
+            self.hvl_prime = HVLPrime(functions_, terminals_).as_list()
+        else:
+            self.hvl_prime = HVLPrimeGen(functions_, terminals_).as_list()
 
     @override
     def init(self):

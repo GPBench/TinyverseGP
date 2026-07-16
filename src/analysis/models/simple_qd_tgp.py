@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import override
 from src.analysis.models.simple_qd import SimpleQD
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, HVLPrime
 from src.gp.tiny_tgp import TGPIndividual, Node
 from src.gp.tinyverse import GPConfig, GPIndividual
 
@@ -19,9 +19,11 @@ class InitMethod(Enum):
 class QdTGPConfig(GPConfig):
     init_method: InitMethod = InitMethod.MIN
 
+
 @dataclass
 class QdTGPHyperparameters(SimpleTGPHyperparameters):
     cx_rate: float
+
 
 class SimpleQdTGP(SimpleQD, SimpleTGP):
     config: QdTGPConfig
