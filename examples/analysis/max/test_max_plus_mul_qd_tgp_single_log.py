@@ -51,7 +51,7 @@ hyperparameters = QdTGPHyperparameters(
     max_depth=D,
     multi=True,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_GEN
+    mutation_type=MutationType.HVL_NODE_UNBIASED
 )
 
 if hyperparameters.multi:

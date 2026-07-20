@@ -16,7 +16,7 @@ from enum import Enum
 
 import numpy as np
 from dataclasses import dataclass
-from typing import override, overload
+from typing import override
 from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
 from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters
 
@@ -72,6 +72,19 @@ class HVLPrime:
                 s += self.count_inner_nodes(child)
         return 1 + s
 
+    def replace_node(self, u: Node, p: Node):
+        """
+        Selects a sibling of a given node u by chance and replaces
+        u’s parent with the subtree rooted at u’s sibling (hence deleting both u’s parent and the subtree rooted at u from the current tree.
+
+        :param u: selected node
+        :param p: parent of u
+        """
+        cs = [c for c in p.children if c is not u]
+        v = random.choice(cs)
+        p.function = v.function
+        p.children = v.children
+
     def substitute(self, n: Node):
         """
         Substitute replaces the symbol (function) of a randomly selected inner node of the tree
@@ -111,19 +124,13 @@ class HVLPrime:
         if p is None:
             return
 
-        if p.children[0] is v:
-            u = p.children[1]
-        else:
-            u = p.children[0]
-
-        p.function = u.function
-        p.children = u.children
+        self.replace_node(v, p)
 
     def as_list(self):
         return [self.substitute, self.insert, self.delete]
 
 
-class HVLPrimeGen(HVLPrime):
+class NodeUnbiasedHVL(HVLPrime):
 
     def rnd_node(self, n: Node, prob: float, p: Node = None) -> tuple[Node, Node]:
         """
@@ -161,22 +168,59 @@ class HVLPrimeGen(HVLPrime):
         u, p = self.rnd_node(n, prob)
 
         if p is None:
-            return None
+            return
 
-        if p.children[0] is u:
-            p = p.children[1]
+        self.replace_node(u, p)
+
+
+class DepthUnbiasedHVL(HVLPrime):
+
+    def height(self, root: Node, d: int = 0):
+        """
+        Calculates the height or maximum depth of a tree.
+        """
+        if root.function in self.terminals:
+            return d
         else:
-            p = p.children[0]
+            depths = []
+            for c in root.children:
+                depths.append(self.height(c, d + 1))
+            return max(depths)
+
+    def select_node(self, root: Node, depth, d: int = 0) -> tuple[Node, Node]:
+        """
+        Selects a node at a predefined depth by chance.
+        """
+        if d == depth - 1:
+            return random.choice(root.children), root
+        depths = []
+        for c in root.children:
+            depths.append(self.height(c, d + 1))
+        return None
+
+    @override
+    def delete(self, n: Node):
+        h = self.height(n)
+
+        if h == 0:
+            return
+        else:
+            r = random.randint(0, h)
+
+        if self.select_node(n, r) is None:
+            return
+        else:
+            u, p = self.select_node(n, r)
+            self.replace_node(u, p)
 
 
 class MutationType(Enum):
     """
     Used for the selection of the mutation method.
-        - HVL_STD:
-        - HVL_GEN:
     """
     HVL_STD = 0
-    HVL_GEN = 1
+    HVL_NODE_UNBIASED = 1
+    HVL_DEPTH_UNBIASED = 2
 
 
 @dataclass(kw_only=True)
@@ -191,6 +235,7 @@ class SimpleTGPHyperparameters(Hyperparameters):
     strict_selection: bool = False
     multi: bool = False
     mutation_type: MutationType = MutationType.HVL_STD
+    erc = False
 
     def max_size(self):
         return math.pow(2, self.max_depth + 1) - 1
@@ -212,10 +257,13 @@ class SimpleTGP(TinyTGP):
                  hyperparameters_: SimpleTGPHyperparameters):
         super().__init__(functions_, terminals_, config_, hyperparameters_)
 
-        if self.hyperparameters.mutation_type == MutationType.HVL_STD:
-            self.hvl_prime = HVLPrime(functions_, terminals_).as_list()
-        else:
-            self.hvl_prime = HVLPrimeGen(functions_, terminals_).as_list()
+        match self.hyperparameters.mutation_type:
+            case MutationType.HVL_STD:
+                self.hvl_prime = HVLPrime(functions_, terminals_).as_list()
+            case MutationType.HVL_NODE_UNBIASED:
+                self.hvl_prime = NodeUnbiasedHVL(functions_, terminals_).as_list()
+            case MutationType.HVL_DEPTH_UNBIASED:
+                self.hvl_prime = DepthUnbiasedHVL(functions_, terminals_).as_list()
 
     @override
     def init(self):
