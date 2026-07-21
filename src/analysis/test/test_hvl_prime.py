@@ -107,6 +107,9 @@ def size(n: Node) -> int:
 ## NEW FUNCTIONS
 
 def get_nodes_at_depth(root: Node, depth: int, nodes: list = None, d: int = 0) -> list[tuple[Node, Node]]:
+    """
+    Recursively selects and returns all nodes at a specified depth.
+    """
     if nodes is None:
         nodes = []
 
@@ -124,6 +127,9 @@ def get_nodes_at_depth(root: Node, depth: int, nodes: list = None, d: int = 0) -
 
 
 def select_node_at_depth(n: Node, d: int) -> tuple[Node, Node]:
+    """
+    Selects and returns a node at a specified depth uniformly at random.
+    """
     nodes = get_nodes_at_depth(n, d)
     return random.choice(nodes) if len(nodes) > 0 else (None, None)
 

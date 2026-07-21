@@ -233,6 +233,9 @@ class DepthUnbiasedHVL(HVLPrime):
         return max([self.height(c) + 1 for c in node.children])
 
     def get_nodes_at_depth(self, root: Node, depth: int, nodes: list = None, d: int = 0) -> list[tuple[Node, Node]]:
+        """
+        Recursively selects and returns all nodes at a specified depth.
+        """
         if nodes is None:
             nodes = []
 
@@ -247,7 +250,10 @@ class DepthUnbiasedHVL(HVLPrime):
 
         return nodes
 
-    def select_node_at_depth(self, n:Node, d:int):
+    def select_node_at_depth(self, n: Node, d: int):
+        """
+        Selects and returns a node at a specified depth uniformly at random.
+        """
         return random.choice(self.get_nodes_at_depth(n, d))
 
     @override
