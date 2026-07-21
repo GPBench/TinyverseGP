@@ -14,9 +14,12 @@ import math
 import random
 from enum import Enum
 
+import numpy
 import numpy as np
 from dataclasses import dataclass
 from typing import override
+
+from src.analysis.test.test_hvl_prime import is_leaf, node
 from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
 from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters
 
@@ -39,17 +42,58 @@ class HVLPrime:
         """
         return isinstance(n.function, Var) or isinstance(n.function, Const)
 
-    def rnd_leaf(self, n: Node, p=None) -> tuple[Node, Node]:
+    def get_leafs(self, n: Node, p=None, leafs: list = None) -> list[tuple[Node, Node]]:
         """
-        Return a random leaf node.
+        Recursively obtain all leafs from the tree and store them in a list.
+        """
+        if leafs is None:
+            leafs = []
+
+        if self.is_leaf(n):
+            leafs.append((n, p))
+        else:
+            for c in n.children:
+                self.get_leafs(c, n, leafs)
+        return leafs
+
+    def get_inner_nodes(self, n: Node, p=None, inner_nodes: list = None) -> list[tuple[Node, Node]]:
+        """
+        Recursively obtain all inner nodes from the tree and store them in a list.
+        """
+        if inner_nodes is None:
+            inner_nodes = []
+
+        if not self.is_leaf(n):
+            inner_nodes.append((n, p))
+            for c in n.children:
+                self.get_inner_nodes(c, n, inner_nodes)
+        return inner_nodes
+
+    def rnd_inner_node(self, n: Node):
+        """
+        Select and return a node from the set of inner nodes uniformly at random.
+        """
+        return random.choice(self.get_inner_nodes(n))
+
+    def rnd_leaf(self, n: Node):
+        """
+        Select and return a node from the set of leafs uniformly at random.
+        """
+        return random.choice(self.get_leafs(n))
+
+    def rnd_leaf_dirty(self, n: Node, p=None) -> tuple[Node, Node]:
+        """
+        by a random depth-first search, no guarantee that the distribution
+        is uniform.
         """
         if self.is_leaf(n):
             return n, p
-        return self.rnd_leaf(random.choice(n.children), n)
+        return self.rnd_leaf_dirty(random.choice(n.children), n)
 
-    def rnd_inner_node(self, n: Node, p: float) -> Node:
+    def rnd_inner_node_dirty(self, n: Node, p: float) -> Node:
         """
-         Return a random inner node.
+        Return a random inner node by a random depth-first search, no guarantee that the distribution
+        is uniform.
         """
         if random.random() <= p:
             return n
@@ -57,7 +101,7 @@ class HVLPrime:
         c = [child for child in n.children if self.is_leaf(child) == False]
 
         if len(c) > 0:
-            n = self.rnd_inner_node(random.choice(c), p)
+            n = self.rnd_inner_node_dirty(random.choice(c), p)
         return n
 
     def count_inner_nodes(self, node: Node) -> int:
@@ -95,8 +139,7 @@ class HVLPrime:
         if n_inner == 0:
             return
 
-        p = 1.0 / n_inner
-        n_rnd = self.rnd_inner_node(n, p)
+        n_rnd = self.rnd_inner_node(n)[0]
         n_rnd.function = random.choice(self.functions)
 
     def insert(self, n: Node):
@@ -104,7 +147,7 @@ class HVLPrime:
         Insert appends an inner node that is uniformly selected at random at the position of a randomly selected leaf
         . The selected leaf as well an additional randomly selected leaf node are then appended as children.
         """
-        v, p = self.rnd_leaf(n)
+        v, p = self.rnd_leaf_dirty(n)
         u = random.choice(self.terminals)
         w = random.choice(self.functions)
 
@@ -132,29 +175,36 @@ class HVLPrime:
 
 class NodeUnbiasedHVL(HVLPrime):
 
-    def rnd_node(self, n: Node, prob: float, p: Node = None) -> tuple[Node, Node]:
+    def get_nodes(self, n: Node, p=None, nodes: list = None) -> list[tuple[Node, Node]]:
         """
-        Return a random node.
+        Recursively obtain all nodes (inner nodes and leafs) from the tree and store them in a list.
         """
-        if random.random() <= prob:
-            return n, p
+        if nodes is None:
+            nodes = []
 
-        c = [child for child in n.children]
+        nodes.append((n, p))
 
-        if len(c) > 0:
-            n = self.rnd_node(random.choice(c), prob, n)
-        return n, p
+        if not self.is_leaf(n):
+            for c in n.children:
+                self.get_nodes(c)
 
-    def count_nodes(self, node: Node) -> int:
+        return nodes
+
+    def rnd_node(self, n: Node):
         """
-        Return the number of nodes in a tree.
+        Select and return a node from the set of inner nodes uniformly at random.
         """
-        if len(node.children) == 0:
+        return random.choice(self.get_nodes(n))
+
+    def size(self, n: Node) -> int:
+        """
+        Recursively calculate the number of nodes in the tree.
+        """
+        if n is None:
+            return 0
+        if self.is_leaf(n):
             return 1
-        s = 0
-        for child in node.children:
-            s += self.count_inner_nodes(child)
-        return 1 + s
+        return 1 + sum(self.size(c) for c in n.children)
 
     @override
     def delete(self, n: Node):
@@ -162,10 +212,7 @@ class NodeUnbiasedHVL(HVLPrime):
         if n is None:
             return
 
-        n_nodes = self.count_nodes(n)
-
-        prob = 1.0 / n_nodes
-        u, p = self.rnd_node(n, prob)
+        u, p = self.rnd_node(n)
 
         if p is None:
             return
@@ -177,26 +224,31 @@ class DepthUnbiasedHVL(HVLPrime):
 
     def height(self, root: Node, d: int = 0):
         """
-        Calculates the height or maximum depth of a tree.
+        Recursively calculates the height or maximum depth of a tree.
         """
+        if root is None:
+            return -1
         if root.function in self.terminals:
             return d
-        else:
-            depths = []
-            for c in root.children:
-                depths.append(self.height(c, d + 1))
-            return max(depths)
+        return max([self.height(c) + 1 for c in node.children])
 
-    def select_node(self, root: Node, depth, d: int = 0) -> tuple[Node, Node]:
-        """
-        Selects a node at a predefined depth by chance.
-        """
+    def get_nodes_at_depth(self, root: Node, depth: int, nodes: list = None, d: int = 0) -> list[tuple[Node, Node]]:
+        if nodes is None:
+            nodes = []
+
+        if depth == 0:
+            return [(root, None)]
+
         if d == depth - 1:
-            return random.choice(root.children), root
-        depths = []
+            nodes += [(c, root) for c in root.children]
+
         for c in root.children:
-            depths.append(self.height(c, d + 1))
-        return None
+            self.get_nodes_at_depth(c, depth, nodes, d+1)
+
+        return nodes
+
+    def select_node_at_depth(self, n:Node, d:int):
+        return random.choice(self.get_nodes_at_depth(n, d))
 
     @override
     def delete(self, n: Node):
@@ -207,7 +259,7 @@ class DepthUnbiasedHVL(HVLPrime):
         else:
             r = random.randint(0, h)
 
-        if self.select_node(n, r) is None:
+        if self.select_node_at_depth(n, r) is None:
             return
         else:
             u, p = self.select_node(n, r)
