@@ -14,12 +14,9 @@ import math
 import random
 from enum import Enum
 
-import numpy
 import numpy as np
 from dataclasses import dataclass
 from typing import override
-
-from src.analysis.test.test_hvl_prime import is_leaf, node
 from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
 from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters
 
@@ -230,7 +227,7 @@ class DepthUnbiasedHVL(HVLPrime):
             return -1
         if root.function in self.terminals:
             return d
-        return max([self.height(c) + 1 for c in node.children])
+        return max([self.height(c) + 1 for c in root.children])
 
     def get_nodes_at_depth(self, root: Node, depth: int, nodes: list = None, d: int = 0) -> list[tuple[Node, Node]]:
         """
