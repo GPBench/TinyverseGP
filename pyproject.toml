@@ -64,7 +64,7 @@ llm = [
     "torch"
 ]
 dev = ["tinyversegp[test, tooling]"]
-test = ["pytest>=7", "pytest-cov", "pytest_cases"]
+test = ["pytest>=7,<9.1", "pytest-cov", "pytest_cases"]
 tooling = ["mypy", "pre-commit", "ruff", "types-pyyaml"]
 
 [tool.pytest.ini_options]
