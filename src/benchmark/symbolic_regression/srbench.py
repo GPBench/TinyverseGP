@@ -2,19 +2,17 @@
 This file contains the SRBench class which is used to define the configuration of the symbolic regression benchmarking problem.
 """
 
-from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQRT, SQR, CUBE
-from src.gp.tinyverse import Const, Var, GPConfig, GPHyperparameters
-from src.gp.tiny_cgp import CGPConfig, CGPHyperparameters, TinyCGP
+from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
+from src.gp.tinyverse import Const, Var
+from src.gp.tiny_cgp import TinyCGP
 #from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, TreeGEConfig
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
-from src.gp.tiny_lgp import TinyLGP, LGPHyperparameters
-from src.gp.tiny_tgp import TinyTGP, TGPHyperparameters, Node
-import copy
+from src.gp.tiny_ge import TinyGE
+from src.gp.tiny_lgp import TinyLGP
+from src.gp.tiny_tgp import TinyTGP, Node
 import re
 from src.gp.loss import mean_squared_error, linear_scaling_mse, linear_scaling_coeff
-from src.gp.problem import Problem, BlackBox
+from src.gp.problem import BlackBox
 
-import re
 from sklearn.base import RegressorMixin
 import sympy as sp
 import numpy as np

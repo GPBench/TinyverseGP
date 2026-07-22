@@ -18,7 +18,6 @@ notes:
 
 import random
 from copy import *
-import time
 import re
 from src.gp.problem import *
 from src.gp.tiny_ge import *

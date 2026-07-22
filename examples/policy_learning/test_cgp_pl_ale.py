@@ -23,7 +23,6 @@ import warnings
 import numpy
 import gymnasium as gym
 
-import ale_py
 
 if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")

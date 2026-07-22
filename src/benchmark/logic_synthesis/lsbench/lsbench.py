@@ -274,7 +274,7 @@ class LSRegressor(RegressorMixin):
     def _make_default_grammar(self, functions, arguments, num_outputs):
         # Ensure grammar uses uppercase function names matching Function objects
         return {
-            "<expr>": ["[" + ', '.join([f"<lexpr>" for _ in range(num_outputs)]) + "]"],
+            "<expr>": ["[" + ', '.join(["<lexpr>" for _ in range(num_outputs)]) + "]"],
             "<lexpr>": [f"{f.name.upper()}(<vexpr>, <vexpr>)" for f in functions if f.arity == 2]
                        + [f"{f.name.upper()}(<vexpr>)" for f in functions if f.arity == 1],
             "<vexpr>": [f"{f.name.upper()}(<vexpr>, <vexpr>)" for f in functions if f.arity == 2]

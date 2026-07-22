@@ -18,11 +18,10 @@ TinyverseGP: A modular cross-domain benchmark system for Genetic Programming.
 import random
 import time
 import os
-import json
 from abc import ABC
 from abc import abstractmethod
-from dataclasses import dataclass, field, fields
-from typing import List, Any, Generic, Callable, Dict
+from dataclasses import dataclass, fields
+from typing import List, Any, Generic, Callable
 import copy
 
 from src.gp.types import HPType
@@ -484,7 +483,7 @@ class GPModel(ABC):
                 if problem.is_stop():
                     if not self.config.silent_algorithm:
                         print(
-                            f"Stop condition has been triggered"
+                            "Stop condition has been triggered"
                         )
                     break
 

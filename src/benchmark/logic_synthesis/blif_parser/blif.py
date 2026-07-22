@@ -96,9 +96,9 @@ class BlifFile:
                             % l
                         )
 
-                    if not "B" in pin_map:
+                    if "B" not in pin_map:
                         pin_map["B"] = None
-                    if not "A" in pin_map:
+                    if "A" not in pin_map:
                         pin_map["A"] = None
 
                     self.gatelist[pin_map["O"]] = BlifGate(
@@ -172,7 +172,7 @@ class BlifFile:
             prop(o)
 
         g2lev = sorted(g2lev.items(), key=lambda x: x[1])
-        self.toposorted = [g for g, lev in g2lev if not g in self.inputs]
+        self.toposorted = [g for g, lev in g2lev if g not in self.inputs]
 
         return len(self.inputs), len(self.outputs), len(self.gatelist)
 

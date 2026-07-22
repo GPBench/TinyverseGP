@@ -5,7 +5,7 @@ https://arxiv.org/abs/1903.03176
 https://github.com/kenjyoung/MinAtar
 """
 
-from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, PLArgs, MinAtarArgs
+from src.benchmark.policy_search.pl_benchmark import PLBenchmark, MinAtarArgs
 from src.gp.tiny_cgp import *
 from src.gp.problem import PolicySearch
 from src.gp.functions import *

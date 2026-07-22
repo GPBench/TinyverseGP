@@ -4,8 +4,8 @@ Example module to test CGP with logic synthesis problems.
 """
 
 from src.gp.tiny_cgp import *
-from src.gp.problem import Problem, BlackBox, PolicySearch
-from src.gp.tinyverse import Var, Const
+from src.gp.problem import Problem
+from src.gp.tinyverse import Var
 import requests
 
 # from dd.cudd import BDD

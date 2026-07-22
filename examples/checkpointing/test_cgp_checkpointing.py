@@ -3,7 +3,7 @@ from src.gp.problem import BlackBox
 from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
 from src.gp.functions import *
 from src.gp.loss import *
-from src.gp.tinyverse import Var, Const, Checkpointer, Hyperparameters
+from src.gp.tinyverse import Var, Const, Checkpointer
 
 functions = [ADD, SUB, MUL, DIV]
 terminals = [Var(0), Const(1)]

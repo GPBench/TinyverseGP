@@ -235,6 +235,6 @@ for name, p in minatar.problems.items():
     if ge.is_valid():
         print(f"Reward GE: {ge.evaluate()}")
     else:
-        print(f"GE evaluation cannot be done due to invalid genome")
+        print("GE evaluation cannot be done due to invalid genome")
 
     p.env.close()

@@ -4,7 +4,7 @@ Evolves a policy for Breakout from the MinAtar benchmark:
 https://github.com/kenjyoung/MinAtar
 """
 
-from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, MinAtarArgs
+from src.benchmark.policy_search.pl_benchmark import PLBenchmark, MinAtarArgs
 from src.gp.tiny_cgp import *
 from src.gp.problem import PolicySearch
 from src.gp.functions import *

@@ -13,8 +13,6 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
                        [ 2.5 2.5 10. 10. 6.2831855 10. 1. 1. ], (8,), float32)
 """
 
-from math import sqrt, pi
-from gymnasium.wrappers import FlattenObservation
 
 from src.gp.tiny_3ge import *
 from src.gp.functions import *

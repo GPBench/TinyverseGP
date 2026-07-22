@@ -5,7 +5,6 @@ TinyGP: A minimalistic implementation of tree-based Genetic Programming for
 
 import random
 import copy
-import time
 from src.gp.problem import *
 from src.gp.tinyverse import *
 
