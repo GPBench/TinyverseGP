@@ -329,8 +329,8 @@ source env/bin/activate   # Windows: env\Scripts\activate</code></pre>
         <div class="step-num">3</div>
         <div class="step-body">
           <h3>Install dependencies</h3>
-          <p>Install all required packages from the provided requirements file.</p>
-          <pre><code>pip install -r requirements.txt</code></pre>
+          <p>Install all the package and its dependcies from the 'pyproject.toml' file.</p>
+          <pre><code>pip install -e .</code></pre>
           <p style="margin-top:.5rem">
             <strong>Note:</strong> Python versions above 3.10 are currently not supported due
             to a dependency limitation. See the
