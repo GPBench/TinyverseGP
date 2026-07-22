@@ -17,3 +17,5 @@ Dominik Sobania (University of Duisburg-Essen, Germany) - Implementation of Gram
 Giovanni Squillero (Politecnico di Torino, Italy) - Implementation of Linear GP.
 
 Alberto Tonda (Institut National de Recherche pour l'Agriculture, l'Alimentation et l'Environnement, France) - Implementation of Linear GP.
+
+Thijs Snelleman (RWTH Aachen, Germany) - Supervision of development practices
