@@ -1,6 +1,4 @@
-from src.gp.tiny_cgp import *
-from src.gp.functions import *
-from src.gp.loss import *
+from src.gp.loss import mean_squared_error
 from src.gp.tiny_3ge import TreeGEConfig, TreeGEHyperparameters
 from src.hpo.hpo_model import HPOModel
 from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE

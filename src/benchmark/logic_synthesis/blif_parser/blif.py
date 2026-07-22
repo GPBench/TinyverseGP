@@ -5,7 +5,7 @@ class BlifFile:
         self.known_gates = []
         for i in range(len(known_gates)):
             g = known_gates[i]
-            if g == None:
+            if g is None:
                 g = "-null-"
             self.known_gates.append(g)
         self.initialize_()
@@ -28,26 +28,27 @@ class BlifFile:
         self.initialize_()
 
         lbuf = ""
-        lineid = 0
-        for l in data.splitlines():
-            l = l.strip()
-            if not l:
+        # NOTE: T.S. Disabled unused code
+        # lineid = 0
+        for line in data.splitlines():
+            line = line.strip()
+            if not line:
                 continue
-            if l.endswith("\\"):
-                lbuf += l[:-1]
+            if line.endswith("\\"):
+                lbuf += line[:-1]
                 continue
             if lbuf:
-                l = lbuf + l
+                line = lbuf + line
                 lbuf = ""
-            l = l.split("#", 1)[0]
-            if not l:
+            line = line.split("#", 1)[0]
+            if not line:
                 continue
-            if l.startswith("."):
+            if line.startswith("."):
                 # param
-                wordlist = l[1:].split()
+                wordlist = line[1:].split()
                 pid, args = wordlist[0], wordlist[1:]
 
-                if self.tableSpec != None:
+                if self.tableSpec is not None:
                     self._identifyGate()
 
                 if pid == "names":
@@ -55,7 +56,7 @@ class BlifFile:
                     if len(args) > 3:
                         raise Exception(
                             'Invalid number of inputs (1, 2 or 3 input gates are supported only) "%s"'
-                            % l
+                            % line
                         )
                 elif pid == "inputs":
                     self.inputs = args
@@ -93,7 +94,7 @@ class BlifFile:
                     if len(pin_map) > 3:
                         raise Exception(
                             'Invalid number of inputs (1,2 or 3 input gates are supported only) "%s"'
-                            % l
+                            % line
                         )
 
                     if "B" not in pin_map:
@@ -108,52 +109,53 @@ class BlifFile:
                 else:
                     raise Exception('Unknown command ".%s"' % pid)
 
-            elif self.tableSpec != None:
-                l = l.split()
-                if len(l) == 1:
-                    if l[0] == "0":
+            elif self.tableSpec is not None:
+                line = line.split()
+                if len(line) == 1:
+                    if line[0] == "0":
                         self.tableFunc = 0
                     else:
                         self.tableFunc = 1
-                    self.tableData.append((l[0]))
+                    self.tableData.append((line[0]))
                 else:
 
-                    if (l[1] != "1") and (l[1] != "0"):
+                    if (line[1] != "1") and (line[1] != "0"):
                         raise Exception(
                             "Invalid BLIF data: %s. Right side should contain 0 for OFF-set or 1 for ON-set"
-                            % " ".join(l)
+                            % " ".join(line)
                         )
 
                     # First data line, initialize tableFunc
-                    if self.tableFunc == None:
-                        if l[1] == "0":  # OFF-set
+                    if self.tableFunc is None:
+                        if line[1] == "0":  # OFF-set
                             self.tableFunc = (1 << 2 ** (len(self.tableSpec) - 1)) - 1
                         else:  # ON-set
                             self.tableFunc = 0
 
-                    vals = expand(l[0])
+                    vals = expand(line[0])
                     for v in vals:
-                        self.tableData.append((v, l[1]))
+                        self.tableData.append((v, line[1]))
 
                     expval = 0
                     for v in vals:
                         # print v, int(v,2)
                         expval |= 1 << int(v, 2)
 
-                    if l[1] == "0":  # OFF-set
+                    if line[1] == "0":  # OFF-set
                         expval = expval ^ ((1 << 2 ** (len(self.tableSpec) - 1)) - 1)
                         self.tableFunc &= expval
                     else:  # ON-set
                         self.tableFunc |= expval
 
             else:
-                raise Exception("Invalid BLIF data: %s" % l)
+                raise Exception("Invalid BLIF data: %s" % line)
 
-        if self.tableSpec != None:
+        if self.tableSpec is not None:
             self._identifyGate()
 
         # Topological sort of gatelist
-        remaining = {key: idx for idx, key in enumerate(self.gatelist.keys())}
+        # NOTE: T.S. Disabled unused code
+        # remaining = {key: idx for idx, key in enumerate(self.gatelist.keys())}
         g2lev = {}
         for i in self.inputs:
             g2lev[i] = 0
@@ -162,9 +164,9 @@ class BlifFile:
             if g in g2lev:
                 return g2lev[g]
             ina = self.gatelist[g].ina
-            ina = prop(ina) if (ina != None) else 0
+            ina = prop(ina) if (ina is not None) else 0
             inb = self.gatelist[g].inb
-            inb = prop(inb) if (inb != None) else 0
+            inb = prop(inb) if (inb is not None) else 0
             g2lev[g] = max(ina, inb) + 1
             return g2lev[g]
 
@@ -223,20 +225,20 @@ class BlifFile:
         }
 
     def _identifyGate(self):
-        if self.tableSpec == None:
+        if self.tableSpec is None:
             if len(self.tableData):
                 raise Exception("Internal error")
             return
 
         if len(self.tableSpec) == 1:
-            if self.tableFunc == None:
+            if self.tableFunc is None:
                 self.tableFunc = 0
 
             # const 0 = XOR2, const 1 = XNOR2
             func2gate = {0: "XOR2", 1: "XNOR2"}
             try:
                 gtype = self.known_gates.index(func2gate[self.tableFunc])
-            except:
+            except Exception:
                 raise Exception(
                     "Unknown constant. Truth table: %s Index: %d"
                     % (str(self.tableData), self.tableFunc)
@@ -251,7 +253,7 @@ class BlifFile:
             func2gate = {1: "INVA", 2: "IDA"}
             try:
                 gtype = self.known_gates.index(func2gate[self.tableFunc])
-            except:
+            except Exception:
                 raise Exception(
                     "Unknown 1-input gate. Truth table: %s Index: %d"
                     % (
@@ -280,7 +282,7 @@ class BlifFile:
             }
             try:
                 gtype = self.known_gates.index(func2gate[self.tableFunc])
-            except:
+            except Exception:
                 raise Exception(
                     "Unknown 2-input gate. Truth table: {%s} Function index: %d"
                     % (
@@ -308,7 +310,7 @@ class BlifGate:
         self.levidx = None
 
     def arity(self):
-        return 0 + (self.ina != None) + (self.inb != None)
+        return 0 + (self.ina is not None) + (self.inb is not None)
 
     def __repr__(self):
         return "Gate<%s>(%s,%s)" % (self.fun, self.ina, self.inb)

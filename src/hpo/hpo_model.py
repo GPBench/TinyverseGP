@@ -64,7 +64,8 @@ class HPOModel():
                 self.functions, self.terminals, self.config, hyperparameters
             )
         elif self.representation == "GE" or self.representation == "3GE":
-            newfunctions = {f.name.upper(): f.function for f in self.functions}
+            # NOTE: T.S. Disabled line below (Unused)
+            # newfunctions = {f.name.upper(): f.function for f in self.functions}
             arguments = [f"x{i}" for i in range(num_vars)]
             self.grammar["<var>"] = arguments
             print(f"arguments: {arguments}")

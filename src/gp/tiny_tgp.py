@@ -5,8 +5,13 @@ TinyGP: A minimalistic implementation of tree-based Genetic Programming for
 
 import random
 import copy
-from src.gp.problem import *
-from src.gp.tinyverse import *
+from typing import Any
+
+import numpy as np
+from dataclasses import dataclass
+
+from src.gp.problem import Problem
+from src.gp.tinyverse import GPConfig, GPIndividual, GPModel, GPHyperparameters, Const, Function
 
 
 class Node:
@@ -18,7 +23,7 @@ class Node:
     NOTE: the list of children must be of the same arity of the function.
     """
 
-    def __init__(self, function: Any, children: List[Any]):
+    def __init__(self, function: Any, children: list[Any]):
         """
         Constructor of Node class.
 
@@ -425,7 +430,8 @@ class TinyTGP(GPModel):
         :return: the mutated tree
         """
         ix = random.choice(range(self.config.num_outputs))
-        new_n = copy.deepcopy(n)
+        # NOTE: T.S. Disabled line below (Unused)
+        # new_n = copy.deepcopy(n)
         n[ix] = self.subtree_mutation(n[ix], max_depth, size)
         return n
 

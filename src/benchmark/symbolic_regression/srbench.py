@@ -90,17 +90,18 @@ class SRBench(RegressorMixin):
                 self.functions, self.terminals, self.config, self.hyperparameters
             )
         elif self.representation == "CGP":
-            #self.functions = [strfun[f] for f in self.functions]
+            # self.functions = [strfun[f] for f in self.functions]
             self.model = TinyCGP(
                 self.functions, self.terminals, self.config, self.hyperparameters
             )
         elif self.representation == "LGP":
-            #self.functions = [strfun[f] for f in self.functions]
+            # self.functions = [strfun[f] for f in self.functions]
             self.model = TinyLGP(
                 self.functions, self.terminals, self.config, self.hyperparameters
             )
         elif self.representation == "GE" or self.representation == "3GE":
-            newfunctions = {f.name.upper(): f.function for f in self.functions}
+            # NOTE: T.S. Disabled unused code
+            # newfunctions = {f.name.upper(): f.function for f in self.functions}
             arguments = [f"x{i}" for i in range(X.shape[1])]
             self.grammar["<var>"] = arguments
             if self.representation == "3GE":

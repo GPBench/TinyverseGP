@@ -32,14 +32,13 @@ import copy
 from dataclasses import dataclass
 from collections import namedtuple
 from src.gp.functions import Function
-# from src.gp.tinyverse import GPModel, Hyperparameters, GPConfig
-from src.gp.problem import *
-from src.gp.tinyverse import *
+from src.gp.tinyverse import GPModel, Hyperparameters, GPConfig
+# from src.gp.problem import *
 
 try:
     from icecream import ic
 except ModuleNotFoundError:
-    ic = lambda *args, **kwargs: None
+    def ic(*args, **kwargs): None
 
 LGP_CONDITIONS = [
     Function(2, "Test_LT", operator.lt),
@@ -198,7 +197,8 @@ class TinyLGP(GPModel):
         genome = list()
         read_write = [f"R{n}" for n in range(self.config.num_registers)]
         read_only = [f"I{n}" for n in range(len(self.terminals))]
-        possible_operands = read_write + read_only
+        # NOTE: T.S. Disabled unused code
+        # possible_operands = read_write + read_only
 
         for i in range(random.randint(min_len, max_len)):
             if random.random() < self.hyperparameters.branch_probability:
@@ -261,12 +261,10 @@ class TinyLGP(GPModel):
 
         self._sort(self.population, problem.minimizing)
         best = copy.copy(self.population[0])
-        best_fitness = best.fitness
+        # NOTE: T.S. Disabled unused code
+        # best_fitness = best.fitness
 
         self.best_individual = copy.copy(best)
-
-        # print(self.expression(best.genome), best.fitness)
-
         return self.population[0]
 
     def mutate(self, individual: LGPIndividual) -> LGPIndividual:
@@ -313,10 +311,9 @@ class TinyLGP(GPModel):
         elif p == 5 and len(individual.genome) > self.hyperparameters.min_len:
             length = len(individual.genome)
             pos = random.randint(0, length - 1)
-            # print(length, pos, length-pos+1, length-self.hyperparameters.min_len, self.hyperparameters.max_segment)
-            l = random.randint(1, min(length - pos + 1, length - self.hyperparameters.min_len,
-                                      self.hyperparameters.max_segment))
-            offspring = copy.copy(individual.genome[:pos]) + copy.copy(individual.genome[pos + l:])
+            rand_index = random.randint(1, min(length - pos + 1, length - self.hyperparameters.min_len,
+                                        self.hyperparameters.max_segment))
+            offspring = copy.copy(individual.genome[:pos]) + copy.copy(individual.genome[pos + rand_index:])
             return LGPIndividual(offspring, None)
 
     def crossover(
@@ -328,10 +325,10 @@ class TinyLGP(GPModel):
             # insertion
             p1 = random.randint(0, l1 - 1)
             p2 = random.randint(0, l2 - 1)
-            l = random.randint(1, min(l2 - p2 + 1, self.hyperparameters.max_len - l1, self.hyperparameters.max_segment))
+            rand_index = random.randint(1, min(l2 - p2 + 1, self.hyperparameters.max_len - l1, self.hyperparameters.max_segment))
             offspring = (
                     copy.copy(individual1.genome[:p1])
-                    + copy.copy(individual2.genome[p2:l])
+                    + copy.copy(individual2.genome[p2:rand_index])
                     + copy.copy(individual1.genome[p1:])
             )
         else:
@@ -365,7 +362,7 @@ class TinyLGP(GPModel):
                     )
                     if isinstance(value, complex):
                         value = self.hyperparameters.protection
-                except:
+                except Exception:
                     value = self.hyperparameters.protection
                 if instruction.dest is not None:
                     registers[instruction.dest] = value

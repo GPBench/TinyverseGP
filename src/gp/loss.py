@@ -33,7 +33,7 @@ def linear_scaling_mse(x, y):
         (a, b), mse, _, _ = np.linalg.lstsq(q, y, rcond=None)
         if mse.size > 0:
             return mse[0] / len(y)
-    except:
+    except Exception:
         pass
     return np.mean((y - np.mean(y)) ** 2)
 
@@ -48,7 +48,7 @@ def linear_scaling_coeff(x, y):
         (a, b), mse, _, _ = np.linalg.lstsq(q, y, rcond=None)
         if mse.size > 0:
             return a, b
-    except:
+    except Exception:
         pass
     return 0, np.mean(y)
 
