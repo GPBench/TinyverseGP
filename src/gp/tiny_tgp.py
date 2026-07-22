@@ -20,6 +20,12 @@ class Node:
     """
 
     def __init__(self, function: Any, children: List[Any]):
+        """
+        Constructor of Node class.
+
+        :param function: the function or terminal of this particular node.
+        :param children: the list of children of that node, empty if it is a terminal node.
+        """
         self.function = function
         self.children = children
 
@@ -39,11 +45,20 @@ class TGPHyperparameters(GPHyperparameters):
 
 
 class TGPConfig(GPConfig):
+    """
+    Specialize configuration space for TGP.
+    """
     def __post_init__(self):
         GPConfig.__post_init__(self)
 
 
 class TGPIndividual(GPIndividual):
+    """
+    The representation of a tree-based individual.
+
+    :param genome: the tree representation of the individual.
+    :param fitness: the fitness value of that individual.
+    """
     genome: Node
     fitness: any
 
@@ -51,15 +66,26 @@ class TGPIndividual(GPIndividual):
         GPIndividual.__init__(self, genome_, fitness_)
 
     def serialize_genome(self):
+        """
+        serialization method for the genome.
+        """
         return self.genome
 
     def deserialize_genome(self, genome_):
+        """
+        deserialization method for the genome.
+
+        :param genome_: genome to be copied to the individual.
+        """
         self.genome = genome_
 
 
 def node_size(node: Node) -> int:
     """
     Return the number of nodes in a tree.
+
+    :param node: the tree.
+    :return: the number of nodes in this tree.
     """
     if len(node.children) == 0:
         return 1
@@ -70,6 +96,11 @@ class TinyTGP(GPModel):
     """
     Main class of the tiny TGP module that derives from GPModel and
     implements all related fundamental mechanisms to run TGP.
+
+    :param config: configuration parameters
+    :param hyperparameters: hyperparamters for the execution of the algorithm.
+    :param problem: problem instance with evaluators.
+    :param functions: list of non-terminals.
     """
 
     config: GPConfig
@@ -95,6 +126,9 @@ class TinyTGP(GPModel):
         self.init_population()
 
     def init_population(self):
+        """
+        Generates the initial population.
+        """
         self.population = [
             TGPIndividual(genome, None)
             for genome in self.init_ramped_half_half(
@@ -109,6 +143,8 @@ class TinyTGP(GPModel):
         """
         Generates a random tree using the full method limited by a `max_depth` and `size`.
 
+        :param max_depth: maximum allowed depth for the tree.
+        :param size: maximum number of nodes of the tree.
         :returns: `Node`
         """
         # if we reached the maximum depth or there are only two or less nodes available
@@ -131,6 +167,9 @@ class TinyTGP(GPModel):
         """
         Generates a random tree using the grow method limited by a `min_depth`, `max_depth` and `size`.
 
+        :param min_depth: minimum depth of the tree.
+        :param max_depth: maximum depth of the tree.
+        :param size: maximum number of nodes of the tree.
         :returns: `Node`
         """
         # if we cannot add more non-terminals, sample a terminal
@@ -167,6 +206,10 @@ class TinyTGP(GPModel):
         while taking turns between grow and full method.
         This is supposed to ensure a variability of tree sizes and balance.
 
+        :param num_pop: population size.
+        :param min_depth: minimum depth of the trees.
+        :param max_depth: maximum depth of the trees.
+        :param max_size: maximum size of the trees.
         :return: a list of lists of `Node`
         """
         pop = []
@@ -190,6 +233,8 @@ class TinyTGP(GPModel):
         """
         Evaluate a single individual `genome`.
 
+        :param genome: genome to be evaluated.
+        :param problem: problem instance.
         :return: a `float` representing the fitness of that individual.
         """
         f = problem.evaluate(
@@ -205,6 +250,7 @@ class TinyTGP(GPModel):
         """
         Returns the complexity of the genome.
 
+        :param genome: genome of the individual.
         :return: an integer representing the number of nodes in the genome.
         """
         return sum([node_size(g) for g in genome])
@@ -213,6 +259,7 @@ class TinyTGP(GPModel):
         """
         Check if the genome is valid. A genome is valid if it has the same number of outputs as the problem.
 
+        :param genome: genome of the individual.
         :return: a boolean indicating whether the genome is valid or not.
         """
         return len(genome) == self.config.num_outputs
@@ -221,6 +268,8 @@ class TinyTGP(GPModel):
         """
         Predict the output of the `genome` given a single `observation`.
 
+        :param genome: genome of the individual.
+        :param observation: list of observations to evaluate.
         :return: a list of the outputs for that observation
         """
 
@@ -262,6 +311,9 @@ class TinyTGP(GPModel):
         """
         Applies the crossover and mutation operators to the parents.
 
+        
+        :param parent1: first parent to crossover and./or mutate.
+        :param parent2: second parent to crossover.
         :return: a list of the `genome` and `None` representing the unevaluated fitness.
         """
         # applies the crossover with `self.hyperparameters.cx_rate` probability, otherwise return the first parent
@@ -302,6 +354,8 @@ class TinyTGP(GPModel):
         Apply the crossover operator to the parents. For multiple trees (i.e., multiple outputs)
         it will choose one tree at random.
 
+        :param p1: first parent.
+        :param p2: second parent.
         :return: the recombined trees
         """
         # chose the tree to apply crossover if we have multiple trees
@@ -314,6 +368,8 @@ class TinyTGP(GPModel):
         """
         Apply the subtree crossover operator to the parents.
 
+        :param p1: first parent.
+        :param p2: second parent.
         :return: the recombined `Node`
         """
 
@@ -334,6 +390,14 @@ class TinyTGP(GPModel):
             return tryout
 
         def assemble(n1: Node, n2: Node, ix: int) -> Node:
+            """
+            Add a subtree (n2) into n1 at the position ix.
+
+            :param n1: tree where n2 will be inserted.
+            :param n2: tree to be inserted.
+            :param ix: node index to insert n2.
+            :return: the assembled tree.
+            """
             # if we found the node we want to replace, return the replacement piece
             if ix == 0:
                 return n2
@@ -356,6 +420,9 @@ class TinyTGP(GPModel):
         Apply the mutation operator to the parent. For multiple trees (i.e., multiple outputs)
         it will choose one tree at random.
 
+        :param n: list of trees to mutate.
+        :param max_depth: maximum depth for the subtree mutation.
+        :param size: maximum size for the subtree mutation.
         :return: the mutated tree
         """
         ix = random.choice(range(self.config.num_outputs))
@@ -367,6 +434,9 @@ class TinyTGP(GPModel):
         """
         Apply the subtree mutation operator to the parent.
 
+        :param n: tree to mutate.
+        :param max_depth: maximum depth of the tree.
+        :param size: maximum size of the tree.
         :return: the mutate `Node`
         """
         # pick a random node
@@ -398,7 +468,8 @@ class TinyTGP(GPModel):
     def expression(self, genome: list) -> list[str]:
         """
         Convert a tree into string format.
-
+        
+        :param genome: list of trees to convert to string.
         :return: a list of `str` for each tree in the multi-tree representation.
         """
 
@@ -424,6 +495,8 @@ class TinyTGP(GPModel):
     def print_individual(self, individual):
         """
         Prints information about a single individual.
+
+        :param individual: the individual to print.
         """
         print(
             "Genome: "
@@ -434,7 +507,10 @@ class TinyTGP(GPModel):
 
     def pipeline(self, problem):
         """
-        Single step of TGP
+        Single step of TGP.
+
+        :param problem: instance of the problem specification.
+        :return: the best individual of the search.
         """
         self.breed()
         return self.evaluate(problem)
