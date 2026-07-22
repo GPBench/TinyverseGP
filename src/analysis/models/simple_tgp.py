@@ -183,7 +183,7 @@ class NodeUnbiasedHVL(HVLPrime):
 
         if not self.is_leaf(n):
             for c in n.children:
-                self.get_nodes(c)
+                self.get_nodes(c, n, nodes)
 
         return nodes
 
@@ -225,7 +225,7 @@ class DepthUnbiasedHVL(HVLPrime):
         """
         if root is None:
             return -1
-        if root.function in self.terminals:
+        if self.is_leaf(root):  # cuong: changed to adapt to the simpler structure
             return d
         return max([self.height(c) + 1 for c in root.children])
 
@@ -240,18 +240,20 @@ class DepthUnbiasedHVL(HVLPrime):
             return [(root, None)]
 
         if d == depth - 1:
-            nodes += [(c, root) for c in root.children]
+            for c in root.children:
+                nodes.append((c, root))
 
         for c in root.children:
-            self.get_nodes_at_depth(c, depth, nodes, d+1)
+            self.get_nodes_at_depth(c, depth, nodes, d + 1)
 
         return nodes
 
-    def select_node_at_depth(self, n: Node, d: int):
+    def select_node_at_depth(self, n: Node, d: int) -> tuple[Node, Node]:
         """
         Selects and returns a node at a specified depth uniformly at random.
         """
-        return random.choice(self.get_nodes_at_depth(n, d))
+        nodes = self.get_nodes_at_depth(n, d)
+        return random.choice(nodes) if len(nodes) > 0 else (None, None)
 
     @override
     def delete(self, n: Node):
