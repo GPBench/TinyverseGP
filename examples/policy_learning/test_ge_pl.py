@@ -15,8 +15,10 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
 
 from math import sqrt, pi
 
-from src.gp.tiny_ge import *
-from src.gp.functions import *
+import gymnasium as gym
+
+from src.gp.tiny_ge import GPConfig, GEHyperparameters, TinyGE
+from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
 from src.gp.problem import PolicySearch
 import warnings
 import numpy
@@ -60,9 +62,9 @@ functions = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT]
 arguments = ["a", "b", "c", "d", "e", "f", "g", "h"]  # Inputs for the functions
 grammar = {
     "<expr>": ["[<lfun>, <lfun>, <lfun>, <lfun>]"],
-    "<lfun>": ["IF(<lfun>, <fun>, <fun>)", "<logic>(<fun>, <fun>)"],
-    "<logic>": ["AND", "OR", "NAND", "NOR", "NOT"],
+    # "<lfun>": ["IF(<lfun>, <fun>, <fun>)", "<logic>(<fun>, <fun>)"], # NOTE: T.S. disabled due to double definition of the same key
     "<lfun>": ["LT(<cvar>, <cvar>)", "GT(<cvar>, <cvar>)"],
+    "<logic>": ["AND", "OR", "NAND", "NOR", "NOT"],
     "<fun>": ["ADD(<fun>, <fun>)", "SUB(<fun>, <fun>)", "MUL(<fun>, <fun>)", "DIV(<fun>, <fun>)", "<lfun>", "<cvar>"],
     "<cvar>": ["<var>"],# ["<const>", "<var>"],
     "<const>" : ["1", "2", "0.5", str(pi), str(sqrt(2))],

@@ -11,10 +11,11 @@ The provided benchmarks are taken from the General Boolean Function Benchmark Su
 https://dl.acm.org/doi/10.1145/3594805.3607131
 """
 
+from src.gp.tinyverse import Var
 from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark
-from src.gp.tiny_tgp import *
-from src.gp.functions import *
-from src.gp.loss import *
+from src.gp.tiny_tgp import TinyTGP, TGPHyperparameters, GPConfig
+from src.gp.functions import AND, OR, NAND, NOR
+from src.gp.loss import hamming_distance_bitwise
 from src.gp.problem import BlackBox
 
 benchmark = LSBenchmark('data/logic_synthesis/plu/alu2.plu')

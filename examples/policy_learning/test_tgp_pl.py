@@ -16,10 +16,11 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
 """
 
 from math import sqrt, pi
-from gymnasium.wrappers import FlattenObservation
+import gymnasium as gym
 
-from src.gp.tiny_tgp import *
-from src.gp.functions import *
+from src.gp.tinyverse import Var, Const
+from src.gp.tiny_tgp import TGPHyperparameters, TinyTGP, GPConfig
+from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
 from src.gp.problem import PolicySearch
 import warnings
 import numpy
@@ -28,7 +29,7 @@ if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
 
 env = gym.make("LunarLander-v3")
-wrapped_env = FlattenObservation(env)
+wrapped_env = gym.wrappers.FlattenObservation(env)
 
 NUM_INPUTS = wrapped_env.observation_space.shape[0]
 functions = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT]

@@ -6,9 +6,10 @@ from math import sqrt, pi
 import gymnasium as gym
 from gymnasium.wrappers import FlattenObservation
 
-from src.gp.tiny_tgp import *
-from src.gp.functions import *
-from src.gp.loss import *
+from src.gp.tinyverse import Var, Const
+from src.gp.tiny_tgp import TinyTGP, GPHyperparameters, GPConfig
+from src.gp.functions import ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT
+from src.gp.loss import euclidean_distance
 from src.gp.problem import BlackBox, PolicySearch
 from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
 

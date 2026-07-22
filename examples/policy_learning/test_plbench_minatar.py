@@ -8,7 +8,7 @@ import warnings
 import numpy
 from src.benchmark.policy_search.pl_benchmark import MinAtarArgs
 from src.benchmark.policy_search.plbench.plbench import PLBench, PLRegressor
-from src.gp.functions import *
+from src.gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ
 from src.gp.tiny_cgp import CGPHyperparameters, CGPConfig
 from src.gp.tiny_ge import GEHyperparameters
 from src.gp.tiny_lgp import LGPHyperparameters, LGPConfig

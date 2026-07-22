@@ -15,9 +15,9 @@ Action space: Discrete(6)
 Observation space: Box(0, 255, (210, 160, 3), uint8)
 """
 from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs
-from src.gp.tiny_cgp import *
+from src.gp.tiny_cgp import TinyCGP, CGPHyperparameters, CGPConfig
 from src.gp.problem import PolicySearch
-from src.gp.functions import *
+from src.gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ
 
 import warnings
 import numpy

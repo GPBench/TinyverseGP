@@ -2,20 +2,19 @@
 """
 Example module to test CGP with logic synthesis problems.
 """
+import requests
+import random
+from dataclasses import dataclass
 
-from src.gp.tiny_cgp import *
+from src.gp.tiny_cgp import TinyCGP, CGPHyperparameters, CGPConfig, GPModel
 from src.gp.problem import Problem
 from src.gp.tinyverse import Var
-import requests
-
-# from dd.cudd import BDD
-# import dd.cudd
-from dd.autoref import BDD, Function
+from src.benchmark.logic_synthesis.blif_parser.blif import BlifFile
+from src.gp.tinyverse import Function
+from dd.autoref import BDD #, Function  # NOTE: T.S. Disabled due to overloading variable Function
 
 Function.__xor__ = lambda self, other: self._apply("xor", other)
 
-from src.benchmark.logic_synthesis.blif_parser.blif import BlifFile
-from src.gp.tinyverse import Function
 
 AND = Function(2, "AND", lambda x, y: x & y)
 OR = Function(2, "OR", lambda x, y: x | y)
