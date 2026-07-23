@@ -264,12 +264,12 @@ class DepthUnbiasedHVL(HVLPrime):
         else:
             r = random.randint(0, h)
 
-        if self.select_node_at_depth(n, r) is None:
+        u, p = self.select_node_at_depth(n, r)
+
+        if p is None:
             return
         else:
-            u, p = self.select_node(n, r)
             self.replace_node(u, p)
-
 
 class MutationType(Enum):
     """

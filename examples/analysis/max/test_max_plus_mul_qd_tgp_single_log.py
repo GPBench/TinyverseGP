@@ -30,7 +30,7 @@ config = QdTGPConfig(
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
-    init_method=InitMethod.MIN,
+    init_method=InitMethod.GROW,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,
@@ -51,13 +51,29 @@ hyperparameters = QdTGPHyperparameters(
     max_depth=D,
     multi=True,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_NODE_UNBIASED
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
+match config.init_method:
+    case InitMethod.GROW:
+        init_appendix = "grow"
+    case InitMethod.FULL:
+        init_appendix = "full"
+    case InitMethod.MIN:
+        init_appendix = "min"
+
+match hyperparameters.mutation_type:
+    case MutationType.HVL_DEPTH_UNBIASED:
+        hvl_appendix1 = "depth_unbiased"
+    case MutationType.HVL_NODE_UNBIASED:
+        hvl_appendix1 = "node_unbiased"
+    case MutationType.HVL_STD:
+        hvl_appendix1 = "std"
+
 if hyperparameters.multi:
-    appendix = "multi"
+    hvl_appendix2 = "multi"
 else:
-    appendix = "single"
+    hvl_appendix2 = "single"
 
 problem = MaxPlusMul(d=D, t=T, log_scaling=True)
 config.ideal_fitness = problem.ideal
@@ -65,4 +81,4 @@ config.global_seed = int(time.time_ns())
 tgp = SimpleQdTGP(functions, terminals, config, hyperparameters)
 tgp.evolve(problem)
 
-print(f"{D},simple_qd_tgp_log,{tgp.generation_number}")
+print(f"{D},simple_qd_tgp_log_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number}")
