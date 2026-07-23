@@ -49,6 +49,7 @@ hyperparameters = QdTGPHyperparameters(
     strict_selection=False,
     check_size=False,
     max_depth=D,
+    min_depth=1,
     multi=True,
     cx_rate=0.5,
     mutation_type=MutationType.HVL_DEPTH_UNBIASED

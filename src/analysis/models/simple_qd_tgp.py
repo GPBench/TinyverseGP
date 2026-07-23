@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import override
 from src.analysis.models.simple_qd import SimpleQD
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, HVLPrime
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
 from src.gp.tiny_tgp import TGPIndividual, Node
 from src.gp.tinyverse import GPConfig, GPIndividual
 
@@ -23,7 +23,7 @@ class QdTGPConfig(GPConfig):
 @dataclass
 class QdTGPHyperparameters(SimpleTGPHyperparameters):
     cx_rate: float
-
+    min_depth: int = 1
 
 class SimpleQdTGP(SimpleQD, SimpleTGP):
     config: QdTGPConfig
@@ -65,7 +65,7 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
         if self.config.init_method == InitMethod.MIN:
             return TGPIndividual(genome_=[self.init_tree_simple()])
         elif self.config.init_method == InitMethod.GROW:
-            return TGPIndividual(genome_=[self.tree_random_grow(min_depth=1, max_depth=self.hyperparameters.max_depth,
+            return TGPIndividual(genome_=[self.tree_random_grow(min_depth=self.hyperparameters.min_depth, max_depth=self.hyperparameters.max_depth,
                                                                 size=self.hyperparameters.max_size())])
         else:
             return TGPIndividual(genome_=[self.tree_random_full(max_depth=self.hyperparameters.max_depth,

@@ -70,4 +70,4 @@ config.global_seed = int(time.time_ns())
 cgp = SimpleQdCGP(functions, terminals, config, hyperparameters)
 cgp.evolve(problem)
 
-print(f"{D},simple_qd_cgp_log,{cgp.generation_number}")
+print(f"{D},simple_qd_cgp_log_{appendix},{cgp.generation_number}")
