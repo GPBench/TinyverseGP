@@ -2,8 +2,8 @@
 # License: GPL-3.0-or-later
 
 [project]
-name = "tinyversegp"
-version = "0.1.0"
+name = "TinyverseGP"
+version = "0.0.1"
 description = "Minimalistic implementations of different representations for Genetic Programming"
 authors = [
     { name = "Marie A." },
