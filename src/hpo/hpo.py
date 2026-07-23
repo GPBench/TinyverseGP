@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from src.gp.problem import Problem
 from src.gp.tinyverse import GPModel, GPHyperparameters
-from src.gp.problem import Problem
 from ConfigSpace import Configuration, ConfigurationSpace
 from smac import HyperparameterOptimizationFacade, Scenario
 import copy

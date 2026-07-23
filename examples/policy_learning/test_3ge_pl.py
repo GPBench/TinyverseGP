@@ -13,11 +13,9 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
                        [ 2.5 2.5 10. 10. 6.2831855 10. 1. 1. ], (8,), float32)
 """
 
-from math import sqrt, pi
-from gymnasium.wrappers import FlattenObservation
 
-from src.gp.tiny_3ge import *
-from src.gp.functions import *
+from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, GPConfig
+from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
 from src.gp.problem import PolicySearch
 import warnings
 import gymnasium as gym

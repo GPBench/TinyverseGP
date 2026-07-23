@@ -1,10 +1,9 @@
-from src.gp.tiny_3ge import *
-from src.gp.functions import *
-from src.gp.loss import *
+from src.gp.tiny_3ge import TreeGEHyperparameters
+from src.gp.functions import ADD, SUB, MUL, DIV
+from src.gp.loss import absolute_distance
 from src.gp.problem import BlackBox
 from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
-from src.gp.tiny_3ge import GPConfig, TreeGEConfig, Tiny3GE 
-from src.gp.tinyverse import GPConfig
+from src.gp.tiny_3ge import TreeGEConfig, Tiny3GE 
 from src.hpo.hpo import SMACInterface
 
 

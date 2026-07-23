@@ -1,8 +1,6 @@
 # This class defines the problem interface for hyperparameter optimization of GP models using SMAC.
 # Note: This model is tailored to exclusively run on symbolic regression problems.
 
-from copy import deepcopy
-from random import randrange
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from pmlb import fetch_data
@@ -10,13 +8,11 @@ import numpy as np
 import sys
 
 from src.hpo.hpo import SMACInterface
-from src.benchmark.symbolic_regression.srbench1 import SRBench
-from src.gp.tiny_cgp import CGPConfig, CGPHyperparameters, TinyCGP
-from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, TreeGEConfig
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
-from src.gp.tiny_tgp import TinyTGP, TGPHyperparameters, Node
-from src.gp.tiny_ge import GEHyperparameters
-from src.gp.tinyverse import GPHyperparameters, GPConfig, GPModel
+from src.gp.tiny_cgp import TinyCGP
+from src.gp.tiny_3ge import Tiny3GE
+from src.gp.tiny_ge import TinyGE
+from src.gp.tiny_tgp import TinyTGP
+from src.gp.tinyverse import GPModel
 from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
 from src.gp.problem import BlackBox
 from src.gp.loss import absolute_distance
@@ -68,7 +64,8 @@ class HPOModel():
                 self.functions, self.terminals, self.config, hyperparameters
             )
         elif self.representation == "GE" or self.representation == "3GE":
-            newfunctions = {f.name.upper(): f.function for f in self.functions}
+            # NOTE: T.S. Disabled line below (Unused)
+            # newfunctions = {f.name.upper(): f.function for f in self.functions}
             arguments = [f"x{i}" for i in range(num_vars)]
             self.grammar["<var>"] = arguments
             print(f"arguments: {arguments}")

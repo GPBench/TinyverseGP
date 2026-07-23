@@ -8,11 +8,11 @@ https://leetcode.com/problems/power-of-two/description/
 
 """
 
-from src.gp.tiny_cgp import *
+from src.gp.tiny_cgp import TinyCGP, CGPHyperparameters, CGPConfig
 from src.gp.problem import ProgramSynthesis
 from src.benchmark.program_synthesis.ps_benchmark import PSBenchmark
-from src.benchmark.program_synthesis.leetcode.power_of_two import *
-from src.gp.functions import *
+from src.benchmark.program_synthesis.leetcode.power_of_two import gen_power_of_two
+from src.gp.functions import ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT
 from src.gp.tinyverse import Var, Const
 
 NUM_INPUTS = 1

@@ -3,9 +3,6 @@ Tiny3GE: A minimalistic implementation of derivation tree based Grammatical Evol
 This module extends the TinyGE class to support a derivation tree representation of individuals.
 
         Genome representation: derivation tree
-"""
-
-"""
 notes:
 - This implementation is designed to be minimal and focused on the derivation tree structure.
 - define a parameter for the maximum depth of the derivation tree.
@@ -15,14 +12,14 @@ notes:
 - It implements a mapping from the derivation tree to a linear genome representation, which is then used for evaluation and prediction via the TinyGE class.
 - This class will use all the hyperparamters defined in the TinyGE class and add only one hyperparater: 'max_depth' for the derivation tree.
 """
-
 import random
-from copy import *
-import time
+from copy import copy, deepcopy
 import re
-from src.gp.problem import *
-from src.gp.tiny_ge import *
-from src.gp.tinyverse import *
+from dataclasses import dataclass
+
+from src.gp.tiny_tgp import node_size
+from src.gp.problem import Problem
+from src.gp.tinyverse import Hyperparameters, GPHyperparameters, Config, GPConfig, GPIndividual, GPModel, Function
 
 
 @dataclass
@@ -156,13 +153,16 @@ class Tiny3GE(GPModel):
         :param cache: A dictionary to cache results for previously computed non-terminals - reference to memoization.
         :param visited: A set to track visited non-terminals to avoid cycles - especially important to prevent endless recursion.
         """
-
-        if cache is None: cache = {}  # use memoization to cache results
-        if visited is None: visited = set()
-        if NT not in self.grammar: return 0  # Check if NT is a key in the grammar dictionary - if not it is a terminal
-        if NT in cache: return cache[NT]  # If we’ve already computed this, return cached result
-
-        if NT in visited: return float('inf')  # Avoid cycles, this path is invalid
+        if cache is None:
+            cache = {}  # use memorization to cache results
+        if visited is None:
+            visited = set()
+        if NT not in self.grammar:
+            return 0  # Check if NT is a key in the grammar dictionary - if not it is a terminal
+        if NT in cache:
+            return cache[NT]  # If we’ve already computed this, return cached result
+        if NT in visited:
+            return float('inf')  # Avoid cycles, this path is invalid
         visited.add(NT)
         min_steps = float('inf')
 
@@ -458,6 +458,7 @@ class Tiny3GE(GPModel):
 
         :return: expression as `str`.
         '''
+        print(lin_genome)
         return self.genotype_phenotype_mapping(self.grammar, lin_genome, '<expr>')
 
     def breed(self):

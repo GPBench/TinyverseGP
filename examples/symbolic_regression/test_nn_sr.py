@@ -3,7 +3,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 from src.nn.nn import NNConfig, NNHyperparameters, TinyTrain
 from src.nn.tiny_ff import FeedForward
-from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark, koza1, koza2, koza3
+from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark, koza1
 from sklearn.model_selection import train_test_split
 import torch as torch
 import torch.nn as nn

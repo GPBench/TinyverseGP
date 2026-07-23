@@ -186,10 +186,10 @@ git clone https://github.com/&lt;your-username&gt;/TinyverseGP.git
 cd TinyverseGP
 git remote add upstream https://github.com/GPBench/TinyverseGP.git</code></pre>
 
-      <h3>2. Set up your environment</h3>
+      <h3>2. Set up your environment and install the package locally with dev tools</h3>
       <pre><code>python3.10 -m venv env
 source env/bin/activate   # Windows: env\Scripts\activate
-pip install -r requirements.txt</code></pre>
+pip install -e .[dev]</code></pre>
 
       <div class="callout warning">
         ⚠️ <strong>Python 3.10 required.</strong>

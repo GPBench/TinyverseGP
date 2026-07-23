@@ -78,7 +78,7 @@ def evaluate_worker(queue: Queue, problem: Any, func: Optional[Callable], contex
         with open(os.devnull, 'w') as devnull, contextlib.redirect_stdout(devnull), contextlib.redirect_stderr(devnull):
             result = problem.evaluate(func, context)
         queue.put(result)
-    except Exception as e:
+    except Exception:
         # Any failure (e.g. runtime error in generated code) yields no result
         queue.put(None)
 
@@ -242,7 +242,7 @@ class TinyLLM(LLMInterface):
                 return None, None
 
             return code, next(iter(functions.values()))
-        except Exception as e:
+        except Exception:
             # print(f"Error extracting result: {e}")
             return None, None
 

@@ -9,12 +9,10 @@ https://github.com/cavalab/srbench/tree/master
 
 from src.benchmark.symbolic_regression.srbench import SRBench
 import numpy as np
-from pmlb import fetch_data
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
 from src.gp.tinyverse import GPConfig
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
-from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQRT, SQR, CUBE
+from src.gp.tiny_ge import GEHyperparameters
+from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
 from src.gp.tiny_cgp import CGPConfig, CGPHyperparameters
 from src.gp.tiny_tgp import TGPHyperparameters, TGPConfig
 from src.gp.tiny_lgp import LGPHyperparameters, LGPConfig

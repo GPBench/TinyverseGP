@@ -9,7 +9,7 @@ TinyCGP: A minimalistic implementation of Cartesian Genetic Programming for
 
 import math
 import random
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 

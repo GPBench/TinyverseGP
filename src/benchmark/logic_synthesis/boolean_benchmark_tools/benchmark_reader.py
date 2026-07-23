@@ -236,7 +236,7 @@ class BenchmarkReader:
         filename, extension = path.splitext(file_path)
 
         # Validate the extension by checking if it's a PLU file
-        if not extension.lower() in [".plu", ".tt"]:
+        if extension.lower() not in [".plu", ".tt"]:
             raise Exception("File type is not valid for benchmark reader!")
 
     def file_format(self, file_path: str) -> int:

@@ -14,8 +14,12 @@ the framework.
 import random
 import copy
 import re
-from src.gp.problem import *
-from src.gp.tinyverse import *
+from dataclasses import dataclass
+from typing import Any, Callable
+
+from src.gp.problem import Problem
+from src.gp.tiny_tgp import node_size
+from src.gp.tinyverse import GPIndividual, GPHyperparameters, Config, Function, Hyperparameters, GPModel
 
 
 @dataclass

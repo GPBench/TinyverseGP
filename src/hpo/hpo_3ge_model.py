@@ -1,19 +1,7 @@
-from sklearn.model_selection import train_test_split
-import numpy as np
-from pmlb import fetch_data
-from src.gp.tiny_cgp import *
-from src.gp.problem import BlackBox
-from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
-from src.benchmark.symbolic_regression.srbench1 import SRBench
-from src.gp.functions import *
-from src.gp.loss import *
-from src.gp.tiny_ge import GEConfig, GEHyperparameters, TinyGE
-from src.gp.tiny_3ge import TreeGEConfig, TreeGEHyperparameters, Tiny3GE
-from src.gp.tinyverse import Var, Const
+from src.gp.loss import mean_squared_error
+from src.gp.tiny_3ge import TreeGEConfig, TreeGEHyperparameters
 from src.hpo.hpo_model import HPOModel
-from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQRT, SQR, CUBE
-from src.hpo.hpo import SMACInterface
-import statistics
+from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
 
 # ---------------------------------------------------------------------
 # Dataset

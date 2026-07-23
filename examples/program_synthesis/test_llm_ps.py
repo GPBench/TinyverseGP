@@ -11,10 +11,10 @@ from a benchmark dataset, and runs :meth:`TinyLLM.generate` to obtain a candidat
 solution which is then printed.
 """
 
-from src.gp.problem import *
+from src.gp.problem import ProgramSynthesis
 from src.benchmark.program_synthesis.ps_benchmark import PSBenchmark
-from src.benchmark.program_synthesis.leetcode.power_of_two import *
-from src.llm.tiny_llm import *
+from src.benchmark.program_synthesis.leetcode.power_of_two import gen_power_of_two
+from src.llm.tiny_llm import TinyLLM, LLMHyperparameters
 
 
 # LLM hyperparameters: model selection, sampling settings and the generation budget

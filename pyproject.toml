@@ -2,8 +2,8 @@
 # License: GPL-3.0-or-later
 
 [project]
-name = "tinyversegp"
-version = "0.1.0"
+name = "TinyverseGP"
+version = "0.0.1"
 description = "Minimalistic implementations of different representations for Genetic Programming"
 authors = [
     { name = "Marie A." },
@@ -23,10 +23,6 @@ keywords = [
 ]
 classifiers = [
   "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-  "Programming Language :: Python :: 3.14",
   "Natural Language :: English",
   "Intended Audience :: Developers",
   "Intended Audience :: Education",
@@ -68,7 +64,7 @@ llm = [
     "torch"
 ]
 dev = ["tinyversegp[test, tooling]"]
-test = ["pytest>=7", "pytest-cov", "pytest_cases"]
+test = ["pytest>=7,<9.1", "pytest-cov", "pytest_cases"]
 tooling = ["mypy", "pre-commit", "ruff", "types-pyyaml"]
 
 [tool.pytest.ini_options]
@@ -82,7 +78,7 @@ markers = ["example: An example"]
 
 # https://github.com/charliermarsh/ruff
 [tool.ruff]
-target-version = "py38"
+target-version = "py310"
 line-length = 88
 output-format = "full"
 src = ["src", "tests"]
