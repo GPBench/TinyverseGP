@@ -458,6 +458,7 @@ class Tiny3GE(GPModel):
 
         :return: expression as `str`.
         '''
+        print(lin_genome)
         return self.genotype_phenotype_mapping(self.grammar, lin_genome, '<expr>')
 
     def breed(self):

@@ -13,7 +13,7 @@ https://dl.acm.org/doi/10.1145/3594805.3607131
 """
 from src.gp.tinyverse import GPConfig
 from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark
-from src.gp.tiny_ge import Tiny3GE
+from src.gp.tiny_3ge import Tiny3GE
 from src.gp.functions import AND, OR, NAND, NOR, NOT
 from src.gp.tiny_3ge import TreeGEHyperparameters
 from src.gp.loss import hamming_distance_bitwise

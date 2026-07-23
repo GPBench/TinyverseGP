@@ -35,6 +35,7 @@ class LS(Problem):
     actual: list
 
     def __init__(self, blif_: str, minimizing_: bool = True):
+        self.logger = None  # NOTE: Added by T.S. as 'Problem' parent class has a Logger property but we do not call the parent __init__
         self.blif = blif_
         self.minimizing = minimizing_
         self.ideal = 0
