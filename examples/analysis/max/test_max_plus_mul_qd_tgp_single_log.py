@@ -52,7 +52,7 @@ hyperparameters = QdTGPHyperparameters(
     min_depth=1,
     multi=True,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_DEPTH_UNBIASED
+    mutation_type=MutationType.HVL_NODE_UNBIASED
 )
 
 match config.init_method:

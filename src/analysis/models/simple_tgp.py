@@ -225,7 +225,7 @@ class DepthUnbiasedHVL(HVLPrime):
         """
         if root is None:
             return -1
-        if self.is_leaf(root):  # cuong: changed to adapt to the simpler structure
+        if self.is_leaf(root): 
             return d
         return max([self.height(c) + 1 for c in root.children])
 

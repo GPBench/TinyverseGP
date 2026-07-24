@@ -68,8 +68,8 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
             return TGPIndividual(genome_=[self.tree_random_grow(min_depth=self.hyperparameters.min_depth, max_depth=self.hyperparameters.max_depth,
                                                                 size=self.hyperparameters.max_size())])
         else:
-            return TGPIndividual(genome_=[self.tree_random_full(max_depth=self.hyperparameters.max_depth,
-                                                                size=self.hyperparameters.max_size())])
+            md = random.randint(1,self.hyperparameters.max_depth)
+            return TGPIndividual(genome_=[self.tree_random_full(max_depth=md, size=self.hyperparameters.max_size())])
 
     @override
     def crossover(self, x1: TGPIndividual, x2: TGPIndividual) -> TGPIndividual:
