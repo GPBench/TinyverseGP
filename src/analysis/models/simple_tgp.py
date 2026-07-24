@@ -257,6 +257,7 @@ class DepthUnbiasedHVL(HVLPrime):
 
     @override
     def delete(self, n: Node):
+
         h = self.height(n)
 
         if h == 0:

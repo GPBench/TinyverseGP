@@ -1,4 +1,5 @@
 import copy
+import math
 import random
 from dataclasses import dataclass
 from enum import Enum
@@ -24,6 +25,8 @@ class QdTGPConfig(GPConfig):
 class QdTGPHyperparameters(SimpleTGPHyperparameters):
     cx_rate: float
     min_depth: int = 1
+    min_depth_factor: float = 0.9
+
 
 class SimpleQdTGP(SimpleQD, SimpleTGP):
     config: QdTGPConfig
@@ -65,10 +68,12 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
         if self.config.init_method == InitMethod.MIN:
             return TGPIndividual(genome_=[self.init_tree_simple()])
         elif self.config.init_method == InitMethod.GROW:
-            return TGPIndividual(genome_=[self.tree_random_grow(min_depth=self.hyperparameters.min_depth, max_depth=self.hyperparameters.max_depth,
+            return TGPIndividual(genome_=[self.tree_random_grow(min_depth=self.hyperparameters.min_depth,
+                                                                max_depth=self.hyperparameters.max_depth,
                                                                 size=self.hyperparameters.max_size())])
         else:
-            md = random.randint(1,self.hyperparameters.max_depth)
+            md = random.randint(math.ceil(self.hyperparameters.min_depth_factor * self.hyperparameters.max_depth),
+                                self.hyperparameters.max_depth)
             return TGPIndividual(genome_=[self.tree_random_full(max_depth=md, size=self.hyperparameters.max_size())])
 
     @override

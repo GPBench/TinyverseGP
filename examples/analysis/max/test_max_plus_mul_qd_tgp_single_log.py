@@ -30,7 +30,7 @@ config = QdTGPConfig(
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
-    init_method=InitMethod.GROW,
+    init_method=InitMethod.FULL,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,
@@ -52,7 +52,7 @@ hyperparameters = QdTGPHyperparameters(
     min_depth=1,
     multi=True,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_NODE_UNBIASED
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
 match config.init_method:
