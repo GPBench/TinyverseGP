@@ -80,6 +80,10 @@ problem = MaxPlusMul(d=D, t=T, log_scaling=True)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 tgp = SimpleQdTGP(functions, terminals, config, hyperparameters)
-tgp.evolve(problem)
 
-print(f"{D},simple_qd_tgp_log_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number}")
+t0 = time.time()
+tgp.evolve(problem)
+t1 = time.time()
+delta = t1 - t0
+
+print(f"{D},simple_qd_tgp_log_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}")
