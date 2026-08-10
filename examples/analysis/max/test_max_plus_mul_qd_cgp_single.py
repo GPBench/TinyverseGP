@@ -7,7 +7,7 @@ The parameters for MAX, T and D, are passed to script via argv.
 """
 
 import sys
-from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
+from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType, SimpleCGPHyperparameters
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.analysis.models.simple_qd_cgp import SimpleQdCGP, QdCGPConfig
 from src.gp.tiny_cgp import *
@@ -47,12 +47,14 @@ config = QdCGPConfig(
     experiment_name='max_tgp'
 )
 
-hyperparameters = CGPHyperparameters(
+hyperparameters = SimpleCGPHyperparameters(
     mu=1,
     lmbda=1,
     population_size=2,
     num_function_nodes=D,
+    max_active_nodes=D,
     levels_back=D,
+    discard_invalid=True,
     mutation_rate=MUTATION_RATE,
     strict_selection=False,
 )

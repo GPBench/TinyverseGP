@@ -6,7 +6,6 @@ This is a single-instance run script that performs one instances for a predefine
 The parameters for MAX, T and D, are passed to script via argv.
 """
 
-import sys
 from math import log2
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPConfig, InitMethod, QdTGPHyperparameters
@@ -19,7 +18,7 @@ NUM_INSTANCES = 30
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
 D_MIN = 4
-D_MAX = 18
+D_MAX = 9
 T = 2
 functions = [LOG_ADD, LOG_MUL]
 terminals = [Const(log2(T))]
@@ -30,7 +29,7 @@ config = QdTGPConfig(
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
-    init_method=InitMethod.GROW,
+    init_method=InitMethod.FULL,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,
@@ -47,8 +46,9 @@ hyperparameters = QdTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_size=False,
+    check_complexity=True,
     max_depth=None,
+    discard_invalid=True,
     min_depth=1,
     multi=False,
     cx_rate=0.5,
@@ -78,7 +78,7 @@ else:
 
 for d in range(D_MIN, D_MAX + 1):
     problem = MaxPlusMul(d=d, t=T, log_scaling=True)
-    hyperparameters.max_depth = d + 1
+    hyperparameters.max_depth = d
     config.ideal_fitness = problem.ideal
     for _ in range(NUM_INSTANCES):
         config.global_seed = int(time.time_ns())

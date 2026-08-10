@@ -2,7 +2,6 @@ import operator
 import random
 from abc import ABC, abstractmethod
 from typing import Callable
-
 from src.gp.problem import Problem
 from src.gp.tinyverse import GPIndividual, GPModel
 
@@ -50,7 +49,16 @@ class SimpleQD(GPModel):
         return True
 
     def update(self, y: GPIndividual):
+        """
+        Updates the map with the fitness-behavior tuple obtained from a GPIndividual.
+        The update is skipped if the behavior b is None.
+        """
+
         b = self.behavior(y)
+
+        if b is None:
+            return
+
         if self.m.get(b) is None:
             self.m[b] = y
         else:

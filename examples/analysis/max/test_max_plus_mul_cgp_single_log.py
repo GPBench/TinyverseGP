@@ -8,7 +8,7 @@ The parameters for MAX, T and D, are passed to script via argv.
 
 import sys
 from math import log2
-from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType
+from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPConfig, MutationType, SimpleCGPHyperparameters
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.gp.tiny_cgp import *
 from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
@@ -47,11 +47,13 @@ config = SimpleCGPConfig(
     experiment_name='max_cgp_log'
 )
 
-hyperparameters = CGPHyperparameters(
+hyperparameters = SimpleCGPHyperparameters(
     mu=1,
     lmbda=1,
     population_size=2,
     num_function_nodes=D,
+    max_active_nodes=D,
+    discard_invalid=True,
     levels_back=D,
     mutation_rate=MUTATION_RATE,
     strict_selection=False,

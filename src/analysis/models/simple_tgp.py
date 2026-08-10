@@ -289,7 +289,7 @@ class SimpleTGPHyperparameters(Hyperparameters):
     lmbda: int = 1
     k: int = 1
     max_depth: int
-    check_size: bool = True
+    check_complexity: bool = True
     strict_selection: bool = False
     multi: bool = False
     mutation_type: MutationType = MutationType.HVL_STD
@@ -343,6 +343,30 @@ class SimpleTGP(TinyTGP):
         """
         return Node(function=random.choice(self.terminals), children=[])
 
+    def height(self, root: Node, d: int = 0):
+        if root is None:
+            return -1
+        if root.function in self.terminals:
+            return d
+        else:
+            left = self.height(root.children[0], d + 1)
+            right = self.height(root.children[1], d + 1)
+            return max(left, right)
+
+    @override
+    def eval_complexity(self, genome: list[Node]) -> int:
+        """
+        Evaluation of the complexity is done by calculating the height of the tree.
+        """
+        return self.height(genome[0])
+
+    @override
+    def is_valid(self, genome: list[Node]):
+        """
+
+        """
+        return self.height(genome[0]) <= self.hyperparameters.max_depth
+
     @override
     def perturb(self, parent1: Node, parent2: Node = None) -> Node:
         return self.mutation(parent1)
@@ -381,10 +405,6 @@ class SimpleTGP(TinyTGP):
         for _ in range(self.hyperparameters.lmbda):
             genome = copy.deepcopy(parent.genome[0])
             genome = [self.perturb(genome)]
-
-            if self.hyperparameters.check_size:
-                if self.eval_complexity(genome) > self.hyperparameters.max_size():
-                    genome = [copy.deepcopy(parent.genome[0])]
 
             offspring = TGPIndividual(
                 genome_=genome

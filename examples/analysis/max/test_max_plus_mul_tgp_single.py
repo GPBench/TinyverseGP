@@ -12,7 +12,7 @@ from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tiny_tgp import TGPConfig
 from src.gp.tinyverse import Const
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, MutationType
 
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
@@ -43,9 +43,11 @@ hyperparameters = SimpleTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_size=False,
+    check_complexity=False,
     max_depth=D,
-    multi=True
+    multi=True,
+    discard_invalid = True,
+    mutation_type=MutationType.HVL_NODE_UNBIASED
 )
 
 if hyperparameters.multi:
@@ -57,6 +59,6 @@ problem = MaxPlusMul(d=D, t=T)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 tgp = SimpleTGP(functions, terminals, config, hyperparameters)
-tgp.evolve(problem)
+best = tgp.evolve(problem)
 
 print(f"{D},simple_tgp_{appendix},{tgp.generation_number}")

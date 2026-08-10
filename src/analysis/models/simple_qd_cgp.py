@@ -2,14 +2,14 @@ import copy
 import random
 from dataclasses import dataclass
 from typing import override
-from src.analysis.models.simple_cgp import SimpleCGP
+from src.analysis.models.simple_cgp import SimpleCGP, SimpleCGPHyperparameters
 from src.analysis.models.simple_qd import SimpleQD
-from src.gp.tiny_cgp import CGPHyperparameters, CGPIndividual, CGPConfig
+from src.gp.tiny_cgp import CGPIndividual, CGPConfig
 from src.gp.tinyverse import GPIndividual
 
 
 @dataclass
-class QdCGPHyperparameters(CGPHyperparameters):
+class QdCGPHyperparameters(SimpleCGPHyperparameters):
     cx_rate: float
 
 class SimpleQdCGP(SimpleQD, SimpleCGP):
@@ -66,7 +66,14 @@ class SimpleQdCGP(SimpleQD, SimpleCGP):
 
     @override
     def evaluate(self, problem) -> GPIndividual:
-        self.y.fitness = self.evaluate_individual(self.y.genome, problem)
+        """
+        Evaluates a CGP individual and updates the map.
+        Also checks the number of active nodes so that it is not greater than D.
+        Returns negative infinity if the genome contains more than D active nodes.
+        """
+
+        self.y.fitness = self.penalize(self.evaluate_individual(self.y.genome, problem), self.y.genome)
+
         if self.best_individual is None:
             self.best_individual = self.y
         self.update(self.y)

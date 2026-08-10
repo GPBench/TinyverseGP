@@ -29,7 +29,7 @@ config = QdTGPConfig(
     minimizing_fitness=False,
     ideal_fitness=None,
     silent_algorithm=True,
-    init_method=InitMethod.MIN,
+    init_method=InitMethod.GROW,
     silent_evolver=True,
     minimalistic_output=True,
     num_outputs=1,
@@ -44,23 +44,48 @@ config = QdTGPConfig(
 hyperparameters = QdTGPHyperparameters(
     lmbda=1,
     k=1,
-    cx_rate = 0.5,
     strict_selection=False,
-    check_size=False,
-    max_depth=MAX_DEPTH,
+    check_complexity=True,
+    max_depth=D,
+    min_depth=1,
+    discard_invalid=True,
     multi=True,
-    mutation_type=MutationType.HVL_GEN
+    cx_rate=0.5,
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
-if hyperparameters.multi:
-    appendix = "multi"
-else:
-    appendix = "single"
+match config.init_method:
+    case InitMethod.GROW:
+        init_appendix = "grow"
+    case InitMethod.FULL:
+        init_appendix = "full"
+    case InitMethod.MIN:
+        init_appendix = "min"
 
-problem = MaxPlusMul(d=D, t=T)
+match hyperparameters.mutation_type:
+    case MutationType.HVL_DEPTH_UNBIASED:
+        hvl_appendix1 = "depth_unbiased"
+    case MutationType.HVL_NODE_UNBIASED:
+        hvl_appendix1 = "node_unbiased"
+    case MutationType.HVL_STD:
+        hvl_appendix1 = "std"
+
+if hyperparameters.multi:
+    hvl_appendix2 = "multi"
+else:
+    hvl_appendix2 = "single"
+
+problem = MaxPlusMul(d=D, t=T, log_scaling=False)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 tgp = SimpleQdTGP(functions, terminals, config, hyperparameters)
-tgp.evolve(problem)
 
-print(f"{D},simple_qd_tgp,{tgp.generation_number}")
+print(problem.ideal)
+
+t0 = time.time()
+best = tgp.evolve(problem)
+t1 = time.time()
+delta = t1 - t0
+
+print(f"{D},simple_qd_tgp_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}, {best.fitness}")
+

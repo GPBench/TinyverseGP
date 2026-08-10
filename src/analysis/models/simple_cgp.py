@@ -13,6 +13,13 @@ from enum import Enum
 from typing_extensions import override
 from src.gp.tiny_cgp import CGPHyperparameters, CGPConfig, TinyCGP
 
+@dataclass(kw_only=True)
+class SimpleCGPHyperparameters(CGPHyperparameters):
+    """
+    Set of hyperparameters used to configure simple TGP.
+    """
+    max_active_nodes: int
+
 class MutationType(Enum):
     """
     Used for the selection of the mutation method.
@@ -41,8 +48,9 @@ class SimpleCGP(TinyCGP):
     to simplify aspects of the standard model.
     """
     config: SimpleCGPConfig
+    hyperparameters: SimpleCGPHyperparameters
 
-    def __init__(self, functions_: list, terminals_: list, config_: SimpleCGPConfig, hyperparameters_: CGPHyperparameters):
+    def __init__(self, functions_: list, terminals_: list, config_: SimpleCGPConfig, hyperparameters_: SimpleCGPHyperparameters):
         super().__init__(functions_, terminals_, config_, hyperparameters_)
         self.config = config_
         self.hyperparameters.lmbda = 1
@@ -117,6 +125,12 @@ class SimpleCGP(TinyCGP):
             # Check whether the selected gene is active (output genes are considered
             if node_num in active_nodes or self.phenotype(gene_pos) == self.GeneType.OUTPUT:
                 active = True
+
+    @override
+    def is_valid(self, genome: list[int]) -> bool:
+        """
+        """
+        return self.eval_complexity(genome) <= self.hyperparameters.max_active_nodes
 
     @override
     def mutation(self, genome: list[int]):
