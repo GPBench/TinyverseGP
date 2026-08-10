@@ -34,6 +34,7 @@ class GPIndividual(ABC):
     genome: any
     fitness: any
     evaluated: bool
+    complexity: any
 
     """
     Class that is used to represent a GP individual.
