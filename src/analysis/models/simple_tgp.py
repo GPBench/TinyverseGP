@@ -363,7 +363,8 @@ class SimpleTGP(TinyTGP):
     @override
     def is_valid(self, genome: list[Node]):
         """
-
+        For simple TGP the height of the tree is checked against a predefined
+        maximum depth.
         """
         return self.height(genome[0]) <= self.hyperparameters.max_depth
 
