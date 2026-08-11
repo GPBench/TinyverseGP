@@ -129,6 +129,8 @@ class SimpleCGP(TinyCGP):
     @override
     def is_valid(self, genome: list[int]) -> bool:
         """
+        For simple CGP the number of active nodes is checked against predefined
+        maximum number of active nodes.
         """
         return self.eval_complexity(genome) <= self.hyperparameters.max_active_nodes
 
