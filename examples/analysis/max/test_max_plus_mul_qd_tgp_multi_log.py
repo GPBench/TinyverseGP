@@ -17,8 +17,8 @@ from src.gp.tinyverse import Const
 NUM_INSTANCES = 30
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
-D_MIN = 4
-D_MAX = 9
+D_MIN = 11
+D_MAX = 12
 T = 2
 functions = [LOG_ADD, LOG_MUL]
 terminals = [Const(log2(T))]
@@ -29,7 +29,7 @@ config = QdTGPConfig(
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
-    init_method=InitMethod.FULL,
+    init_method=InitMethod.GROW,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,
@@ -52,7 +52,7 @@ hyperparameters = QdTGPHyperparameters(
     min_depth=1,
     multi=False,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_NODE_UNBIASED
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
 match config.init_method:

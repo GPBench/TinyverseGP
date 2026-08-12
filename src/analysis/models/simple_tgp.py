@@ -366,7 +366,7 @@ class SimpleTGP(TinyTGP):
         For simple TGP the height of the tree is checked against a predefined
         maximum depth.
         """
-        return self.height(genome[0]) <= self.hyperparameters.max_depth
+        return self.eval_complexity(genome) <= self.hyperparameters.max_depth
 
     @override
     def perturb(self, parent1: Node, parent2: Node = None) -> Node:
