@@ -19,6 +19,7 @@ MAX_TIME = 9999999
 D = int(sys.argv[1])
 T = int(sys.argv[2])
 assert(T > 1)
+
 MAX_ARITY = 2
 NUM_GENES = (MAX_ARITY + 1) * D  + 1
 MUTATION_RATE = 1 / NUM_GENES
