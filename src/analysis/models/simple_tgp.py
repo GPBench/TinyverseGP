@@ -352,7 +352,6 @@ class SimpleTGP(TinyTGP):
                                                                 max_depth=self.hyperparameters.max_depth,
                                                                 size=self.hyperparameters.max_size())])
         else:
-            print("Test")
             md = random.randint(math.ceil(self.hyperparameters.min_depth_factor * self.hyperparameters.max_depth),
                                 self.hyperparameters.max_depth)
             return TGPIndividual(genome_=[self.tree_random_full(max_depth=md, size=self.hyperparameters.max_size())])
