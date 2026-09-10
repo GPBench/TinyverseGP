@@ -15,7 +15,7 @@ from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tiny_tgp import TGPConfig
 from src.gp.tinyverse import Const
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, SimpleTGPConfig, InitMethod
 
 NUM_INSTANCES = 30
 MAX_GENERATIONS = 2000000
@@ -30,12 +30,13 @@ terminals = [Const(T)]
 
 sns.set_theme()
 
-config = TGPConfig(
+config = SimpleTGPConfig(
     num_jobs=1,
     max_generations=MAX_GENERATIONS,
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
+    init_method= InitMethod.FULL,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,

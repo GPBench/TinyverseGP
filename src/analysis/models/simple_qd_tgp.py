@@ -5,34 +5,22 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import override
 from src.analysis.models.simple_qd import SimpleQD
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, InitMethod, SimpleTGPConfig
 from src.gp.tiny_tgp import TGPIndividual, Node
 from src.gp.tinyverse import GPConfig, GPIndividual
 
-
-class InitMethod(Enum):
-    MIN = 0
-    GROW = 1
-    FULL = 2
-
-
-@dataclass(kw_only=True)
-class QdTGPConfig(GPConfig):
-    init_method: InitMethod = InitMethod.MIN
 
 
 @dataclass
 class QdTGPHyperparameters(SimpleTGPHyperparameters):
     cx_rate: float
-    min_depth: int = 1
-    min_depth_factor: float = 0.9
 
 
 class SimpleQdTGP(SimpleQD, SimpleTGP):
-    config: QdTGPConfig
+    config: SimpleTGPConfig
     xs: list[GPIndividual]
 
-    def __init__(self, functions_: list, terminals_: list, config_: QdTGPConfig,
+    def __init__(self, functions_: list, terminals_: list, config_: SimpleTGPConfig,
                  hyperparameters_: QdTGPHyperparameters):
         SimpleQD.__init__(self, functions_, terminals_, config_, hyperparameters_)
         SimpleTGP.__init__(self, functions_, terminals_, config_, hyperparameters_)
@@ -56,22 +44,6 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
     @override
     def init(self):
         self.y = self.init_individual()
-
-    @override
-    def init_individual(self) -> TGPIndividual:
-        """
-        Initializes an individual with a genome
-        """
-        if self.config.init_method == InitMethod.MIN:
-            return TGPIndividual(genome_=[self.init_tree_simple()])
-        elif self.config.init_method == InitMethod.GROW:
-            return TGPIndividual(genome_=[self.tree_random_grow(min_depth=self.hyperparameters.min_depth,
-                                                                max_depth=self.hyperparameters.max_depth,
-                                                                size=self.hyperparameters.max_size())])
-        else:
-            md = random.randint(math.ceil(self.hyperparameters.min_depth_factor * self.hyperparameters.max_depth),
-                                self.hyperparameters.max_depth)
-            return TGPIndividual(genome_=[self.tree_random_full(max_depth=md, size=self.hyperparameters.max_size())])
 
     @override
     def crossover(self, x1: TGPIndividual, x2: TGPIndividual) -> TGPIndividual:

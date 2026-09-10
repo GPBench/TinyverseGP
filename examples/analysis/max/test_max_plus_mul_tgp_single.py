@@ -12,7 +12,8 @@ from src.gp.tiny_cgp import *
 from src.gp.functions import ADD, MUL
 from src.gp.tiny_tgp import TGPConfig
 from src.gp.tinyverse import Const
-from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, MutationType
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, MutationType, SimpleTGPConfig, \
+    InitMethod
 
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
@@ -21,12 +22,13 @@ T = int(sys.argv[2])
 functions = [ADD, MUL]
 terminals = [Const(T)]
 
-config = TGPConfig(
+config = SimpleTGPConfig(
     num_jobs=1,
     max_generations=MAX_GENERATIONS,
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
+    init_method= InitMethod.FULL,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,
@@ -45,9 +47,9 @@ hyperparameters = SimpleTGPHyperparameters(
     strict_selection=False,
     check_complexity=False,
     max_depth=D,
-    multi=True,
+    multi=False,
     discard_invalid = True,
-    mutation_type=MutationType.HVL_NODE_UNBIASED
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
 if hyperparameters.multi:

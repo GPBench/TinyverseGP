@@ -1,25 +1,27 @@
 """
-Run script to apply QD-TGP to the MAX problem.
+Run script to apply TGP to the MAX problem.
 
 This is a single-instance run script that performs one instances for a predefined setting of D.
 
 The parameters for MAX, T and D, are passed to script via argv.
 """
 
+import sys
 from math import log2
-from src.analysis.benchmarks.max.max import MaxPlusMul
-from src.analysis.models.simple_qd_tgp import SimpleQdTGP, InitMethod, QdTGPHyperparameters
-from src.analysis.models.simple_tgp import MutationType, SimpleTGPConfig
-from src.gp.tiny_cgp import *
-from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
-from src.gp.tinyverse import Const
 
-NUM_INSTANCES = 30
+from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
+from src.analysis.benchmarks.max.max import MaxPlusMul
+from src.analysis.models.simple_qd_tgp import InitMethod
+from src.gp.tiny_cgp import *
+from src.gp.tinyverse import Const
+from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, MutationType, SimpleTGPConfig
+
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
-D_MIN = 11
-D_MAX = 12
-T = 2
+D = int(sys.argv[1])
+T = int(sys.argv[2])
+assert(T > 1)
+MAX_DEPTH = D
 functions = [LOG_ADD, LOG_MUL]
 terminals = [Const(log2(T))]
 
@@ -29,7 +31,7 @@ config = SimpleTGPConfig(
     stopping_criteria=None,
     minimizing_fitness=False,
     ideal_fitness=None,
-    init_method=InitMethod.GROW,
+    init_method=InitMethod.FULL,
     silent_algorithm=True,
     silent_evolver=True,
     minimalistic_output=True,
@@ -42,16 +44,15 @@ config = SimpleTGPConfig(
     experiment_name='max_tgp'
 )
 
-hyperparameters = QdTGPHyperparameters(
+hyperparameters = SimpleTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_complexity=True,
-    max_depth=None,
-    discard_invalid=True,
+    check_complexity=False,
+    max_depth=D,
     min_depth=1,
-    multi=False,
-    cx_rate=0.5,
+    discard_invalid=True,
+    multi=True,
     mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
@@ -76,15 +77,15 @@ if hyperparameters.multi:
 else:
     hvl_appendix2 = "single"
 
-for d in range(D_MIN, D_MAX + 1):
-    problem = MaxPlusMul(d=d, t=T, log_scaling=True)
-    hyperparameters.max_depth = d
-    config.ideal_fitness = problem.ideal
-    for _ in range(NUM_INSTANCES):
-        config.global_seed = int(time.time_ns())
-        tgp = SimpleQdTGP(functions, terminals, config, hyperparameters)
-        t0 = time.time()
-        best = tgp.evolve(problem)
-        t1 = time.time()
-        delta = t1 - t0
-        print(f"{d},simple_qd_tgp_log_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}")
+problem = MaxPlusMul(d=D, t=T, log_scaling=True)
+config.ideal_fitness = problem.ideal
+config.global_seed = int(time.time_ns())
+tgp = SimpleTGP(functions, terminals, config, hyperparameters)
+
+t0 = time.time()
+tgp.evolve(problem)
+t1 = time.time()
+delta = t1 - t0
+
+print(f"{D},simple_tgp_log_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}")
+

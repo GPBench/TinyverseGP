@@ -9,8 +9,8 @@ The parameters for MAX, T and D, are passed to script via argv.
 import sys
 from math import log2
 from src.analysis.benchmarks.max.max import MaxPlusMul
-from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPConfig, InitMethod, QdTGPHyperparameters
-from src.analysis.models.simple_tgp import MutationType
+from src.analysis.models.simple_qd_tgp import SimpleQdTGP, InitMethod, QdTGPHyperparameters
+from src.analysis.models.simple_tgp import MutationType, SimpleTGPConfig
 from src.gp.tiny_cgp import *
 from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
 from src.gp.tinyverse import Const
@@ -24,7 +24,7 @@ MAX_DEPTH = D
 functions = [LOG_ADD, LOG_MUL]
 terminals = [Const(log2(T))]
 
-config = QdTGPConfig(
+config = SimpleTGPConfig(
     num_jobs=1,
     max_generations=MAX_GENERATIONS,
     stopping_criteria=None,

@@ -18,7 +18,7 @@ import numpy as np
 from dataclasses import dataclass
 from typing import override
 from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
-from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters
+from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters, GPConfig
 
 
 class HVLPrime:
@@ -280,6 +280,15 @@ class MutationType(Enum):
     HVL_NODE_UNBIASED = 1
     HVL_DEPTH_UNBIASED = 2
 
+class InitMethod(Enum):
+    MIN = 0
+    GROW = 1
+    FULL = 2
+
+@dataclass(kw_only=True)
+class SimpleTGPConfig(GPConfig):
+    init_method: InitMethod = InitMethod.MIN
+
 
 @dataclass(kw_only=True)
 class SimpleTGPHyperparameters(Hyperparameters):
@@ -289,6 +298,8 @@ class SimpleTGPHyperparameters(Hyperparameters):
     lmbda: int = 1
     k: int = 1
     max_depth: int
+    min_depth: int = 1
+    min_depth_factor: float = 0.9
     check_complexity: bool = True
     strict_selection: bool = False
     multi: bool = False
@@ -332,9 +343,19 @@ class SimpleTGP(TinyTGP):
 
     def init_individual(self) -> TGPIndividual:
         """
-        Initialises an individual with a genome
+        Initializes an individual with a genome
         """
-        return TGPIndividual(genome_=[self.init_tree_simple()])
+        if self.config.init_method == InitMethod.MIN:
+            return TGPIndividual(genome_=[self.init_tree_simple()])
+        elif self.config.init_method == InitMethod.GROW:
+            return TGPIndividual(genome_=[self.tree_random_grow(min_depth=self.hyperparameters.min_depth,
+                                                                max_depth=self.hyperparameters.max_depth,
+                                                                size=self.hyperparameters.max_size())])
+        else:
+            print("Test")
+            md = random.randint(math.ceil(self.hyperparameters.min_depth_factor * self.hyperparameters.max_depth),
+                                self.hyperparameters.max_depth)
+            return TGPIndividual(genome_=[self.tree_random_full(max_depth=md, size=self.hyperparameters.max_size())])
 
     def init_tree_simple(self):
         """
