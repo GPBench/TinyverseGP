@@ -68,6 +68,10 @@ problem = MaxPlusMul(d=D, t=T)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleQdCGP(functions, terminals, config, hyperparameters)
-cgp.evolve(problem)
 
-print(f"{D},simple_qd_cgp_log,{cgp.generation_number}")
+t0 = time.time()
+cgp.evolve(problem)
+t1 = time.time()
+delta = t1 - t0
+
+print(f"{D},simple_cgp_log_{appendix},{cgp.generation_number},{delta}")

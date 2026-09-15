@@ -64,6 +64,15 @@ problem = MaxPlusMul(d=D, t=T, log_scaling=True)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleCGP(functions, terminals, config, hyperparameters)
-cgp.evolve(problem)
 
-print(f"{D},simple_cgp,{cgp.generation_number}")
+t0 = time.time()
+cgp.evolve(problem)
+t1 = time.time()
+delta = t1 - t0
+
+if config.mutation_type == MutationType.SAM:
+    appendix = "sam"
+else:
+    appendix = "prob"
+
+print(f"{D},simple_cgp_log_{appendix},{cgp.generation_number},{delta}")
