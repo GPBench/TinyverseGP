@@ -2,16 +2,16 @@
 This file contains the SRBench class which is used to define the configuration of the symbolic regression benchmarking problem.
 """
 
-from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
-from src.gp.tinyverse import Const, Var
-from src.gp.tiny_cgp import TinyCGP
+from gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
+from gp.tinyverse import Const, Var
+from gp.tiny_cgp import TinyCGP
 #from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, TreeGEConfig
-from src.gp.tiny_ge import TinyGE
-from src.gp.tiny_lgp import TinyLGP
-from src.gp.tiny_tgp import TinyTGP, Node
+from gp.tiny_ge import TinyGE
+from gp.tiny_lgp import TinyLGP
+from gp.tiny_tgp import TinyTGP, Node
 import re
-from src.gp.loss import mean_squared_error, linear_scaling_mse, linear_scaling_coeff
-from src.gp.problem import BlackBox
+from gp.loss import mean_squared_error, linear_scaling_mse, linear_scaling_coeff
+from gp.problem import BlackBox
 
 from sklearn.base import RegressorMixin
 import sympy as sp
@@ -38,18 +38,18 @@ class SRBench(RegressorMixin):
         functions,
         terminals=[1, 0.5, np.pi, np.sqrt(2)],
         scaling_=False,
-        grammar={"<expr>": ["ADD(<expr>, <expr>)", 
-                          "SUB(<expr>, <expr>)", 
-                          "MUL(<expr>, <expr>)", 
-                          "DIV(<expr>, <expr>)", 
-                          "EXP(<expr>)", 
-                          "LOG(<expr>)", 
-                          "SQR(<expr>)", 
-                          "CUBE(<expr>)", 
-                          "<const>", 
+        grammar={"<expr>": ["ADD(<expr>, <expr>)",
+                          "SUB(<expr>, <expr>)",
+                          "MUL(<expr>, <expr>)",
+                          "DIV(<expr>, <expr>)",
+                          "EXP(<expr>)",
+                          "LOG(<expr>)",
+                          "SQR(<expr>)",
+                          "CUBE(<expr>)",
+                          "<const>",
                           "<var>",
                                 ],
-                "<const>": ["1", "0.5", "3.14159", "1.41421"], 
+                "<const>": ["1", "0.5", "3.14159", "1.41421"],
                 "<var>": []
         },
         loss=mean_squared_error,
@@ -65,7 +65,7 @@ class SRBench(RegressorMixin):
         self.terminals = [Const(c) for c in terminals]
         self.fitted_ = False
         self.config = config
-        self.optimized = optimized 
+        self.optimized = optimized
         self.grammar = grammar
         self.hyperparameters = hyperparameters
 

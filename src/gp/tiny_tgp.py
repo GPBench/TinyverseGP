@@ -10,8 +10,8 @@ from typing import Any
 import numpy as np
 from dataclasses import dataclass
 
-from src.gp.problem import Problem
-from src.gp.tinyverse import GPConfig, GPIndividual, GPModel, GPHyperparameters, Const, Function
+from gp.problem import Problem
+from gp.tinyverse import GPConfig, GPIndividual, GPModel, GPHyperparameters, Const, Function
 
 
 class Node:
@@ -315,7 +315,7 @@ class TinyTGP(GPModel):
         """
         Applies the crossover and mutation operators to the parents.
 
-        
+
         :param parent1: first parent to crossover and./or mutate.
         :param parent2: second parent to crossover.
         :return: a list of the `genome` and `None` representing the unevaluated fitness.
@@ -473,7 +473,7 @@ class TinyTGP(GPModel):
     def expression(self, genome: list) -> list[str]:
         """
         Convert a tree into string format.
-        
+
         :param genome: list of trees to convert to string.
         :return: a list of `str` for each tree in the multi-tree representation.
         """

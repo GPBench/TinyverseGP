@@ -1,7 +1,7 @@
 import torch as torch
 from abc import abstractmethod, ABC
 from dataclasses import dataclass
-from src.gp.tinyverse import Hyperparameters, Config
+from gp.tinyverse import Hyperparameters, Config
 
 @dataclass()
 class NNConfig(Config):

@@ -3,7 +3,7 @@ Implementation of arithmetic, logical and comparative functions
 that are commonly used to curate the GP function set.
 """
 
-from src.gp.tinyverse import Function
+from gp.tinyverse import Function
 import operator
 import numpy as np
 

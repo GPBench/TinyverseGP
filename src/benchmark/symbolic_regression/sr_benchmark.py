@@ -4,7 +4,7 @@ Benchmark representation module for symbolic regression.
 
 import random
 import numpy as np
-from src.benchmark.benchmark import Benchmark
+from benchmark.benchmark import Benchmark
 
 
 def koza1(x):

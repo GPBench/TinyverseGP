@@ -1,6 +1,6 @@
 import torch as torch
 import torch.nn as nn
-from src.nn.nn import NNModel
+from nn.nn import NNModel
 
 
 class FeedForward(NNModel):

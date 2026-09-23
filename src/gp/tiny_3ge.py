@@ -7,7 +7,7 @@ notes:
 - This implementation is designed to be minimal and focused on the derivation tree structure.
 - define a parameter for the maximum depth of the derivation tree.
     - however, this is optional and can be adjusted based on the problem requirements.
-- the grammar is defined in BNF format as a dictionary. 
+- the grammar is defined in BNF format as a dictionary.
 - This module is intended to reuse the existing TinyGE functionalities that are already implemented in the TinyGE class.
 - It implements a mapping from the derivation tree to a linear genome representation, which is then used for evaluation and prediction via the TinyGE class.
 - This class will use all the hyperparamters defined in the TinyGE class and add only one hyperparater: 'max_depth' for the derivation tree.
@@ -17,17 +17,17 @@ from copy import copy, deepcopy
 import re
 from dataclasses import dataclass
 
-from src.gp.tiny_tgp import node_size
-from src.gp.problem import Problem
-from src.gp.tinyverse import Hyperparameters, GPHyperparameters, Config, GPConfig, GPIndividual, GPModel, Function
+from gp.tiny_tgp import node_size
+from gp.problem import Problem
+from gp.tinyverse import Hyperparameters, GPHyperparameters, Config, GPConfig, GPIndividual, GPModel, Function
 
 
 @dataclass
 class TreeGEHyperparameters(GPHyperparameters):
     """
     Hyperparameters for the Tiny3GE model.
-    
-    :param max_depth: Maximum depth of the derivation tree. 
+
+    :param max_depth: Maximum depth of the derivation tree.
     :codon_size: Size of each codon in the genome.
     """
     min_depth: int
@@ -53,7 +53,7 @@ class Node:
     def __init__(self, symbol, children, production_rule=None):
         """
         Represents a node in the derivation tree.
-        
+
         :param symbol: The symbol of the node (non-terminal or terminal).
         :param children: List of child nodes.
         :param production_rule: The production rule used to create this node (optional).
@@ -119,7 +119,7 @@ class Tiny3GE(GPModel):
 
     def __init__(self, functions_: list[Function], grammar_: dict, arguments_: list[str], config: Config,
                  hyperparameters: Hyperparameters):
-        # self.problem = problem_ 
+        # self.problem = problem_
         super().__init__(config, hyperparameters)
         self.functions = {f.name.upper(): f.function for f in
                           functions_}  # the list of functions to that could be used in the grammar                                 # TODO: Adjust to updates in the framework
@@ -208,7 +208,7 @@ class Tiny3GE(GPModel):
         """
         Filters a list of productions to include only those that are recursive.
         A production is considered recursive if the left-hand non-terminal appears in its own right-hand side.
-        
+
         :param productions: List of production strings to evaluate.
         :param cur_NT: The current non-terminal being expanded (i.e. the LHS symbol).
         :return: List of recursive production strings.
@@ -223,7 +223,7 @@ class Tiny3GE(GPModel):
     def generate_codon(self, node: Node, codon_size) -> int:
         """
         Generates a linear representation of the derivation tree (genome) as a list of integers.
-        
+
         :param tree: The derivation tree to convert into a linear representation.
         :return: A list of integers representing the genome.
         """
@@ -239,7 +239,7 @@ class Tiny3GE(GPModel):
 
     def generate_linear_genome(self, tree_root: Node, codon_size: int) -> list[int]:
         """
-        Recursively generates a linear genome from a derivation tree. 
+        Recursively generates a linear genome from a derivation tree.
         Maps the ndoes in the derivation tree to codons (integer values) based on the production rule
 
         :param root: The root node of the derivation tree
@@ -446,7 +446,7 @@ class Tiny3GE(GPModel):
         '''
         # samples `self.hyperparameters.tournament_size` solutions completely at random
         parents = [random.choice(self.population) for _ in range(self.hyperparameters.tournament_size)]
-        # return the best of this sample whether it is a minimization or maximization problem     
+        # return the best of this sample whether it is a minimization or maximization problem
         if self.config.minimizing_fitness:
             return min(parents, key=lambda ind: ind.fitness)
         else:
@@ -468,9 +468,9 @@ class Tiny3GE(GPModel):
         '''
         # Select n pairs of parents using tournament selection, n is the population size minus 1 (so we have space for the best individual)
         parents = [[self.selection(), self.selection()] for _ in range(self.hyperparameters.pop_size - 1)]
-        # replace the current population by perturbing the sampled parents     
+        # replace the current population by perturbing the sampled parents
         self.population = [self.perturb(*parent) for parent in parents]
-        # keep the best solution in the population 
+        # keep the best solution in the population
         self.population.append(TreeGEIndividual(self.best_individual.deriv_tree, self.best_individual.genome,
                                                 self.best_individual.fitness))
 
@@ -487,7 +487,7 @@ class Tiny3GE(GPModel):
     def init_ramped_half_half(self, min_depth: int, max_depth: int):
         """
         Generates a population of individuals using the Ramped Half and Half method.
-        
+
         :param min_depth: Minimum depth of the derivation tree.
         :param max_depth: Maximum depth of the derivation tree.
         :return: A derivation either generated by Grow or Full.
@@ -502,7 +502,7 @@ class Tiny3GE(GPModel):
     def init_random_tree_grow(self, max_depth: int, symbol: str):
         """
         Generates a single derivation tree using the random tree method.
-        
+
         :param max_depth: Maximum depth of the derivation tree.
         :param symbol: The symbol to start the derivation tree with (usually a non-terminal).
         :return: A derivation tree generated using the GROW method.
@@ -578,7 +578,7 @@ class Tiny3GE(GPModel):
     def genotype_phenotype_mapping(self, grammar, lin_genome, expression='<expr>'):
         '''
             Maps the genotype to its phenotype.
-            
+
             :return: a string representation of the genome.
         '''
         tmp_genome = copy.deepcopy(lin_genome)

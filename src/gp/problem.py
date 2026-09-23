@@ -14,8 +14,8 @@ import numpy as np
 from dataclasses import dataclass
 from abc import ABC
 from collections.abc import Callable
-from src.benchmark.policy_search.policy_evaluation import GPAgent
-from src.gp.tinyverse import GPModel
+from benchmark.policy_search.policy_evaluation import GPAgent
+from gp.tinyverse import GPModel
 import numbers
 import ioh
 import atexit
@@ -110,14 +110,14 @@ class Problem(ABC):
         :param model: The respective GP model that is used
         """
         pass
-    
+
     def is_stop(self):
         """
         Check for additional stop conditions besides the optimum of the defined problem.
         By default, there are no additional stop conditions in place.
         """
         return False
-    
+
     def __del__(self, *args, **kwargs):
         if self.logger is not None:
             self.logger.close()
@@ -171,7 +171,7 @@ class BlackBox(Problem):
         result = self.cost(predictions)
         self.log_evaluation(result, genome)
         return result
-    
+
     def cost(self, predictions: list) -> float:
         """
         Calculates the cost function value based on the
