@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from sklearn.base import RegressorMixin
-from src.benchmark.benchmark import Benchmark
+from benchmark.benchmark import Benchmark
 from minatar import gym as gym_ma
 import gymnasium as gym
-from src.benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, MinAtarArgs
-from src.gp import util
-from src.gp.problem import PolicySearch
+from benchmark.policy_search.pl_benchmark import PLBenchmark, ALEArgs, MinAtarArgs
+from gp import util
+from gp.problem import PolicySearch
 
 
 @dataclass

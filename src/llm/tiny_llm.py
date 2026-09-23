@@ -14,7 +14,7 @@ import textwrap
 import contextlib
 import os
 import time
-from .llm import LLMInterface
+from llm.llm import LLMInterface
 from langchain_huggingface import HuggingFacePipeline
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, logging
 from dataclasses import dataclass

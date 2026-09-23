@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from src.gp.tinyverse import (
+from gp.tinyverse import (
     GPModel,
     GPConfig,
     Var,

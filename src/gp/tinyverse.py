@@ -24,7 +24,7 @@ from dataclasses import dataclass, fields
 from typing import Any, Generic, Callable
 import copy
 
-from src.gp.types import HPType
+from gp.types import HPType
 import yaml
 import dill
 
@@ -513,7 +513,7 @@ class GPModel(ABC):
                 break
 
         return best_individual
-    
+
     @abstractmethod
     def selection(self) -> Any:
         """

@@ -7,12 +7,12 @@ https://dl.acm.org/doi/abs/10.1145/3594805.3607131
 
 from argparse import ArgumentError
 from sklearn.base import RegressorMixin
-from src.benchmark.benchmark import Benchmark
-from src.gp.functions import AND, OR, BUFA, NOTA, NOR, NAND, XOR, XNOR, NOT
-from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark, FSType
-from src.benchmark.logic_synthesis.boolean_benchmark_tools.benchmark_evaluator import BenchmarkEvaluator
-from src.gp.problem import BlackBox
-import src.gp.util as util
+from benchmark.benchmark import Benchmark
+from gp.functions import AND, OR, BUFA, NOTA, NOR, NAND, XOR, XNOR, NOT
+from benchmark.logic_synthesis.ls_benchmark import LSBenchmark, FSType
+from benchmark.logic_synthesis.boolean_benchmark_tools.benchmark_evaluator import BenchmarkEvaluator
+from gp.problem import BlackBox
+import gp.util as util
 
 strfun = {
     "AND": AND,

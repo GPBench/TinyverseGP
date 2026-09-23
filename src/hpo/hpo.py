@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from src.gp.problem import Problem
-from src.gp.tinyverse import GPModel, GPHyperparameters
+from gp.problem import Problem
+from gp.tinyverse import GPModel, GPHyperparameters
 from ConfigSpace import Configuration, ConfigurationSpace
 from smac import HyperparameterOptimizationFacade, Scenario
 import copy
-from src.benchmark.symbolic_regression.srbench import SRBench
+from benchmark.symbolic_regression.srbench import SRBench
 import numpy as np
 
 class HPOInterface(ABC):
@@ -114,7 +114,7 @@ class SMAC4SRBenchInterface:
         for c in incumbent.keys():
             setattr(inc_hp, c, incumbent[c])
         return inc_hp
-    
+
 class Hpo:
     """
     Class that provides methods to run HPO for GP models

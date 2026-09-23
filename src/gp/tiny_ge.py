@@ -17,9 +17,9 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable
 
-from src.gp.problem import Problem
-from src.gp.tiny_tgp import node_size
-from src.gp.tinyverse import GPIndividual, GPHyperparameters, Config, Function, Hyperparameters, GPModel
+from gp.problem import Problem
+from gp.tiny_tgp import node_size
+from gp.tinyverse import GPIndividual, GPHyperparameters, Config, Function, Hyperparameters, GPModel
 
 
 @dataclass
