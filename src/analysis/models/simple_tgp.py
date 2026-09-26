@@ -5,6 +5,9 @@ problems.
 SimpleTGP uses a (1+1) search strategy and a composite HVL prime mutation operator
 consisting of three tree operations: insert, delete and substitute.
 
+This implementation provides the node-unbiased and depth-unbiased Variants of the HVL prime mutation
+that has been used in literature.
+
 A description of SimpleTGP can be found in the work of Neumann et al.
  - https://link.springer.com/chapter/10.1007/978-1-4614-1770-5_7
 """
@@ -25,8 +28,8 @@ class HVLPrime:
     """
     This implementation of the HVL prime follows the formal description provided
     in the works of Koetzing et al:
-        https://doi.org/10.1145/2330163.2330348
-        https://doi.org/10.1016/j.tcs.2013.06.014
+        - https://doi.org/10.1145/2330163.2330348
+        - https://doi.org/10.1016/j.tcs.2013.06.014
     """
 
     def __init__(self, functions_: list, terminals_: list):
@@ -36,12 +39,19 @@ class HVLPrime:
     def is_leaf(self, n: Node) -> bool:
         """
         Checks whether a given node is a leaf or not.
+
+        :param n: reference to the node to be checked
         """
         return isinstance(n.function, Var) or isinstance(n.function, Const)
 
     def get_leafs(self, n: Node, p=None, leafs: list = None) -> list[tuple[Node, Node]]:
         """
-        Recursively obtain all leafs from the tree and store them in a list.
+        Recursively obtains all leafs from the tree and store them in a list.
+
+        :param n: reference to initial node that is being considered
+        :param p: reference to the parent node
+        :param leafs: list of leaf nodes of the given node
+        :returns: list of tuples containing references to leafs and parent nodes
         """
         if leafs is None:
             leafs = []
@@ -56,6 +66,9 @@ class HVLPrime:
     def get_inner_nodes(self, n: Node, p=None, inner_nodes: list = None) -> list[tuple[Node, Node]]:
         """
         Recursively obtain all inner nodes from the tree and store them in a list.
+
+        :param n: reference to initial node that is being considered
+        :returns: list of tuples containing references to leafs and parent nodes
         """
         if inner_nodes is None:
             inner_nodes = []
@@ -69,19 +82,27 @@ class HVLPrime:
     def rnd_inner_node(self, n: Node):
         """
         Select and return a node from the set of inner nodes uniformly at random.
+
+        :param n: reference to initial node that is being considered
         """
         return random.choice(self.get_inner_nodes(n))
 
     def rnd_leaf(self, n: Node):
         """
         Select and return a node from the set of leafs uniformly at random.
+
+        :param n: reference to initial node that is being considered
         """
         return random.choice(self.get_leafs(n))
 
     def rnd_leaf_dirty(self, n: Node, p=None) -> tuple[Node, Node]:
         """
-        by a random depth-first search, no guarantee that the distribution
+        Select and returns a node from the set of leafs  by a random depth-first search, no guarantee that the distribution
         is uniform.
+
+        :param n: reference to initial node that is being considered
+        :param p: reference to parent node
+        :return: tuple containing references to the selected leaf and parent node
         """
         if self.is_leaf(n):
             return n, p
@@ -91,6 +112,10 @@ class HVLPrime:
         """
         Return a random inner node by a random depth-first search, no guarantee that the distribution
         is uniform.
+
+        :param n: reference to initial node that is being considered
+        :param p: node selection rate
+        :returns: reference to selected inner node
         """
         if random.random() <= p:
             return n
@@ -104,6 +129,9 @@ class HVLPrime:
     def count_inner_nodes(self, node: Node) -> int:
         """
         Return the number of inner nodes in a tree.
+
+        :param n: reference to initial node that is being considered
+        :returns: number of inner nodes
         """
         if len(node.children) == 0:
             return 0
@@ -171,10 +199,20 @@ class HVLPrime:
 
 
 class NodeUnbiasedHVL(HVLPrime):
+    """
+    Node unbiased variant of the HVL prime mutation. A node that is selected for
+    deletion operation is chosen from the set of all nodes
+    (including inner nodes and leafs uniformly
+    """
 
     def get_nodes(self, n: Node, p=None, nodes: list = None) -> list[tuple[Node, Node]]:
         """
         Recursively obtain all nodes (inner nodes and leafs) from the tree and store them in a list.
+
+        :param n: reference to initial node that is being considered
+        :param p: reference to parent node
+        :param nodes: list of references to nodes that is used for collecting
+        :returns: list of tuples containing references to leafs and parent nodes
         """
         if nodes is None:
             nodes = []
@@ -196,6 +234,9 @@ class NodeUnbiasedHVL(HVLPrime):
     def size(self, n: Node) -> int:
         """
         Recursively calculate the number of nodes in the tree.
+
+        :param n: reference to initial node that is being considered
+        :returns: number of nodes in the tree
         """
         if n is None:
             return 0
@@ -205,7 +246,11 @@ class NodeUnbiasedHVL(HVLPrime):
 
     @override
     def delete(self, n: Node):
+        """
+        Variant of the delete operation used fod node-unbiased of HVL prime.
 
+        :param n: reference to node going to be deleted
+        """
         if n is None:
             return
 
@@ -218,10 +263,15 @@ class NodeUnbiasedHVL(HVLPrime):
 
 
 class DepthUnbiasedHVL(HVLPrime):
-
+    """
+    Depth unbiased variant of the HVL prime mutation which
+    """
     def height(self, root: Node, d: int = 0):
         """
         Recursively calculates the height or maximum depth of a tree.
+
+        :param root: reference to root node
+        :returns: height of the tree
         """
         if root is None:
             return -1
@@ -232,6 +282,11 @@ class DepthUnbiasedHVL(HVLPrime):
     def get_nodes_at_depth(self, root: Node, depth: int, nodes: list = None, d: int = 0) -> list[tuple[Node, Node]]:
         """
         Recursively selects and returns all nodes at a specified depth.
+
+        :param root: reference to root node
+        :param depth: depth level
+        :nodes: list used for collecting references to nodes
+        :returns list of references to the nodes at specified depth
         """
         if nodes is None:
             nodes = []
@@ -257,7 +312,9 @@ class DepthUnbiasedHVL(HVLPrime):
 
     @override
     def delete(self, n: Node):
+        """
 
+        """
         h = self.height(n)
 
         if h == 0:
@@ -281,6 +338,9 @@ class MutationType(Enum):
     HVL_DEPTH_UNBIASED = 2
 
 class InitMethod(Enum):
+    """
+    Used for the selection of the initialization method.
+    """
     MIN = 0
     GROW = 1
     FULL = 2
@@ -337,13 +397,21 @@ class SimpleTGP(TinyTGP):
     @override
     def init(self):
         """
-        Initialises the population.
+        Performs the initialization of the population.
         """
         self.population = [self.init_individual() for _ in range(self.hyperparameters.lmbda + 1)]
 
     def init_individual(self) -> TGPIndividual:
         """
-        Initializes an individual with a genome
+        Initializes an individual with a genome which represents the tree. The tree can
+        be initialized in three different ways:
+            - MIN: Creates a minimal tree consisting of a single node only
+            - GROW: Creates an unbalanced uniformly at random by chance up to a depth
+                    that is also selected uniformly at random
+            - FULL: Creates an full (balanced) tree up to a depth that is selected uniformly at randon
+                    in range [min_depth_factor * max_depth, max depth] while min_depth_factor is set to 0.9
+                    by default.
+        :returns: a TGP
         """
         if self.config.init_method == InitMethod.MIN:
             return TGPIndividual(genome_=[self.init_tree_simple()])
@@ -364,6 +432,9 @@ class SimpleTGP(TinyTGP):
         return Node(function=random.choice(self.terminals), children=[])
 
     def height(self, root: Node, d: int = 0):
+        """
+        Recursively calculates the height of a tree.
+        """
         if root is None:
             return -1
         if root.function in self.terminals:
