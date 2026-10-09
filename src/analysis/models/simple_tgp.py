@@ -1,3 +1,9 @@
+__author__ = "Roman Kalkreuth, Duc-Cuong Dang, Andre Opris, Fabricio Olivetti"
+__copyright__ = "Copyright (C) 2026 TinyverseGP/GPBench"
+__license__ = ("GPL-3.0.1 "
+               "https://github.com/gpbench/tinyversegp?tab=GPL-3.0-1-ov-file")
+
+
 """
 Implementation of simple tree-based GP as it has been used for runtime analysis of various
 problems.
@@ -10,6 +16,7 @@ that has been used in literature.
 
 A description of SimpleTGP can be found in the work of Neumann et al.
  - https://link.springer.com/chapter/10.1007/978-1-4614-1770-5_7
+ 
 """
 
 import copy

@@ -1,3 +1,9 @@
+__author__ = "Roman Kalkreuth, Duc-Cuong Dang, Andre Opris"
+__copyright__ = "Copyright (C) 2026 TinyverseGP/GPBench"
+__license__ = ("GPL-3.0.1 "
+               "https://github.com/gpbench/tinyversegp?tab=GPL-3.0-1-ov-file")
+
+
 """
 Provides an implementation of the problems AND_n and XOR_n, two benchmarks used for runtime analysis
 of GP algorithms in evolving conjunctions and disjunctions.

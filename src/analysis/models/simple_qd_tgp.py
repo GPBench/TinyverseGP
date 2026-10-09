@@ -1,3 +1,9 @@
+__author__ = "Roman Kalkreuth, Duc-Cuong Dang, Andre Opris, Fabricio Olivetti"
+__copyright__ = "Copyright (C) 2026 TinyverseGP/GPBench"
+__license__ = ("GPL-3.0.1 "
+               "https://github.com/gpbench/tinyversegp?tab=GPL-3.0-1-ov-file")
+
+
 import copy
 import math
 import random
