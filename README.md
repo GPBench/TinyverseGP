@@ -1,4 +1,4 @@
-# This is a cloned version of TinyverseGP that has been anonymized and freezed for peer-review. 
+# This is a cloned version of TinyverseGP that has been freezed to enable reproducibility.
 
 - It serves to compare Tree-based GP (TGP) and Cartesian GP (CGP) on the MAX problem
 - Provides two simplified GP models that have been used in literature to perform runtime analysis
