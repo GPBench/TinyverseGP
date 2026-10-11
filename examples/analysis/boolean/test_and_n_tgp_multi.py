@@ -46,7 +46,7 @@ for n in range(N_MIN, N_MAX + 1):
         lmbda=1,
         k=1,
         strict_selection=True,
-        check_size=False,
+        check_complexity=False,
         max_depth=n * n,
         multi=True
     )

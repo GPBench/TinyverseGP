@@ -42,7 +42,7 @@ hyperparameters = SimpleTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_size=False,
+    check_complexity=False,
     max_depth=N * N,
     multi=True
 )
