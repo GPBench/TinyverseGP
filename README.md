@@ -11,4 +11,8 @@
 - Datafiles of the experiments in CSV format and the plot scripts 
   - [results/](https://github.com/GPBench/TinyverseGP/tree/max-analysis/results)
   - [results/plot/](https://github.com/GPBench/TinyverseGP/tree/max-analysis/results/plot)
+ 
+
+###  The results obtained with this version of TinyverseGP are presented in work accepted at NeurIPS 2026
+-  The corresponding paper has been accepted for inclusion in the conference proceedings
 
