@@ -38,9 +38,10 @@ class HVLPrime:
     """
     This implementation of the HVL prime follows the formal description provided
     in the works of Koetzing et al:
-        https://doi.org/10.1145/2330163.2330348
-        https://doi.org/10.1016/j.tcs.2013.06.014
+        - https://doi.org/10.1145/2330163.2330348
+        - https://doi.org/10.1016/j.tcs.2013.06.014
     """
+
     def __init__(self, functions_: list, terminals_: list):
         self.functions = functions_
         self.terminals = terminals_
@@ -48,20 +49,83 @@ class HVLPrime:
     def is_leaf(self, n: Node) -> bool:
         """
         Checks whether a given node is a leaf or not.
+
+        :param n: reference to the node to be checked
         """
         return isinstance(n.function, Var) or isinstance(n.function, Const)
 
-    def rnd_leaf(self, n: Node, p=None) -> tuple[Node, Node]:
+    def get_leafs(self, n: Node, p=None, leafs: list = None) -> list[tuple[Node, Node]]:
         """
-        Return a random leaf node.
+        Recursively obtains all leafs from the tree and store them in a list.
+
+        :param n: reference to initial node that is being considered
+        :param p: reference to the parent node
+        :param leafs: list of leaf nodes of the given node
+        :returns: list of tuples containing references to leafs and parent nodes
+        """
+        if leafs is None:
+            leafs = []
+
+        if self.is_leaf(n):
+            leafs.append((n, p))
+        else:
+            for c in n.children:
+                self.get_leafs(c, n, leafs)
+        return leafs
+
+    def get_inner_nodes(self, n: Node, p=None, inner_nodes: list = None) -> list[tuple[Node, Node]]:
+        """
+        Recursively obtain all inner nodes from the tree and store them in a list.
+
+        :param n: reference to initial node that is being considered
+        :returns: list of tuples containing references to leafs and parent nodes
+        """
+        if inner_nodes is None:
+            inner_nodes = []
+
+        if not self.is_leaf(n):
+            inner_nodes.append((n, p))
+            for c in n.children:
+                self.get_inner_nodes(c, n, inner_nodes)
+        return inner_nodes
+
+    def rnd_inner_node(self, n: Node):
+        """
+        Select and return a node from the set of inner nodes uniformly at random.
+
+        :param n: reference to initial node that is being considered
+        """
+        return random.choice(self.get_inner_nodes(n))
+
+    def rnd_leaf(self, n: Node):
+        """
+        Select and return a node from the set of leafs uniformly at random.
+
+        :param n: reference to initial node that is being considered
+        """
+        return random.choice(self.get_leafs(n))
+
+    def rnd_leaf_dirty(self, n: Node, p=None) -> tuple[Node, Node]:
+        """
+        Select and returns a node from the set of leafs  by a random depth-first search, no guarantee that the distribution
+        is uniform.
+
+        :param n: reference to initial node that is being considered
+        :param p: reference to parent node
+        :return: tuple containing references to the selected leaf and parent node
         """
         if self.is_leaf(n):
             return n, p
-        return self.rnd_leaf(random.choice(n.children), n)
+        return self.rnd_leaf_dirty(random.choice(n.children), n)
 
-    def rnd_inner_node(self, n: Node, p: float) -> Node:
+    def rnd_inner_node_dirty(self, n: Node, p: float) -> Node:
         """
-         Return a random inner node.
+        Return a random inner node by a random depth-first search, no guarantee that the distribution
+        is uniform.
+
+        :param n: reference to initial node that is being considered
+        :param p: node selection rate
+        :returns: reference to selected inner node
         """
         if random.random() <= p:
             return n
@@ -69,12 +133,15 @@ class HVLPrime:
         c = [child for child in n.children if self.is_leaf(child) == False]
 
         if len(c) > 0:
-            n = self.rnd_inner_node(random.choice(c), p)
+            n = self.rnd_inner_node_dirty(random.choice(c), p)
         return n
 
     def count_inner_nodes(self, node: Node) -> int:
         """
         Return the number of inner nodes in a tree.
+
+        :param n: reference to initial node that is being considered
+        :returns: number of inner nodes
         """
         if len(node.children) == 0:
             return 0
@@ -83,6 +150,19 @@ class HVLPrime:
             if child.function is not Var or child.function is not Const:
                 s += self.count_inner_nodes(child)
         return 1 + s
+
+    def replace_node(self, u: Node, p: Node):
+        """
+        Selects a sibling of a given node u by chance and replaces
+        u’s parent with the subtree rooted at u’s sibling (hence deleting both u’s parent and the subtree rooted at u from the current tree.
+
+        :param u: selected node
+        :param p: parent of u
+        """
+        cs = [c for c in p.children if c is not u]
+        v = random.choice(cs)
+        p.function = v.function
+        p.children = v.children
 
     def substitute(self, n: Node):
         """
@@ -94,8 +174,7 @@ class HVLPrime:
         if n_inner == 0:
             return
 
-        p = 1.0 / n_inner
-        n_rnd = self.rnd_inner_node(n, p)
+        n_rnd = self.rnd_inner_node(n)[0]
         n_rnd.function = random.choice(self.functions)
 
     def insert(self, n: Node):
@@ -103,7 +182,7 @@ class HVLPrime:
         Insert appends an inner node that is uniformly selected at random at the position of a randomly selected leaf
         . The selected leaf as well an additional randomly selected leaf node are then appended as children.
         """
-        v, p = self.rnd_leaf(n)
+        v, p = self.rnd_leaf_dirty(n)
         u = random.choice(self.terminals)
         w = random.choice(self.functions)
 
@@ -123,16 +202,10 @@ class HVLPrime:
         if p is None:
             return
 
-        if p.children[0] is v:
-            u = p.children[1]
-        else:
-            u = p.children[0]
-
-        p.function = u.function
-        p.children = u.children
+        self.replace_node(v, p)
 
     def as_list(self):
-        return [self.substitute, self.insert,  self.delete]
+        return [self.substitute, self.insert, self.delete]
 
 
 class SimpleTGP(TinyTGP):
@@ -169,6 +242,34 @@ class SimpleTGP(TinyTGP):
         with one leaf uniformly selected at random.
         """
         return Node(function=random.choice(self.terminals), children=[])
+
+    def height(self, root: Node, d: int = 0):
+        """
+        Recursively calculates the height of a tree.
+        """
+        if root is None:
+            return -1
+        if root.function in self.terminals:
+            return d
+        else:
+            left = self.height(root.children[0], d + 1)
+            right = self.height(root.children[1], d + 1)
+            return max(left, right)
+
+    @override
+    def eval_complexity(self, genome: list[Node]) -> int:
+        """
+        Evaluation of the complexity is done by calculating the height of the tree.
+        """
+        return self.height(genome[0])
+
+    @override
+    def is_valid(self, genome: list[Node]):
+        """
+        For simple TGP the height of the tree is checked against a predefined
+        maximum depth.
+        """
+        return self.eval_complexity(genome) <= self.hyperparameters.max_depth
 
     @override
     def perturb(self, parent1: Node, parent2: Node = None) -> Node:

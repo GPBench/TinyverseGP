@@ -54,7 +54,8 @@ hyperparameters = SimpleTGPHyperparameters(
     strict_selection = False,
     max_depth=1,
     multi = False,
-    check_size=False
+    check_size=False,
+    discard_invalid=True
 )
 
 
