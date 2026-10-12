@@ -11,5 +11,5 @@
 ###  The results obtained with this version of TinyverseGP are presented in work accepted at PPSN 2026
 
 -  The corresponding paper has been accepted for inclusion in the conference proceedings
--  An arXiv version of the paper can be obtained here: 
+-  An arXiv version of the paper can be obtained [here](https://arxiv.org/abs/2606.15923)
   
