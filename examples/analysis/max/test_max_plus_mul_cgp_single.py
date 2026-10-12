@@ -38,7 +38,7 @@ config = SimpleCGPConfig(
     num_outputs=1,
     report_interval=1,
     max_time=MAX_TIME,
-    mutation_type=MutationType.PROB,
+    mutation_type=MutationType.SAM,
     global_seed=None,
     checkpoint_interval=9999999,
     checkpoint_dir='../checkpoint',
@@ -55,10 +55,15 @@ hyperparameters = CGPHyperparameters(
     strict_selection=False,
 )
 
+if config.mutation_type == MutationType.SAM:
+    appendix = "sam"
+else:
+    appendix = "prob"
+
 
 problem = MaxPlusMul(d=D, t=T)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleCGP(functions, terminals, config, hyperparameters)
 cgp.evolve(problem)
-print(f"{D},simple_cgp,{cgp.generation_number}")
+print(f"{D},simple_cgp_{appendix},{cgp.generation_number}")

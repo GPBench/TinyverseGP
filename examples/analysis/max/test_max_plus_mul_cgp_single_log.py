@@ -57,10 +57,15 @@ hyperparameters = CGPHyperparameters(
     strict_selection=False,
 )
 
+if config.mutation_type == MutationType.SAM:
+    appendix = "sam"
+else:
+    appendix = "prob"
+
 problem = MaxPlusMul(d=D, t=T, log_scaling=True)
 config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 cgp = SimpleCGP(functions, terminals, config, hyperparameters)
 cgp.evolve(problem)
 
-print(f"{D},simple_cgp,{cgp.generation_number}")
+print(f"{D},simple_cgp_log_{appendix},{cgp.generation_number}")
