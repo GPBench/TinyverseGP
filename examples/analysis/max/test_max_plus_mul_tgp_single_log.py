@@ -9,7 +9,7 @@ The parameters for MAX, T and D, are passed to script via argv.
 import sys
 from math import log2
 
-from analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
+from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
 from src.analysis.benchmarks.max.max import MaxPlusMul
 from src.gp.tiny_cgp import *
 from src.gp.tiny_tgp import TGPConfig
@@ -17,7 +17,7 @@ from src.gp.tinyverse import Const
 from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters
 
 MAX_GENERATIONS = 2000000
-MAX_TIME = 999999
+MAX_TIME = 9999999
 D = int(sys.argv[1])
 T = int(sys.argv[2])
 functions = [LOG_ADD, LOG_MUL]
