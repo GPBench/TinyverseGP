@@ -255,8 +255,8 @@ class ProgramSynthesis(Problem):
     def is_ideal(self, fitness):
         return fitness == len(self.dataset)
 
-    def sigmoid(self, x):
-        return 1 / (1 + np.exp(-x))
+    def sigmoid(self, x, clip=700):
+        return 1 / (1 + np.exp(np.clip(-x, -clip, clip)))
 
     def binary_step(self, x, threshold=0.5):
         return 0 if self.sigmoid(x) <= threshold else 1
