@@ -1,7 +1,7 @@
 import sys
 import time
 
-from analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPHyperparameters
+from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPHyperparameters
 from src.analysis.benchmarks.symbolic_regression import TinySR
 from src.analysis.models.simple_tgp import SimpleTGPConfig, InitMethod, SimpleTGP, MutationType, SimpleTGPHyperparameters
 from src.gp.functions import ADD, MUL
@@ -43,11 +43,11 @@ hyperparameters = QdTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_complexity=True,
+    check_complexity=False,
     max_depth=D,
     min_depth=1,
     discard_invalid=True,
-    multi=True,
+    multi=False,
     cx_rate=0.5,
     mutation_type=MutationType.HVL_STD
 )
