@@ -94,5 +94,5 @@ best = tgp.evolve(problem)
 t1 = time.time()
 delta = t1 - t0
 
-print(f"{D},simple_tgp_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}, {best.fitness}")
+print(f"{D},simple_qd_tgp_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}, {best.fitness}")
 
