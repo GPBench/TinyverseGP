@@ -27,8 +27,8 @@ from enum import Enum
 import numpy as np
 from dataclasses import dataclass
 from typing import override
-from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP, TGPConfig
-from src.gp.tinyverse import Var, Const, Hyperparameters, GPHyperparameters, GPConfig
+from src.gp.tiny_tgp import TGPIndividual, Node, TinyTGP
+from src.gp.tinyverse import Var, Const, Hyperparameters, GPConfig
 
 
 class HVLPrime:
@@ -389,7 +389,7 @@ class SimpleTGP(TinyTGP):
     """
     hyperparameters: SimpleTGPHyperparameters
 
-    def __init__(self, functions_: list, terminals_: list, config_: TGPConfig,
+    def __init__(self, functions_: list, terminals_: list, config_: SimpleTGPConfig,
                  hyperparameters_: SimpleTGPHyperparameters):
         super().__init__(functions_, terminals_, config_, hyperparameters_)
 

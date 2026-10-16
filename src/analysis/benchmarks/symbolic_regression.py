@@ -28,8 +28,9 @@ class TinySR(Benchmark):
     fun_type = FunctionType
     ds_type: DatasetType
 
-    def __init__(self, x_min: float, x_max: float, deg_min: int, deg_max: int, n: int,
-                 fun_type: FunctionType = fun_type.POLYNOMIAL, ds_type:DatasetType=DatasetType.UNIFORM, step: int=1):
+    def __init__(self, x_min: float, x_max: float, n: int,
+                 fun_type: FunctionType = fun_type.POLYNOMIAL, ds_type:DatasetType=DatasetType.UNIFORM,
+                 deg_min: int = 2, deg_max: int = 8, step: int=1):
 
         assert deg_min < deg_max
         assert x_min < x_max

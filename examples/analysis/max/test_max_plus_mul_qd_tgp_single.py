@@ -80,8 +80,6 @@ config.ideal_fitness = problem.ideal
 config.global_seed = int(time.time_ns())
 tgp = SimpleQdTGP(functions, terminals, config, hyperparameters)
 
-print(problem.ideal)
-
 t0 = time.time()
 best = tgp.evolve(problem)
 t1 = time.time()
