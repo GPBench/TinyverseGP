@@ -52,10 +52,10 @@ First, set up the necessary imports. `tiny_[tgp|cgp|lgp|ge]` is the module for e
 
 ## 2. Set up the benchmark
 
-Choose the benchmark among the files in `data/logic_synthesis/plu/` and set the number of inputs and outputs.
+Choose the benchmark among the files in `data/logic_synthesis/plu/` or `data/logic_synthesis/tt/` and set the number of inputs and outputs.
 
 ```python title="Example"
-benchmark = LSBenchmark('data/logic_synthesis/plu/add3.plu')
+benchmark = LSBenchmark('plu/add3.plu')
 benchmark.generate()
 truth_table = benchmark.get_truth_table()
 num_inputs = benchmark.benchmark.num_inputs
