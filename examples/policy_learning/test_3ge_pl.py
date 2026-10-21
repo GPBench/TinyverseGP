@@ -14,9 +14,9 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
 """
 
 
-from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, GPConfig
-from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
-from src.gp.problem import PolicySearch
+from gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, GPConfig
+from gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
+from gp.problem import PolicySearch
 import warnings
 import gymnasium as gym
 import numpy

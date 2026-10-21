@@ -12,12 +12,12 @@ no serious benchmark. It only serves as an example for SR as an application
 domain for TinyverseGP:
 """
 
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
-from src.gp.functions import ADD, SUB, MUL, DIV
-from src.gp.loss import absolute_distance
-from src.gp.problem import BlackBox
-from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
-from src.gp.tinyverse import GPConfig
+from gp.tiny_ge import TinyGE, GEHyperparameters
+from gp.functions import ADD, SUB, MUL, DIV
+from gp.loss import absolute_distance
+from gp.problem import BlackBox
+from benchmark.symbolic_regression.sr_benchmark import SRBenchmark
+from gp.tinyverse import GPConfig
 
 config = GPConfig(
     num_jobs=1,

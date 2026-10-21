@@ -12,12 +12,12 @@ no serious benchmark. It only serves as an example for SR as an application
 domain for TinyverseGP:
 """
 
-from src.gp.tiny_lgp import TinyLGP, LGPConfig, LGPHyperparameters
-from src.gp.problem import BlackBox
-from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
-from src.gp.functions import ADD, SUB, MUL, DIV
-from src.gp.loss import mean_squared_error
-from src.gp.tinyverse import Var, Const
+from gp.tiny_lgp import TinyLGP, LGPConfig, LGPHyperparameters
+from gp.problem import BlackBox
+from benchmark.symbolic_regression.sr_benchmark import SRBenchmark
+from gp.functions import ADD, SUB, MUL, DIV
+from gp.loss import mean_squared_error
+from gp.tinyverse import Var, Const
 
 try:
     from icecream import ic

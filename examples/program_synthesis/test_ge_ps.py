@@ -14,12 +14,12 @@ evolutionary loop via :meth:`TinyGE.evolve`.
 import warnings
 
 
-from src.gp.tiny_cgp import GPConfig
-from src.gp.problem import ProgramSynthesis
-from src.benchmark.program_synthesis.ps_benchmark import PSBenchmark
-from src.benchmark.program_synthesis.leetcode.power_of_two import gen_power_of_two
-from src.gp.functions import ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
+from gp.tiny_cgp import GPConfig
+from gp.problem import ProgramSynthesis
+from benchmark.program_synthesis.ps_benchmark import PSBenchmark
+from benchmark.program_synthesis.leetcode.power_of_two import gen_power_of_two
+from gp.functions import ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT
+from gp.tiny_ge import TinyGE, GEHyperparameters
 
 # Suppress third-party warnings so the run output stays focused on GE progress
 warnings.filterwarnings("ignore")

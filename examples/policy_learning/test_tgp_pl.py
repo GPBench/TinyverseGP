@@ -18,10 +18,10 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
 from math import sqrt, pi
 import gymnasium as gym
 
-from src.gp.tinyverse import Var, Const
-from src.gp.tiny_tgp import TGPHyperparameters, TinyTGP, GPConfig
-from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
-from src.gp.problem import PolicySearch
+from gp.tinyverse import Var, Const
+from gp.tiny_tgp import TGPHyperparameters, TinyTGP, GPConfig
+from gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
+from gp.problem import PolicySearch
 import warnings
 import numpy
 

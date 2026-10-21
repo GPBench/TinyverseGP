@@ -6,14 +6,14 @@ https://arxiv.org/abs/2210.02019
 import warnings
 import numpy
 
-from src.benchmark.policy_search.pl_benchmark import ALEArgs
-from src.benchmark.policy_search.plbench.plbench import PLBench, PLRegressor
-from src.gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ
-from src.gp.tiny_cgp import CGPHyperparameters, CGPConfig
-from src.gp.tiny_ge import GEHyperparameters
-from src.gp.tiny_lgp import LGPHyperparameters, LGPConfig
-from src.gp.tiny_tgp import TGPHyperparameters, TGPConfig
-from src.gp.tinyverse import Var, GPConfig
+from benchmark.policy_search.pl_benchmark import ALEArgs
+from benchmark.policy_search.plbench.plbench import PLBench, PLRegressor
+from gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ
+from gp.tiny_cgp import CGPHyperparameters, CGPConfig
+from gp.tiny_ge import GEHyperparameters
+from gp.tiny_lgp import LGPHyperparameters, LGPConfig
+from gp.tiny_tgp import TGPHyperparameters, TGPConfig
+from gp.tinyverse import Var, GPConfig
 
 if numpy.version.version[0] == "2":
     warnings.warn("Using NumPy version >=2 can lead to overflow.")
