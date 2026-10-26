@@ -44,10 +44,14 @@ class TinySR(Benchmark):
         self.fun_type = fun_type
         self.step = step
 
-    def polynomial(self, x: float, deg: int) -> float:
+    def polynomial(self, x: float | int, deg: int, coeff: bool = True, c_min:int = 1 , c_max: int = 10) -> float:
+        if coeff is True:
+            coeff = [random.randrange(c_min, c_max) for _ in range(deg)]
+        else:
+            coeff = [1.0 for _ in range(deg)]
         s = 0.0
-        for d in range(1, deg + 1):
-            s += x ** d
+        for i, d in enumerate(range(1, deg + 1)):
+                s += coeff[i] * x ** d
         return s
 
     def monomial(self, x: float, deg: int) -> float:

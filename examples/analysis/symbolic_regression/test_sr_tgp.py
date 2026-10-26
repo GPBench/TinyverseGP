@@ -41,10 +41,10 @@ hyperparameters = SimpleTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_complexity=False,
+    check_complexity=True,
     min_depth=1,
     max_depth=D,
-    multi=True,
+    multi=False,
     discard_invalid=True,
     mutation_type=MutationType.HVL_STD
 )
