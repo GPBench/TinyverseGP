@@ -311,7 +311,7 @@ class GPModel(ABC):
         """
         best = None
         for individual in self.population:
-            self.num_evaluations += 1  # update the evaluation counter
+            self.num_evaluations += 1  # update the experiments counter
             genome = individual.genome
             if individual.fitness is None:
                 # Dynamic dispatch: pass individual for Tiny3GE, genome for others

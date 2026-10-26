@@ -14,7 +14,7 @@ There are two version of MAX that are implemented in this problem class:
     - max-{+,*}-D-t :
         MAX with maximum depth D, constant t and function set F = {+, *} (MaxPlusMul)
 
-This implementation of MAX supports log scaling to enable evaluation of MAX on large settings
+This implementation of MAX supports log scaling to enable experiments of MAX on large settings
 of the depth D.
 """
 

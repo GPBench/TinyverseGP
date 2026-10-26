@@ -13,7 +13,7 @@ class BenchmarkEvaluator:
         self, x: list, y: list, compressed: bool = False, bit_length: int = None
     ) -> int:
         """
-        Triggers the evaluation with the Hamming distance. Distinguishes between compressed and uncompressed
+        Triggers the experiments with the Hamming distance. Distinguishes between compressed and uncompressed
         output pairs of a candidate program/model and the real output values of a truth table that are passed to the function.
         """
         if len(x) != len(y):

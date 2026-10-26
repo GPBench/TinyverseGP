@@ -68,7 +68,7 @@ class CGPIndividual(GPIndividual):
     the genome and the fitness value.
 
     Additionally, the CGP individual can store the path that are encoded in the genotype to
-    avoid unnecessary evaluation costs by re-evaluating and re-visiting nodes in the
+    avoid unnecessary experiments costs by re-evaluating and re-visiting nodes in the
     decoding routine.
     """
 
@@ -340,7 +340,7 @@ class TinyCGP(GPModel):
 
     def evaluate_node(self, node_num: int, genome: list[int], args: list) -> float:
         """
-        Evaluates one node of the genome in the framework of the evaluation process.
+        Evaluates one node of the genome in the framework of the experiments process.
 
         :param node_num: Number of the node
         :param genome: Genome of the individual that is evaluated
@@ -376,7 +376,7 @@ class TinyCGP(GPModel):
         Decodes the paths that are encoded in the genome if not obtained already
         to avoid unnecessary iterations.
 
-        Makes use the memoization to avoid re-evaluation of function nodes.
+        Makes use the memoization to avoid re-experiments of function nodes.
 
         :param genome: The genome of the individual
         :param observation: Current observation

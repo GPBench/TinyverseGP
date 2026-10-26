@@ -152,7 +152,7 @@ class PolicySearch(Problem):
 
 class ProgramSynthesis(Problem):
     """
-    Represent a program synthesis problem where the evaluation is based on a dataset
+    Represent a program synthesis problem where the experiments is based on a dataset
     that consists of positive examples and counterexamples.
 
     The predictions are made with a binary step activation function and the cost function

@@ -12,7 +12,7 @@ notes:
     - however, this is optional and can be adjusted based on the problem requirements.
 - the grammar is defined in BNF format as a dictionary. 
 - This module is intended to reuse the existing TinyGE functionalities that are already implemented in the TinyGE class.
-- It implements a mapping from the derivation tree to a linear genome representation, which is then used for evaluation and prediction via the TinyGE class.
+- It implements a mapping from the derivation tree to a linear genome representation, which is then used for experiments and prediction via the TinyGE class.
 - This class will use all the hyperparamters defined in the TinyGE class and add only one hyperparater: 'max_depth' for the derivation tree.
 """
 
@@ -268,7 +268,7 @@ class Tiny3GE(GPModel):
         '''
         # huge overhead due to repeatedly generating the linear genome from the derivation tree because the main function expects a (individual.genome, problem) as arguments
         # lin_genome = self.generate_linear_genome(individual.genome, self.hyperparameters.codon_size)  # convert the derivation tree to a linear genome
-        self.num_evaluations += 1  # update the evaluation counter
+        self.num_evaluations += 1  # update the experiments counter
         f = None
         tmp_expr = self.expression(individual.genome)
         if '<' in tmp_expr or '>' in tmp_expr:
