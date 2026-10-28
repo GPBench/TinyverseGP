@@ -1,0 +1,18 @@
+/* ===== TinyverseGP Documentation Stylesheet ===== */
+
+:root > * {
+    --md-primary-fg-color: #2e7d32;
+    --md-primary-fg-color--light: #f1f8e9;
+    --md-primary-fg-color--dark: #1a1a1a;
+
+    --md-accent-fg-color: #66bb6a;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+    font-weight: 700;
+}

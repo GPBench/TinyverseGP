@@ -1,0 +1,85 @@
+site_name: TinyverseGP Documentation
+site_url: https://gpbench.github.io/TinyverseGP/docs
+repo_url: https://github.com/GPBench/TinyverseGP/
+repo_name: GPBench/TinyverseGP
+docs_dir: documentation
+
+theme:
+  name: material
+  palette:
+    primary: custom
+  logo: assets/dna.svg
+  favicon: assets/dna.svg
+  features:
+    - content.code.copy
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - search.suggest
+
+extra_css:
+  - style.css
+
+nav:
+  - Home: index.md
+  - Tutorials:
+      - Symbolic Regression: tutorials/sr_tutorial.md
+      - Logic Synthesis: tutorials/ls_tutorial.md
+      - Program Synthesis : tutorials/ps_tutorial.md
+      - Policy Learning: tutorials/pl_tutorial.md
+      - Adding a representation module: tutorials/new_representation.md
+      - Adding a problem domain module: tutorials/new_problem_domain.md
+      - Using the SMAC3 interface for HPO: tutorials/hpo_interface_tutorial.md
+  - Reference:
+    - Benchmark:
+        - Logic Synthesis:
+            - Blif: API/Benchmark/LS/blif_docstrings.md
+            - Benchmark Evaluator: API/Benchmark/LS/bmeval_docstrings.md
+            - Benchmark Reader: API/Benchmark/LS/bmreader_docstrings.md
+            - LS Benchmark: API/Benchmark/LS/lsbenchmark_docstrings.md
+        - Policy Learning:
+            - PL Benchmark: API/Benchmark/PL/plbenchmark_docstrings.md
+            - Policy Evaluation: API/Benchmark/PL/pleval_docstrings.md
+        - Program Synthesis:
+            - PS Benchmark: API/Benchmark/PS/psbenchmark_docstrings.md
+        - Symbolic Regression:
+            - SR Benchmark: API/Benchmark/SR/srbenchmark_docstrings.md
+    - GP:
+      - Tinyverse: API/GP/tinyverse_docstrings.md
+      - TinyTGP: API/GP/tinytgp_docstrings.md
+      - TinyCGP: API/GP/tinycgp_docstrings.md
+      - TinyLGP: API/GP/tinylgp_docstrings.md
+      - TinyGE: API/GP/tinyge_docstrings.md
+      - Functions: API/GP/functions_docstrings.md
+      - Loss: API/GP/loss_docstrings.md
+      - Problem: API/GP/problem_docstrings.md
+    - HPO:
+      - HPO Interface: API/HPO/hpo_docstrings.md
+      - Parameters: parameters.md
+    - LLM:
+        - LLM: API/LLM/llm_docstrings.md
+        - TinyLLM: API/LLM/tinyllm_docstrings.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            docstring_style: sphinx
