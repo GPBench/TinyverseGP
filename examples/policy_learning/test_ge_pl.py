@@ -17,9 +17,9 @@ from math import sqrt, pi
 
 import gymnasium as gym
 
-from src.gp.tiny_ge import GPConfig, GEHyperparameters, TinyGE
-from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
-from src.gp.problem import PolicySearch
+from gp.tiny_ge import GPConfig, GEHyperparameters, TinyGE
+from gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
+from gp.problem import PolicySearch
 import warnings
 import numpy
 

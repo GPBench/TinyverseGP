@@ -5,12 +5,12 @@ https://arxiv.org/abs/1903.03176
 https://github.com/kenjyoung/MinAtar
 """
 
-from src.benchmark.policy_search.pl_benchmark import PLBenchmark, MinAtarArgs
-from src.gp.tiny_cgp import GPConfig
-from src.gp.problem import PolicySearch
-from src.gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, IF, IFLEZ, IFGTZ, MIN, MAX, EQ, NEQ, LT, GT, GTE, LTE
-from src.gp.tiny_tgp import TGPHyperparameters, TinyTGP
-from src.gp.tinyverse import Var
+from benchmark.policy_search.pl_benchmark import PLBenchmark, MinAtarArgs
+from gp.tiny_cgp import GPConfig
+from gp.problem import PolicySearch
+from gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, IF, IFLEZ, IFGTZ, MIN, MAX, EQ, NEQ, LT, GT, GTE, LTE
+from gp.tiny_tgp import TGPHyperparameters, TinyTGP
+from gp.tinyverse import Var
 import warnings
 import numpy
 
@@ -88,5 +88,3 @@ env = gym.make(id=GAME, render_mode="human")
 problem = PolicySearch(env=env, ideal_=config.ideal_fitness, minimizing_=False)
 problem.evaluate(policy.genome, tgp, num_episodes=1, wait_key=True)
 env.close()
-
-

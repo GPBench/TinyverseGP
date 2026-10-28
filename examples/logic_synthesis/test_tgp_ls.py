@@ -11,14 +11,14 @@ The provided benchmarks are taken from the General Boolean Function Benchmark Su
 https://dl.acm.org/doi/10.1145/3594805.3607131
 """
 
-from src.gp.tinyverse import Var
-from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark
-from src.gp.tiny_tgp import TinyTGP, TGPHyperparameters, GPConfig
-from src.gp.functions import AND, OR, NAND, NOR
-from src.gp.loss import hamming_distance_bitwise
-from src.gp.problem import BlackBox
+from gp.tinyverse import Var
+from benchmark.logic_synthesis.ls_benchmark import LSBenchmark
+from gp.tiny_tgp import TinyTGP, TGPHyperparameters, GPConfig
+from gp.functions import AND, OR, NAND, NOR
+from gp.loss import hamming_distance_bitwise
+from gp.problem import BlackBox
 
-benchmark = LSBenchmark('data/logic_synthesis/plu/alu2.plu')
+benchmark = LSBenchmark('plu/alu2.plu')
 benchmark.generate()
 truth_table = benchmark.get_truth_table()
 num_inputs = benchmark.benchmark.num_inputs

@@ -12,6 +12,8 @@ The architecture is based on three classes implemented in the file
 from os import path
 from dataclasses import dataclass
 import array
+import io
+import requests
 
 
 @dataclass
@@ -361,14 +363,17 @@ class BenchmarkReader:
         self.benchmark.table.compressed = False
 
         # First, validate the file path
-        self.validate_file_path(file_path)
+        # self.validate_file_path(file_path)
 
         input_row = []
         output_row = []
         line = ""
 
         # Open the file for reading
-        self.open_file(file_path)
+        # self.open_file(file_path)
+        response = requests.get(f'https://github.com/GPBench/TinyverseGP/raw/main/data/logic_synthesis/{file_path}')
+        response.raise_for_status()
+        self.file = io.StringIO(response.text)
         self.read_header()
 
         i = 0
@@ -417,7 +422,7 @@ class BenchmarkReader:
         """
 
         # First, validate the file path
-        self.validate_file_path(file_path)
+        # self.validate_file_path(file_path)
 
         # Lists for the header and input/output rows
         header = []
@@ -429,7 +434,10 @@ class BenchmarkReader:
         self.benchmark.compressed = True
 
         # Open the file for reading
-        self.open_file(file_path)
+        # self.open_file(file_path)
+        response = requests.get(f'https://github.com/GPBench/TinyverseGP/raw/main/data/logic_synthesis/{file_path}')
+        response.raise_for_status()
+        self.file = io.StringIO(response.text)
 
         # Read in the header
         i = 0
@@ -472,4 +480,4 @@ class BenchmarkReader:
 
             # Continue the iteration with the next line of the file
             line = self.file.readline()
-        self.close_file()
+        # self.close_file()

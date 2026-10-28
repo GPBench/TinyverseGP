@@ -2,12 +2,12 @@
 Example script to test CGP with symbolic regression problems and multiple jobs.
 """
 
-from src.gp.tiny_cgp import TinyCGP, CGPConfig, CGPHyperparameters
-from src.gp.problem import BlackBox
-from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
-from src.gp.functions import ADD, SUB, MUL, DIV
-from src.gp.loss import absolute_distance
-from src.gp.tinyverse import Var, Const
+from gp.tiny_cgp import TinyCGP, CGPConfig, CGPHyperparameters
+from gp.problem import BlackBox
+from benchmark.symbolic_regression.sr_benchmark import SRBenchmark
+from gp.functions import ADD, SUB, MUL, DIV
+from gp.loss import absolute_distance
+from gp.tinyverse import Var, Const
 
 functions = [ADD, SUB, MUL, DIV]
 terminals = [Var(0), Const(1)]

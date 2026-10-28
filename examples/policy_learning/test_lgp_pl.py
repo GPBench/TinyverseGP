@@ -16,10 +16,10 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
 """
 import gymnasium as gym
 
-from src.gp.tinyverse import Var
-from src.gp.tiny_lgp import TinyLGP, LGPHyperparameters, LGPConfig
-from src.gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT
-from src.gp.problem import PolicySearch
+from gp.tinyverse import Var
+from gp.tiny_lgp import TinyLGP, LGPHyperparameters, LGPConfig
+from gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT
+from gp.problem import PolicySearch
 import warnings
 import numpy
 

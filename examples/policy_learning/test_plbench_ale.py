@@ -9,11 +9,11 @@ https://arxiv.org/abs/2210.02019
 import warnings
 import numpy
 
-from src.benchmark.policy_search.pl_benchmark import ALEArgs
-from src.benchmark.policy_search.plbench.plbench import PLBench
-from src.gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ
-from src.gp.problem import PolicySearch
-from src.gp.tiny_cgp import CGPHyperparameters, CGPConfig, TinyCGP
+from benchmark.policy_search.pl_benchmark import ALEArgs
+from benchmark.policy_search.plbench.plbench import PLBench
+from gp.functions import ADD, SUB2F, MUL, DIV, INV, ABS, SIN, COS, TAN, ARCSIN, ARCCOS, ARCTAN, LOG, SQR, SQRT, CEIL, FLOOR, lAND, lOR, lNAND, lNOR, lNOT, lXOR, LT, LTE, GT, GTE, EQ, NEQ, MIN, MAX, IF, IFLEZ, IFGTZ
+from gp.problem import PolicySearch
+from gp.tiny_cgp import CGPHyperparameters, CGPConfig, TinyCGP
 import gymnasium as gym
 
 if numpy.version.version[0] == "2":
