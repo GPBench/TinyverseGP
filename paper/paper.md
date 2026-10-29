@@ -1,12 +1,52 @@
 ---
 title: 'TinyverseGP'
-# TODO: add author list, affiliations, date, and tags (see https://joss.readthedocs.io/en/latest/paper.html)
-# authors:
-#   - name: ...
-#     affiliation: 1
-# affiliations:
-#   - index: 1
-#     name: ...
+# TODO: add date and tags (see https://joss.readthedocs.io/en/latest/paper.html)
+authors:
+  - name: Roman Kalkreuth
+    affiliation: 1
+  - name: Fabricio Olivetti
+    affiliation: 2
+  - name: Marie Anastacio
+    affiliation: 1
+  - name: Julian Dierkes
+    affiliation: 1
+  - name: Anja Jankovic
+    affiliation: 1
+  - name: Dominik Sobania
+    affiliation: 3
+  - name: Giovanni Squirello
+    affiliation: 4
+  - name: Alberto Tonda
+    affiliation: 5
+  - name: Duy Long Tran
+    affiliation: 1
+  - name: Zdenek Vasicek
+    affiliation: 6
+  - name: Diederick Vermetten
+    affiliation: 7
+  - name: Thomas Baeck
+    affiliation: 8
+  - name: Holger Hoos
+    affiliation: 1
+  - name: Carola Doerr
+    affiliation: 7
+affiliations:
+  - index: 1
+    name: RWTH Aachen University, Germany
+  - index: 2
+    name: Universidade Federal do ABC, Santo André, Brazil
+  - index: 3
+    name: University of Duisburg-Essen, Germany
+  - index: 4
+    name: Politecnico di Torino, Italy
+  - index: 5
+    name: Institut des Systèmes Complexes de Paris, Université Paris-Saclay, France
+  - index: 6
+    name: Brno University of Technology, Brno, Czech Republic
+  - index: 7
+    name: Sorbonne University, CNRS, France
+  - index: 8
+    name: Leiden University, Netherlands
 # date: ...
 # bibliography: paper.bib
 ---
