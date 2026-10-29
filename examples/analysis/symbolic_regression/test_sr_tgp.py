@@ -1,20 +1,25 @@
 import sys
 import time
-from src.analysis.benchmarks.symbolic_regression import TinySR
+
+from gp.loss import mean_squared_error
+from src.analysis.benchmarks.symbolic_regression import TinySR, DatasetType
 from src.analysis.models.simple_tgp import SimpleTGPConfig, InitMethod, SimpleTGP, MutationType, SimpleTGPHyperparameters
-from src.gp.functions import ADD, MUL
-from src.gp.loss import absolute_distance
+from src.gp.functions import ADD, MUL, SUB
 from src.gp.problem import BlackBox
-from src.gp.tinyverse import Var
+from src.gp.tinyverse import Var, Const
 
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
 D = int(sys.argv[1])
-functions = [ADD, MUL]
-terminals = [Var(0)]
+functions = [ADD, MUL, SUB]
+terminals = [Var(0), Const(1), Const(-1)]
 X_MIN = -1.0
 X_MAX = 1.0
+C_MIN = 1
+C_MAX = 10
 N = 20
+STEP = 0.02
+COEFF = True
 IDEAL = 1e-3
 MAX_DEPTH = D
 
@@ -25,7 +30,7 @@ config = SimpleTGPConfig(
     minimizing_fitness=True,
     ideal_fitness=IDEAL,
     init_method=InitMethod.MIN,
-    silent_algorithm=True,
+    silent_algorithm=False,
     silent_evolver=True,
     minimalistic_output=True,
     num_outputs=1,
@@ -41,17 +46,23 @@ hyperparameters = SimpleTGPHyperparameters(
     lmbda=1,
     k=1,
     strict_selection=False,
-    check_complexity=True,
+    check_complexity=False,
     min_depth=1,
     max_depth=D,
-    multi=False,
+    multi=True,
     discard_invalid=True,
     mutation_type=MutationType.HVL_STD
 )
 
 tiny_sr = TinySR(x_min=X_MIN,
                  x_max=X_MAX,
-                 n=N)
+                 step =STEP,
+                 n = N,
+                 ds_type=DatasetType.GRID,
+                 coeff=COEFF,
+                 c_min=C_MIN,
+                 c_max=C_MAX
+                 )
 
 match config.init_method:
     case InitMethod.GROW:
@@ -78,7 +89,7 @@ else:
 X,y = tiny_sr.generate_dataset(deg=D)
 problem = BlackBox(observations_=X,
                    actual_=y,
-                   loss_=absolute_distance,
+                   loss_=mean_squared_error,
                    ideal_=IDEAL,
                    minimizing_=True)
 
@@ -92,4 +103,3 @@ t1 = time.time()
 delta = t1 - t0
 
 print(f"{D},simple_tgp_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}, {best.fitness}")
-

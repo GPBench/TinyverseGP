@@ -1,24 +1,28 @@
 import sys
 import time
 
+from src.gp.loss import mean_squared_error, absolute_distance
 from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPHyperparameters
-from src.analysis.benchmarks.symbolic_regression import TinySR
+from src.analysis.benchmarks.symbolic_regression import TinySR, DatasetType
 from src.analysis.models.simple_tgp import SimpleTGPConfig, InitMethod, SimpleTGP, MutationType, SimpleTGPHyperparameters
-from src.gp.functions import ADD, MUL
-from src.gp.loss import absolute_distance
+from src.gp.functions import ADD, MUL, SUB
 from src.gp.problem import BlackBox
-from src.gp.tinyverse import Var
+from src.gp.tinyverse import Var, Const
 
 MAX_GENERATIONS = 2000000
 MAX_TIME = 999999
 D = int(sys.argv[1])
 functions = [ADD, MUL]
-terminals = [Var(0)]
+terminals = [Var(0), Const(1), Const(-1)]
 X_MIN = -1.0
 X_MAX = 1.0
+C_MIN = 1
+C_MAX = 10
 N = 20
+COEFF = True
+STEP = 0.02
 IDEAL = 1e-3
-MAX_DEPTH = D
+MAX_DEPTH = 2*D
 
 config = SimpleTGPConfig(
     num_jobs=1,
@@ -26,8 +30,8 @@ config = SimpleTGPConfig(
     stopping_criteria=IDEAL,
     minimizing_fitness=True,
     ideal_fitness=IDEAL,
-    init_method=InitMethod.MIN,
-    silent_algorithm=True,
+    init_method=InitMethod.GROW,
+    silent_algorithm=False,
     silent_evolver=True,
     minimalistic_output=True,
     num_outputs=1,
@@ -44,17 +48,23 @@ hyperparameters = QdTGPHyperparameters(
     k=1,
     strict_selection=False,
     check_complexity=False,
-    max_depth=D,
+    max_depth=MAX_DEPTH,
     min_depth=1,
-    discard_invalid=True,
-    multi=False,
+    discard_invalid=False,
+    multi=True,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_STD
+    mutation_type=MutationType.HVL_NODE_UNBIASED
 )
 
 tiny_sr = TinySR(x_min=X_MIN,
                  x_max=X_MAX,
-                 n=N)
+                 step =STEP,
+                 ds_type=DatasetType.GRID,
+                 n=N,
+                 coeff=COEFF,
+                 c_min=C_MIN,
+                 c_max=C_MAX
+                 )
 
 match config.init_method:
     case InitMethod.GROW:
@@ -81,7 +91,7 @@ else:
 X,y = tiny_sr.generate_dataset(deg=D)
 problem = BlackBox(observations_=X,
                    actual_=y,
-                   loss_=absolute_distance,
+                   loss_=mean_squared_error,
                    ideal_=IDEAL,
                    minimizing_=True)
 
@@ -95,4 +105,3 @@ t1 = time.time()
 delta = t1 - t0
 
 print(f"{D},simple_qd_tgp_{hvl_appendix1}_{hvl_appendix2}_{init_appendix},{tgp.generation_number},{delta}, {best.fitness}")
-

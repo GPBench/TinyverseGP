@@ -73,8 +73,9 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
 
         Validity checks are performed with the penalize functions from the tinyverse
         module:
-            - If height is greater the maximum height the penalize function
-                returns negative infinity.
+            - If height is greater the maximum height, the penalize function returns either
+              negative or positive infinity
+            - Depends on whether minimizing or maximizing fitness is used
         """
 
         if self.y.fitness is not None:
@@ -84,7 +85,7 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
             self.y.fitness = self.penalize(self.evaluate_individual(self.y.genome, problem), self.y.genome)
         else:
             self.y.fitness = self.penalize(self.y.genome[0].function(self.xs[0].fitness,
-                                                       self.xs[1].fitness), self.y.genome)
+                                                     self.xs[1].fitness), self.y.genome)
             self.xs.clear()
 
         self.update(self.y)
