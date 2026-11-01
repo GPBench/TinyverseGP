@@ -1,8 +1,8 @@
 import sys
 import time
 
-from analysis.models.simple_cgp import SimpleCGPConfig, SimpleCGPHyperparameters, MutationType, SimpleCGP
-from gp.loss import mean_squared_error
+from src.analysis.models.simple_cgp import SimpleCGPConfig, SimpleCGPHyperparameters, MutationType, SimpleCGP
+from src.gp.loss import mean_squared_error
 from src.analysis.benchmarks.symbolic_regression import TinySR, DatasetType
 from src.gp.functions import ADD, MUL, SUB
 from src.gp.problem import BlackBox

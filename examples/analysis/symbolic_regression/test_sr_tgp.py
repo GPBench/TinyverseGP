@@ -1,7 +1,7 @@
 import sys
 import time
 
-from gp.loss import mean_squared_error
+from src.gp.loss import mean_squared_error
 from src.analysis.benchmarks.symbolic_regression import TinySR, DatasetType
 from src.analysis.models.simple_tgp import SimpleTGPConfig, InitMethod, SimpleTGP, MutationType, SimpleTGPHyperparameters
 from src.gp.functions import ADD, MUL, SUB
@@ -21,7 +21,7 @@ N = 20
 COEFF = True
 STEP = 0.02
 IDEAL = 1e-2
-MAX_DEPTH = D+1
+MAX_DEPTH = 2*D
 
 config = SimpleTGPConfig(
     num_jobs=1,
@@ -29,8 +29,8 @@ config = SimpleTGPConfig(
     stopping_criteria=IDEAL,
     minimizing_fitness=True,
     ideal_fitness=IDEAL,
-    init_method=InitMethod.FULL,
-    silent_algorithm=True,
+    init_method=InitMethod.MIN,
+    silent_algorithm=False,
     silent_evolver=True,
     minimalistic_output=True,
     num_outputs=1,
