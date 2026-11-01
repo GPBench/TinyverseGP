@@ -8,7 +8,7 @@ The parameters for MAX, T and D, are passed to script via argv.
 
 from math import log2
 from src.analysis.benchmarks.max.max import MaxPlusMul
-from src.analysis.models.simple_qd_tgp import SimpleQdTGP, InitMethod, QdTGPHyperparameters
+from src.analysis.models.simple_qd_tgp import SimpleQdTGP, InitMethod, QdTGPHyperparameters, SimpleQdTGPMAX
 from src.analysis.models.simple_tgp import MutationType, SimpleTGPConfig
 from src.gp.tiny_cgp import *
 from src.analysis.benchmarks.max.log_scaling import LOG_ADD, LOG_MUL
@@ -82,7 +82,7 @@ for d in range(D_MIN, D_MAX + 1):
     config.ideal_fitness = problem.ideal
     for _ in range(NUM_INSTANCES):
         config.global_seed = int(time.time_ns())
-        tgp = SimpleQdTGP(functions, terminals, config, hyperparameters)
+        tgp = SimpleQdTGPMAX(functions, terminals, config, hyperparameters)
         t0 = time.time()
         best = tgp.evolve(problem)
         t1 = time.time()

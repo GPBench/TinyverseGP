@@ -8,20 +8,20 @@ from src.gp.functions import ADD, MUL, SUB
 from src.gp.problem import BlackBox
 from src.gp.tinyverse import Var, Const
 
-MAX_GENERATIONS = 2000000
+MAX_GENERATIONS = 10000000
 MAX_TIME = 999999
 D = int(sys.argv[1])
 functions = [ADD, MUL, SUB]
-terminals = [Var(0), Const(1), Const(-1)]
+terminals = [Var(0), Const(1), Const(2)]
 X_MIN = -1.0
 X_MAX = 1.0
 C_MIN = 1
-C_MAX = 10
+C_MAX = D
 N = 20
-STEP = 0.02
 COEFF = True
-IDEAL = 1e-3
-MAX_DEPTH = D
+STEP = 0.02
+IDEAL = 1e-2
+MAX_DEPTH = 2*D
 
 config = SimpleTGPConfig(
     num_jobs=1,
@@ -29,7 +29,7 @@ config = SimpleTGPConfig(
     stopping_criteria=IDEAL,
     minimizing_fitness=True,
     ideal_fitness=IDEAL,
-    init_method=InitMethod.MIN,
+    init_method=InitMethod.FULL,
     silent_algorithm=False,
     silent_evolver=True,
     minimalistic_output=True,
@@ -51,14 +51,14 @@ hyperparameters = SimpleTGPHyperparameters(
     max_depth=D,
     multi=True,
     discard_invalid=True,
-    mutation_type=MutationType.HVL_STD
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
 tiny_sr = TinySR(x_min=X_MIN,
                  x_max=X_MAX,
                  step =STEP,
                  n = N,
-                 ds_type=DatasetType.GRID,
+                 ds_type=DatasetType.UNIFORM,
                  coeff=COEFF,
                  c_min=C_MIN,
                  c_max=C_MAX

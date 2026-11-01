@@ -1,7 +1,7 @@
 import sys
 import time
 
-from src.gp.loss import mean_squared_error, absolute_distance
+from src.gp.loss import mean_squared_error
 from src.analysis.models.simple_qd_tgp import SimpleQdTGP, QdTGPHyperparameters
 from src.analysis.benchmarks.symbolic_regression import TinySR, DatasetType
 from src.analysis.models.simple_tgp import SimpleTGPConfig, InitMethod, SimpleTGP, MutationType, SimpleTGPHyperparameters
@@ -9,20 +9,20 @@ from src.gp.functions import ADD, MUL, SUB
 from src.gp.problem import BlackBox
 from src.gp.tinyverse import Var, Const
 
-MAX_GENERATIONS = 2000000
+MAX_GENERATIONS = 10000000
 MAX_TIME = 999999
 D = int(sys.argv[1])
-functions = [ADD, MUL]
-terminals = [Var(0), Const(1), Const(-1)]
+functions = [ADD, MUL, SUB]
+terminals = [Var(0), Const(1), Const(2)]
 X_MIN = -1.0
 X_MAX = 1.0
 C_MIN = 1
-C_MAX = 10
+C_MAX = D
 N = 20
 COEFF = True
 STEP = 0.02
-IDEAL = 1e-3
-MAX_DEPTH = 2*D
+IDEAL = 1e-2
+MAX_DEPTH = D+1
 
 config = SimpleTGPConfig(
     num_jobs=1,
@@ -30,7 +30,7 @@ config = SimpleTGPConfig(
     stopping_criteria=IDEAL,
     minimizing_fitness=True,
     ideal_fitness=IDEAL,
-    init_method=InitMethod.GROW,
+    init_method=InitMethod.FULL,
     silent_algorithm=False,
     silent_evolver=True,
     minimalistic_output=True,
@@ -50,16 +50,16 @@ hyperparameters = QdTGPHyperparameters(
     check_complexity=False,
     max_depth=MAX_DEPTH,
     min_depth=1,
-    discard_invalid=False,
+    discard_invalid=True,
     multi=True,
     cx_rate=0.5,
-    mutation_type=MutationType.HVL_NODE_UNBIASED
+    mutation_type=MutationType.HVL_DEPTH_UNBIASED
 )
 
 tiny_sr = TinySR(x_min=X_MIN,
                  x_max=X_MAX,
                  step =STEP,
-                 ds_type=DatasetType.GRID,
+                 ds_type=DatasetType.UNIFORM,
                  n=N,
                  coeff=COEFF,
                  c_min=C_MIN,

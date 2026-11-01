@@ -5,15 +5,13 @@ __license__ = ("GPL-3.0.1 "
 
 
 import copy
-import math
 import random
 from dataclasses import dataclass
-from enum import Enum
 from typing import override
 from src.analysis.models.simple_qd import SimpleQD
 from src.analysis.models.simple_tgp import SimpleTGP, SimpleTGPHyperparameters, InitMethod, SimpleTGPConfig
 from src.gp.tiny_tgp import TGPIndividual, Node
-from src.gp.tinyverse import GPConfig, GPIndividual
+from src.gp.tinyverse import GPIndividual
 
 
 
@@ -81,13 +79,25 @@ class SimpleQdTGP(SimpleQD, SimpleTGP):
         if self.y.fitness is not None:
             return self.y
 
+        self.y.fitness = self.penalize(self.evaluate_individual(self.y.genome, problem), self.y.genome)
+        self.xs.clear()
+        self.update(self.y)
+
+        return self.best_individual
+
+
+class SimpleQdTGPMAX(SimpleQdTGP):
+
+    @override
+    def evaluate(self, problem) -> GPIndividual:
+        if self.y.fitness is not None:
+            return self.y
+
         if len(self.xs) == 0:
             self.y.fitness = self.penalize(self.evaluate_individual(self.y.genome, problem), self.y.genome)
         else:
             self.y.fitness = self.penalize(self.y.genome[0].function(self.xs[0].fitness,
                                                      self.xs[1].fitness), self.y.genome)
             self.xs.clear()
-
-        self.update(self.y)
 
         return self.best_individual
