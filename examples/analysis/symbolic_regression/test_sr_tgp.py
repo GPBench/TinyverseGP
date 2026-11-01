@@ -21,7 +21,7 @@ N = 20
 COEFF = True
 STEP = 0.02
 IDEAL = 1e-2
-MAX_DEPTH = 2*D
+MAX_DEPTH = D+1
 
 config = SimpleTGPConfig(
     num_jobs=1,
@@ -48,7 +48,7 @@ hyperparameters = SimpleTGPHyperparameters(
     strict_selection=False,
     check_complexity=False,
     min_depth=1,
-    max_depth=D,
+    max_depth=MAX_DEPTH,
     multi=True,
     discard_invalid=True,
     mutation_type=MutationType.HVL_DEPTH_UNBIASED
