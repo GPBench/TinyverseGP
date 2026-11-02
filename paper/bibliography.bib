@@ -1,0 +1,1738 @@
+@article{Dickmanns1987implementation,
+    title={Der genetische algorithmus: Eine implementierung in prolog},
+    author={Dickmanns, Dirk and Schmidhuber, J{\"u}rgen and Winklhofer, Andreas},
+    journal={Fortgeschrittenenpraktikum, Institut f ur Informatik, Lehrstuhl Prof. Radig, Technische Universit at M unchen},
+    year={1987}
+}
+
+@InCollection{mi-th-fo-97a,
+  Title                    = {Designing Electronic Circuits Using Evolutionary Algorithms. Arithmetic Circuits: A Case Study},
+  Author                   = {J. F. Miller and P. Thomson and T. Fogarty},
+  Booktitle                = {Genetic Algorithms and Evolution Strategies in Engineering and Computer Science},
+  Publisher                = {Wiley},
+  Year                     = {1997},
+  Pages                    = {105--131},
+
+  Publisher_address        = {New York}
+}
+
+@InProceedings{ka-97a,
+  Title                    = {Evolutionary Approach to Design Multiple-valued Combinational Circuits},
+  Author                   = {Kalganova, T.},
+  Booktitle                = {Proceedings. of the 4th International conference on Applications of Computer Systems (ACS'97)},
+  Year                     = {1997},
+
+  Address                  = {Szczecin, Poland},
+  Pages                    = {333--339}
+}
+
+
+@Article{doi:10.1108/eb005587,
+  Title                    = {{BEAGLE} A {Darwinian} Approach to Pattern Recognition},
+  Author                   = {Richard Forsyth},
+  Journal                  = {Kybernetes},
+  Year                     = {1981},
+  Number                   = {3},
+  Pages                    = {159--166},
+  Volume                   = {10},
+
+  Abstract                 = {BEAGLE (Biological Evolutionary Algorithm Generating Logical Expressions) is a computer package producing decision-rules by induction from a database. It works on the principle of naturalistic selection whereby rules that fit the data badly are killed off and replaced by mutations of better rules or by new rules created by mating two better adapted rules. The rules are Boolean expressions represented by tree structures.
+
+ The software consists of two Pascal programs, HERB (Heuristic Evolutionary Rule Breeder) and LEAF (Logical Evaluator And Forecaster). HERB improves a given starting set of rules by running over several simulated generations, LEAF uses the rules to classify samples from a database where the correct membership may not be known. Preliminary test on three different databases have been carried out -- on hospital admissions (classing heart patients as deaths or survivors), on athletic physique (classing Olympic finalists as long-distance runners or sprinters) and on football results (categorising games into draws and non-draws)
+
+ It appears from the tests that the method works better than the standard discriminant analysis technique based on a linear discriminant function, and hence that this long-neglected approach warrants further investigation.},
+  Doi                      = {doi:10.1108/eb005587},
+  ISSN                     = {0368-492X},
+  Keywords                 = {genetic algorithms, genetic programming, soccer foot ball pools},
+  Notes                    = {Copy from British Library May 1994},
+  Size                     = {8 pages},
+  Url                      = {http://www.richardsandesforsyth.net/pubs/beagle81.pdf}
+}
+
+@InProceedings{cramer1985representation,
+  Title                    = {A representation for the Adaptive Generation of Simple
+ Sequential Programs},
+  Author                   = {Nichael Lynn Cramer},
+  Booktitle                = {Proceedings of an International Conference on Genetic
+ Algorithms and the Applications},
+  Year                     = {1985},
+
+  Address                  = {Carnegie-Mellon University, Pittsburgh, PA, USA},
+  Editor                   = {John J. Grefenstette},
+  Month                    = {24-26 } # jul,
+  Pages                    = {183--187},
+
+  Abstract                 = {An adaptive system for generating short sequential
+ computer functions is described. The created functions
+ are written in the simple {"}number-string{"} language
+ JB, and in TB, a modified version of JB with a
+ tree-like structure. These languages have the feature
+ that they can be used to represent well-formed, useful
+ computer programs while still being amenable to
+ suitably defined genetic operators. The system is used
+ to produce two-input, single-output multiplication
+ functions that are concise and well-defined. Future
+ work, dealing with extensions to more complicated
+ functions and generalizations of the techniques, is
+ also discussed.},
+  Keywords                 = {genetic algorithms, genetic programming, memory},
+  Notes                    = {The earliest description of the tree-like
+ representation and operators for use in the application
+ of Genetic Algorithms to computer programs - N.L.Cramer
+ Evolves a multiplier, {"}72% more often than control
+ sample{"} {"}PL- not fully Turing Equivalent{"},
+ addition of :SET and :BLOCK lead to JB language (nb a
+ list of statements language). JB has problems with
+ crossover -> TB which is as JB but instead of calls to
+ other statements, these other statements are expanded
+ in the first yielding a tree shaped syntax. Crossover
+ operator changed to deal with sub trees! Both languages
+ contain small numbers of global integers. TB Mutation
+ restricted to frindges of tree, ie leaves or first
+ level functions. Inversion: crossover within same
+ program! Goldberg(1989, p 303) says {"}Cramer does not
+ present any results from the use of JB in any genetic
+ trials; however he abandoned these first efforts
+ because of some limited computational experiments{"}.
+ Fitness based, to some extent, upon internals of
+ program. Limits on prog size via fitness. Forced
+ timeout Goldberg(1987) says timed out progs fitness was
+ calculated. =>Smith,S.F. IJCAI-83 Publisher not known,
+ sponsored by USA Navy.},
+  Size                     = {5 pages},
+  Url                      = {http://www.cs.ucl.ac.uk/staff/W.Langdon/ftp/papers/icga1985/icga85_cramer.pdf}
+}
+
+
+@MastersThesis{Hicklin,
+  Title                    = {Application of the Genetic Algorithm to Automatic Program Generation},
+  Author                   = {Joseph Hicklin},
+  School                   = {University of Idaho},
+  Year                     = {1986},
+
+  Institution              = {Department of Computer Science, University of Idaho}
+}
+
+@inproceedings{koza1989hierarchicalga,
+  author    = {John R. Koza},
+  editor    = {N. S. Sridharan},
+  title     = {Hierarchical Genetic Algorithms Operating on Populations of Computer
+               Programs},
+  booktitle = {Proceedings of the 11th International Joint Conference on Artificial
+               Intelligence. Detroit, MI, USA, August 1989},
+  pages     = {768--774},
+  publisher = {Morgan Kaufmann},
+  year      = {1989},
+  url       = {http://ijcai.org/Proceedings/89-1/Papers/123.pdf},
+  timestamp = {Tue, 20 Aug 2019 16:17:51 +0200},
+  biburl    = {https://dblp.org/rec/conf/ijcai/Koza89.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{koza1990multiplexer,
+  author    = {John R. Koza},
+  editor    = {Gregory J. E. Rawlins},
+  title     = {A Hierarchical Approach to Learning the Boolean Multiplexer Function},
+  booktitle = {Proceedings of the First Workshop on Foundations of Genetic Algorithms.
+               Bloomington Campus, Indiana, USA, July 15-18 1990},
+  pages     = {171--192},
+  publisher = {Morgan Kaufmann},
+  year      = {1990},
+  url       = {https://doi.org/10.1016/b978-0-08-050684-5.50014-8},
+  doi       = {10.1016/b978-0-08-050684-5.50014-8},
+  timestamp = {Thu, 25 Jul 2019 12:26:01 +0200},
+  biburl    = {https://dblp.org/rec/conf/foga/Koza90.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{koza1990,
+  author    = {John R. Koza},
+  editor    = {Hans{-}Paul Schwefel and
+               Reinhard M{\"{a}}nner},
+  title     = {Concept Formation and Decision Tree Induction Using the Genetic Programming
+               Paradigm},
+  booktitle = {Parallel Problem Solving from Nature, 1st Workshop, {PPSN} I, Dortmund,
+               Germany, October 1-3, 1990, Proceedings},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {496},
+  pages     = {124--128},
+  publisher = {Springer},
+  year      = {1990},
+  url       = {https://doi.org/10.1007/BFb0029742},
+  doi       = {10.1007/BFb0029742},
+  timestamp = {Fri, 17 Jul 2020 16:12:46 +0200},
+  biburl    = {https://dblp.org/rec/conf/ppsn/Koza90.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@TechReport{koza1990genetic,
+  Title                    = {Genetic {P}rogramming: {A} paradigm for genetically
+ breeding populations of computer programs to solve
+ problems},
+  Author                   = {J. Koza},
+  Institution              = {Dept. of Computer Science, Stanford University},
+  Year                     = {1990},
+  Month                    = jun,
+  Number                   = {{STAN}-{CS}-90-1314},
+  Type                     = {Technical Report},
+
+  Abstract                 = {Many seemingly different problems in artificial
+ intelligence, symbolic processing, and machine learning
+ can be viewed as requiring discovery of a computer
+ program that produces some desired output for
+ particular inputs. When viewed in this way, the process
+ of solving these problems becomes equivalent to
+ searching a space of possible computer programs for a
+ most fit individual computer program. The new
+ {"}genetic programming{"} paradigm described herein
+ provides a way to search for this most fit individual
+ computer program. In this new {"}genetic programming{"}
+ paradigm, populations of computer programs are
+ genetically bred using the Darwinian principle of
+ survival of the fittest and using a genetic crossover
+ (recombination) operator appropriate for genetically
+ mating computer programs. In this paper, the process of
+ formulating and solving problems using this new
+ paradigm is illustrated using examples from various
+ areas. Examples come from the areas of machine learning
+ of a function; planning; sequence induction; function
+ function identification (including symbolic regression,
+ empirical discovery, {"}data to function{"} symbolic
+ integration, {"}data to function{"} symbolic
+ differentiation); solving equations, including
+ differential equations, integral equations, and
+ functional equations); concept formation; automatic
+ programming; pattern recognition, time-optimal control;
+ playing differential pursuer-evader games; neural
+ network design; and finding a game-playing strategyfor
+ a discrete game in extensive form.},
+  Key                      = {Koza},
+  Keywords                 = {genetic algorithms, genetic programming},
+  Notes                    = {ftp://reports.stanford.edu/pub/cstr/reports/cs/tr/90/1314
+ also contains GIF and MAC versions},
+  Size                     = {133 pages}
+}
+
+@Book{koza1994genetic,
+  Title                    = {Genetic Programming II: Automatic Discovery of
+ Reusable Programs},
+  Author                   = {John R. Koza},
+  Publisher                = {MIT Press},
+  Year                     = {1994},
+
+  Address                  = {Cambridge Massachusetts},
+  Month                    = may,
+
+  Abstract                 = {Genetic Programming II extends the results of John
+ Koza's ground-breaking work on programming by means of
+ natural selection, described in his first book, Genetic
+ Programming. Using a hierarchical approach, Koza shows
+ that complex problems can be solved by breaking them
+ down into smaller, simpler problems using the recently
+ developed technique of automatic function definition in
+ the context of genetic programming. Where conventional
+ techniques of machine learning and artificial
+ intelligence fail to provide an effective means for
+ automatically handling the process of decomposing
+ complex problems into smaller subsets, reassembling the
+ solutions to these subsets, and applying an overall
+ solution to the original problem, automatic function
+ definition enables genetic programming to define useful
+ and reusable subroutines dynamically. Koza illustrates
+ this new technique by showing how it solves (or
+ approximately solves) a variety of problems in Boolean
+ function learning, symbolic regression, control,
+ pattern recognition, robotics, classification, and
+ molecular biology. In each example, the problem is
+ automatically decomposed into subproblems; the
+ subproblems are automatically solved; and the solutions
+ to the subproblems are automatically assembled into a
+ solution to the original problem. Koza shows that
+ leverage accrues because genetic programming with
+ automatic function definition repeatedly uses the
+ solutions to the subproblems in the assembly of the
+ solution to the overall problem. Moreover, genetic
+ programming with automatic function definition produces
+ solutions that are simpler and smaller than the
+ solution obtained without automatic function
+ definition.},
+  ISBN                     = {0-262-11189-6},
+  Keywords                 = {genetic algorithms, genetic programming},
+  Size                     = {746 pages},
+  Url                      = {http://www.genetic-programming.org/gpbook2toc.html}
+}
+
+@Book{Koza:1992:GPP:138936,
+  Title                    = {Genetic Programming: On the Programming of Computers
+ by Means of Natural Selection},
+  Author                   = {John R. Koza},
+  Publisher                = {MIT Press},
+  Year                     = {1992},
+
+  Address                  = {Cambridge, MA, USA},
+
+  Abstract                 = {Overview Genetic programming may be more powerful than
+ neural networks and other machine learning techniques,
+ able to solve problems in a wider range of disciplines.
+ In this ground-breaking book, John Koza shows how this
+ remarkable paradigm works and provides substantial
+ empirical evidence that solutions to a great variety of
+ problems from many different fields can be found by
+ genetically breeding populations of computer programs.
+ Genetic Programming contains a great many worked
+ examples and includes a sample computer code that will
+ allow readers to run their own programs. In getting
+ computers to solve problems without being explicitly
+ programmed, Koza stresses two points: that seemingly
+ different problems from a variety of fields can be
+ reformulated as problems of program induction, and that
+ the recently developed genetic programming paradigm
+ provides a way to search the space of possible computer
+ programs for a highly fit individual computer program
+ to solve the problems of program induction. Good
+ programs are found by evolving them in a computer
+ against a fitness measure instead of by sitting down
+ and writing them. John R. Koza is Consulting Associate
+ Professor in the Computer Science Department at
+ Stanford University. Endorsements The research reported
+ in this book is a tour de force. For the first time,
+ since the idea was bandied about in the 1940s and early
+ 1950s, we have a non-trivial, nontailored set of
+ examples of automatic programming. -- John Holland},
+  ISBN                     = {0-262-11170-5},
+  Keywords                 = {genetic algorithms, genetic programming, text book},
+  Url                      = {http://mitpress.mit.edu/books/genetic-programming}
+}
+
+@inproceedings{ieee94:perkis,
+
+    author = "Tim Perkis",
+    title = "Stack-Based Genetic Programming",
+    year = "1994",
+    booktitle = "Proceedings of the 1994 IEEE World Congress on Computational Intelligence",
+    publisher = "IEEE Press",
+    volume = "1",
+    pages = "148--153",
+    address = "Orlando, Florida, USA",
+    month = "27-29 " # jun,
+    keywords = "genetic algorithms, genetic programming, optimum representations, stack-based genetic programming, stack-based virtual machine, learning (artificial intelligence), optimisation",
+    URL = "http://citeseer.ist.psu.edu/432690.html",
+    DOI = "doi:10.1109/ICEC.1994.350025",
+    size = "6 pages",
+    abstract = "Some recent work in the field of genetic programming (GP) has been concerned with finding optimum representations for evolvable and efficient computer programs. This paper describes a new GP system in which target programs run on a stack-based virtual machine. The system is shown to have certain advantages in terms of efficiency and simplicity of implementation, and for certain problems, its effectiveness is shown to be comparable or superior to current methods.",
+    notes = "Report 93-11-A Antelope Engineering, Albany, California, See also http://www.cs.ucl.ac.uk/staff/W.Langdon/ftp/ftp.io.com/papers/stack-gp.ps.gz", 
+
+}
+
+@inproceedings{Openshaw94buildingnew,
+    author = {S. Openshaw and I. Turton},
+    title = {Building new spatial interaction models using genetic programming},
+    booktitle = {Evolutionary Computing, Lecture Notes in Computer Science},
+    year = {1994},
+    pages = {11--13},
+    publisher = {Springer-Verlag}
+}
+
+
+@TechReport{Poli1996,
+  Title                    = {Parallel Distributed Genetic Programming},
+  Author                   = {Riccardo Poli},
+  Institution              = {School of Computer Science},
+  Year                     = {1996},
+
+  Address                  = {University of Birmingham, B15 2TT, UK},
+  Month                    = sep,
+  Number                   = {CSRP-96-15},
+  Type                     = {Technical Report},
+
+  Keywords                 = {genetic algorithms, genetic programming},
+  Notes                    = {PDGP},
+  Size                     = {33 pages},
+  Url                      = {ftp://ftp.cs.bham.ac.uk/pub/tech-reports/1996/CSRP-96-15.ps.gz}
+}
+
+@InProceedings{miller:1999:ACGP,
+  Title                    = {An empirical study of the efficiency of learning
+ {boolean} functions using a Cartesian Genetic
+ Programming approach},
+  Author                   = {Julian F. Miller},
+  Booktitle                = {Proceedings of the Genetic and Evolutionary
+ Computation Conference},
+  Year                     = {1999},
+
+  Address                  = {Orlando, Florida, USA},
+  Editor                   = {Wolfgang Banzhaf and Jason Daida and Agoston E. Eiben
+ and Max H. Garzon and Vasant Honavar and Mark Jakiela
+ and Robert E. Smith},
+  Month                    = {13-17 } # jul,
+  Pages                    = {1135--1142},
+  Publisher                = {Morgan Kaufmann},
+  Volume                   = {2},
+
+  Abstract                 = {A new form of Genetic Programming (GP) called
+ Cartesian Genetic Programming (CGP) is proposed in
+ which programs are represented by linear integer
+ chromosomes in the form of connections and
+ functionalities of a rectangular array of primitive
+ functions. The effectiveness of this approach is
+ investigated for boolean even-parity functions (3,4,5),
+ and the 2-bit multiplier. The minimum number of
+ evaluations required to give a 0.99 probability of
+ evolving a target function is used to measure the
+ efficiency of the new approach. It is found that
+ extremely low populations are most effective. A simple
+ probabilistic hillclimber (PH) is devised which proves
+ to be even more effective. For these boolean functions
+ either method appears to be much more efficient than
+ the GP and Evolutionary Programming (EP) methods
+ reported. The efficacy of the PH suggests that boolean
+ function learning may not be an appropriate problem for
+ testing the effectiveness of GP and EP.},
+  ISBN                     = {1-55860-611-4},
+  Keywords                 = {genetic algorithms, genetic programming, cartesian
+ genetic programming, evolvable hardware},
+  Notes                    = {GECCO-99 A joint meeting of the eighth international
+ conference on genetic algorithms (ICGA-99) and the
+ fourth annual genetic programming conference (GP-99)},
+  Publisher_address        = {San Francisco, CA 94104, USA},
+  Url                      = {http://citeseer.ist.psu.edu/153431.html}
+}
+
+
+@InProceedings{ryan:1998:geepal,
+
+    author = "Conor Ryan and J. J. Collins and Michael O'Neill",
+    title = "Grammatical Evolution: Evolving Programs for an Arbitrary Language",
+    booktitle = "Proceedings of the First European Workshop on Genetic Programming",
+    year = "1998",
+    editor = "Wolfgang Banzhaf and Riccardo Poli and Marc Schoenauer and Terence C. Fogarty",
+    volume = "1391",
+    series = "LNCS",
+    pages = "83--96",
+    address = "Paris",
+    publisher_address = "Berlin",
+    month = "14-15 " # apr,
+    publisher = "Springer-Verlag",
+    keywords = "genetic algorithms, genetic programming, grammatical evolution",
+    ISBN = "3-540-64360-5",
+    URL = "http://www.lania.mx/~ccoello/eurogp98.ps.gz",
+    URL = "https://citeseerx.ist.psu.edu/viewdoc/citations;jsessionid=0B456AC5FFDD2044E492838BE9D3FE10?doi=10.1.1.38.7697",
+    URL = "http://citeseer.ist.psu.edu/ryan98grammatical.html",
+    DOI = "doi:10.1007/BFb0055930",
+    size = "14 pages",
+    abstract = "We describe a Genetic Algorithm that can evolve complete programs. Using a variable length linear genome to govern how a Backus Naur Form grammar definition is mapped to a program, expressions and programs of arbitrary complexity may be evolved. Other automatic programming methods are described, before our system, Grammatical Evolution, is applied to a symbolic regression problem.",
+    notes = "EuroGP'98",
+    affiliation = "University of Limerick Dept. Of Computer Science and Information Systems Ireland Ireland", 
+
+}
+
+@inproceedings{DBLP:conf/ppsn/MoraglioKJ12,
+  author       = {Alberto Moraglio and
+                  Krzysztof Krawiec and
+                  Colin G. Johnson},
+  editor       = {Carlos A. Coello Coello and
+                  Vincenzo Cutello and
+                  Kalyanmoy Deb and
+                  Stephanie Forrest and
+                  Giuseppe Nicosia and
+                  Mario Pavone},
+  title        = {Geometric Semantic Genetic Programming},
+  booktitle    = {Parallel Problem Solving from Nature - {PPSN} {XII} - 12th International
+                  Conference, Taormina, Italy, September 1-5, 2012, Proceedings, Part
+                  {I}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {7491},
+  pages        = {21--31},
+  publisher    = {Springer},
+  year         = {2012},
+  url          = {https://doi.org/10.1007/978-3-642-32937-1\_3},
+  doi          = {10.1007/978-3-642-32937-1\_3},
+  timestamp    = {Tue, 21 Mar 2023 20:58:19 +0100},
+  biburl       = {https://dblp.org/rec/conf/ppsn/MoraglioKJ12.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/tmlr/VirgolinP22,
+  author       = {Marco Virgolin and
+                  Solon P. Pissis},
+  title        = {Symbolic Regression is NP-hard},
+  journal      = {Trans. Mach. Learn. Res.},
+  volume       = {2022},
+  year         = {2022},
+  url          = {https://openreview.net/forum?id=LTiaPxqe2e},
+  timestamp    = {Fri, 19 May 2023 11:20:41 +0200},
+  biburl       = {https://dblp.org/rec/journals/tmlr/VirgolinP22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+
+@book{DBLP:books/daglib/0086041,
+  author       = {Gary D. Hachtel and
+                  Fabio Somenzi},
+  title        = {Logic synthesis and verification algorithms},
+  publisher    = {Kluwer},
+  year         = {1996},
+  isbn         = {978-0-7923-9746-5},
+  timestamp    = {Thu, 28 Apr 2011 19:43:08 +0200},
+  biburl       = {https://dblp.org/rec/books/daglib/0086041.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@book{hassoun2001logic,
+  title={Logic synthesis and verification},
+  author={Hassoun, Soha and Sasao, Tsutomu},
+  volume={654},
+  year={2001},
+  publisher={Springer Science \& Business Media}
+}
+
+@article{naturecommcgp,
+author = {Cortacero, Kévin and Mckenzie, Brienne and Mueller, Sabina and Khazen, Roxana and Lafouresse, Fanny and Corsaut, Gaëlle and Acker, Nathalie and Frenois, François-Xavier and Lamant, Laurence and Meyer, Nicolas and Vergier, Béatrice and Wilson, Dennis and Luga, Hervé and Staufer, Oskar and Dustin, Michael and Valitutti, Salvatore and Cussat-Blanc, Sylvain},
+year = {2023},
+month = {11},
+pages = {},
+title = {Evolutionary design of explainable algorithms for biomedical image segmentation},
+volume = {14},
+journal = {Nature Communications},
+doi = {10.1038/s41467-023-42664-x}
+}
+
+@article{10.1162/artl_a_00371,
+    author = {Stepney, Susan and Dorin, Alan},
+    title = "{Julian Francis Miller, 1955–2022}",
+    journal = {Artificial Life},
+    volume = {28},
+    number = {1},
+    pages = {154-156},
+    year = {2022},
+    month = {06},
+    abstract = "{Julian Francis Miller1It is with great sadness that we report the death of our colleague and friend, Julian
+            Miller.Julian’s work is well known throughout the Artificial Life community: His
+            Cartesian genetic programming (CGP) and in materio computing are
+            foundational concepts. He also made contributions in morphological computing and
+            neurocomputing, all based on his fascination with evolution as a means of attacking and
+            solving problems. Like many in the ALife community, he had an interdisciplinary career,
+            commencing with a first degree in Physics and a PhD in Mathematics, followed by research
+            in Natural Computing and material computing at the universities of Napier, Birmingham,
+            and York in the UK.}",
+    issn = {1064-5462},
+    doi = {10.1162/artl_a_00371},
+    url = {https://doi.org/10.1162/artl\_a\_00371},
+    eprint = {https://direct.mit.edu/artl/article-pdf/28/1/154/2029198/artl\_a\_00371.pdf},
+}
+
+@article{10.1162/evco_a_00253,
+    author = {Suganuma, Masanori and Kobayashi, Masayuki and Shirakawa, Shinichi and Nagao, Tomoharu},
+    title = "{Evolution of Deep Convolutional Neural Networks Using Cartesian Genetic
+          Programming}",
+    journal = {Evolutionary Computation},
+    volume = {28},
+    number = {1},
+    pages = {141-163},
+    year = {2020},
+    month = {03},
+    abstract = "{The convolutional neural network (CNN), one of the deep learning models, has demonstrated
+          outstanding performance in a variety of computer vision tasks. However, as the network
+          architectures become deeper and more complex, designing CNN architectures requires more
+          expert knowledge and trial and error. In this article, we attempt to automatically
+          construct high-performing CNN architectures for a given task. Our method uses Cartesian
+          genetic programming (CGP) to encode the CNN architectures, adopting highly functional
+          modules such as a convolutional block and tensor concatenation, as the node functions in
+          CGP. The CNN structure and connectivity, represented by the CGP, are optimized to maximize
+          accuracy using the evolutionary algorithm. We also introduce simple techniques to
+          accelerate the architecture search: rich initialization and early network training
+          termination. We evaluated our method on the CIFAR-10 and CIFAR-100 datasets, achieving
+          competitive performance with state-of-the-art models. Remarkably, our method can find
+          competitive architectures with a reasonable computational cost compared to other automatic
+          design methods that require considerably more computational time and machine
+          resources.}",
+    issn = {1063-6560},
+    doi = {10.1162/evco_a_00253},
+    url = {https://doi.org/10.1162/evco\_a\_00253},
+    eprint = {https://direct.mit.edu/evco/article-pdf/28/1/141/2020362/evco\_a\_00253.pdf},
+}
+
+@inproceedings{DBLP:conf/isalalife/Miller20,
+  author       = {Julian Francis Miller},
+  editor       = {Josh C. Bongard and
+                  Juniper L. Lovato and
+                  Laurent H{\'{e}}bert{-}Dufresne and
+                  Radhakrishna Dasari and
+                  Lisa B. Soros},
+  title        = {Evolving developmental neural networks to solve multiple problems},
+  booktitle    = {2020 Conference on Artificial Life, {ALIFE} 2020, online, July 13-18,
+                  2020},
+  pages        = {473--482},
+  publisher    = {{MIT} Press},
+  year         = {2020},
+  url          = {https://doi.org/10.1162/isal\_a\_00252},
+  doi          = {10.1162/ISAL\_A\_00252},
+  timestamp    = {Tue, 26 Dec 2023 17:13:21 +0100},
+  biburl       = {https://dblp.org/rec/conf/isalalife/Miller20.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/eurogp/MillerT00,
+  author       = {Julian F. Miller and
+                  Peter Thomson},
+  editor       = {Riccardo Poli and
+                  Wolfgang Banzhaf and
+                  William B. Langdon and
+                  Julian F. Miller and
+                  Peter Nordin and
+                  Terence C. Fogarty},
+  title        = {Cartesian Genetic Programming},
+  booktitle    = {Genetic Programming, European Conference, Edinburgh, Scotland, UK,
+                  April 15-16, 2000, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {1802},
+  pages        = {121--132},
+  publisher    = {Springer},
+  year         = {2000},
+  url          = {https://doi.org/10.1007/978-3-540-46239-2\_9},
+  doi          = {10.1007/978-3-540-46239-2\_9},
+  timestamp    = {Tue, 14 May 2019 10:00:50 +0200},
+  biburl       = {https://dblp.org/rec/conf/eurogp/MillerT00.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@Inbook{Sekanina2011,
+author="Sekanina, Lukas
+and Walker, James Alfred
+and Kaufmann, Paul
+and Platzner, Marco",
+editor="Miller, Julian F.",
+title="Evolution of Electronic Circuits",
+bookTitle="Cartesian Genetic Programming",
+year="2011",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="125--179",
+abstract="From the outset, the field of Evolvable Hardware has proved its potential for evolution of innovative circuits and hardware adaptation and repair. CGP has been utilized in both tasks of hardware evolution as well as adaptation. This chapter illustrates some typical applications of CGP, comprising gate-level evolution of ordinary and polymorphic circuits, functional-level evolution of multiple-constant multipliers and transistor-level evolution of Boolean functions. Hardware adaptation using CGP concludes the chapter, showing adaptive caches and signal classifiers.",
+isbn="978-3-642-17310-3",
+doi="10.1007/978-3-642-17310-3_5",
+url="https://doi.org/10.1007/978-3-642-17310-3_5"
+}
+
+
+
+@inproceedings{DBLP:conf/ddecs/FiserSVS10,
+  author       = {Petr Fiser and
+                  Jan Schmidt and
+                  Zdenek Vas{\'{\i}}cek and
+                  Luk{\'{a}}s Sekanina},
+  editor       = {Elena Gramatov{\'{a}} and
+                  Zdenek Kot{\'{a}}sek and
+                  Andreas Steininger and
+                  Heinrich Theodor Vierhaus and
+                  Horst Zimmermann},
+  title        = {On logic synthesis of conventionally hard to synthesize circuits using
+                  genetic programming},
+  booktitle    = {13th {IEEE} International Symposium on Design and Diagnostics of Electronic
+                  Circuits and Systems, {DDECS} 2010, Vienna, Austria, April 14-16,
+                  2010},
+  pages        = {346--351},
+  publisher    = {{IEEE} Computer Society},
+  year         = {2010},
+  url          = {https://doi.org/10.1109/DDECS.2010.5491755},
+  doi          = {10.1109/DDECS.2010.5491755},
+  timestamp    = {Fri, 24 Mar 2023 00:04:14 +0100},
+  biburl       = {https://dblp.org/rec/conf/ddecs/FiserSVS10.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/gpem/Miller20,
+  author       = {Julian Francis Miller},
+  title        = {Cartesian genetic programming: its status and future},
+  journal      = {Genet. Program. Evolvable Mach.},
+  volume       = {21},
+  number       = {1-2},
+  pages        = {129--168},
+  year         = {2020},
+  url          = {https://doi.org/10.1007/s10710-019-09360-6},
+  doi          = {10.1007/S10710-019-09360-6},
+  timestamp    = {Fri, 14 May 2021 08:32:31 +0200},
+  biburl       = {https://dblp.org/rec/journals/gpem/Miller20.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/gecco/SottoKAKB20,
+  author       = {L{\'{e}}o Fran{\c{c}}oso Dal Piccol Sotto and
+                  Paul Kaufmann and
+                  Timothy Atkinson and
+                  Roman Kalkreuth and
+                  M{\'{a}}rcio Porto Basgalupp},
+  editor       = {Carlos Artemio Coello Coello},
+  title        = {A study on graph representations for genetic programming},
+  booktitle    = {{GECCO} '20: Genetic and Evolutionary Computation Conference, Canc{\'{u}}n
+                  Mexico, July 8-12, 2020},
+  pages        = {931--939},
+  publisher    = {{ACM}},
+  year         = {2020},
+  url          = {https://doi.org/10.1145/3377930.3390234},
+  doi          = {10.1145/3377930.3390234},
+  timestamp    = {Tue, 21 Mar 2023 20:51:35 +0100},
+  biburl       = {https://dblp.org/rec/conf/gecco/SottoKAKB20.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/cec/KaufmannK20,
+  author       = {Paul Kaufmann and
+                  Roman Kalkreuth},
+  title        = {On the Parameterization of Cartesian Genetic Programming},
+  booktitle    = {{IEEE} Congress on Evolutionary Computation, {CEC} 2020, Glasgow,
+                  United Kingdom, July 19-24, 2020},
+  pages        = {1--8},
+  publisher    = {{IEEE}},
+  year         = {2020},
+  url          = {https://doi.org/10.1109/CEC48606.2020.9185492},
+  doi          = {10.1109/CEC48606.2020.9185492},
+  timestamp    = {Thu, 14 Oct 2021 10:43:54 +0200},
+  biburl       = {https://dblp.org/rec/conf/cec/KaufmannK20.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/gpem/TurnerM15,
+  author       = {Andrew James Turner and
+                  Julian Francis Miller},
+  title        = {Introducing a cross platform open source Cartesian Genetic Programming
+                  library},
+  journal      = {Genet. Program. Evolvable Mach.},
+  volume       = {16},
+  number       = {1},
+  pages        = {83--91},
+  year         = {2015},
+  url          = {https://doi.org/10.1007/s10710-014-9233-1},
+  doi          = {10.1007/S10710-014-9233-1},
+  timestamp    = {Mon, 28 Aug 2023 21:40:02 +0200},
+  biburl       = {https://dblp.org/rec/journals/gpem/TurnerM15.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/ppsn/TurnerM14,
+  author       = {Andrew James Turner and
+                  Julian Francis Miller},
+  editor       = {Thomas Bartz{-}Beielstein and
+                  J{\"{u}}rgen Branke and
+                  Bogdan Filipic and
+                  Jim Smith},
+  title        = {Recurrent Cartesian Genetic Programming},
+  booktitle    = {Parallel Problem Solving from Nature - {PPSN} {XIII} - 13th International
+                  Conference, Ljubljana, Slovenia, September 13-17, 2014. Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {8672},
+  pages        = {476--486},
+  publisher    = {Springer},
+  year         = {2014},
+  url          = {https://doi.org/10.1007/978-3-319-10762-2\_47},
+  doi          = {10.1007/978-3-319-10762-2\_47},
+  timestamp    = {Tue, 14 May 2019 10:00:53 +0200},
+  biburl       = {https://dblp.org/rec/conf/ppsn/TurnerM14.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/gecco/TurnerM13,
+  author       = {Andrew James Turner and
+                  Julian Francis Miller},
+  editor       = {Christian Blum and
+                  Enrique Alba},
+  title        = {Cartesian genetic programming encoded artificial neural networks:
+                  a comparison using three benchmarks},
+  booktitle    = {Genetic and Evolutionary Computation Conference, {GECCO} '13, Amsterdam,
+                  The Netherlands, July 6-10, 2013},
+  pages        = {1005--1012},
+  publisher    = {{ACM}},
+  year         = {2013},
+  url          = {https://doi.org/10.1145/2463372.2463484},
+  doi          = {10.1145/2463372.2463484},
+  timestamp    = {Wed, 13 Jul 2022 16:15:15 +0200},
+  biburl       = {https://dblp.org/rec/conf/gecco/TurnerM13.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/ijon/KhanAKM13,
+  author       = {Maryam Mahsal Khan and
+                  Arbab Masood Ahmad and
+                  Gul Muhammad Khan and
+                  Julian F. Miller},
+  title        = {Fast learning neural networks using Cartesian genetic programming},
+  journal      = {Neurocomputing},
+  volume       = {121},
+  pages        = {274--289},
+  year         = {2013},
+  url          = {https://doi.org/10.1016/j.neucom.2013.04.005},
+  doi          = {10.1016/J.NEUCOM.2013.04.005},
+  timestamp    = {Sat, 30 Sep 2023 10:16:07 +0200},
+  biburl       = {https://dblp.org/rec/journals/ijon/KhanAKM13.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/gecco/ScottL19,
+  author       = {Eric O. Scott and
+                  Sean Luke},
+  editor       = {Manuel L{\'{o}}pez{-}Ib{\'{a}}{\~{n}}ez and
+                  Anne Auger and
+                  Thomas St{\"{u}}tzle},
+  title        = {{ECJ} at 20: toward a general metaheuristics toolkit},
+  booktitle    = {Proceedings of the Genetic and Evolutionary Computation Conference
+                  Companion, {GECCO} 2019, Prague, Czech Republic, July 13-17, 2019},
+  pages        = {1391--1398},
+  publisher    = {{ACM}},
+  year         = {2019},
+  url          = {https://doi.org/10.1145/3319619.3326865},
+  doi          = {10.1145/3319619.3326865},
+  timestamp    = {Thu, 11 Jul 2019 11:05:01 +0200},
+  biburl       = {https://dblp.org/rec/conf/gecco/ScottL19.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/gecco/Luke17,
+  author       = {Sean Luke},
+  editor       = {Peter A. N. Bosman},
+  title        = {{ECJ} then and now},
+  booktitle    = {Genetic and Evolutionary Computation Conference, Berlin, Germany,
+                  July 15-19, 2017, Companion Material Proceedings},
+  pages        = {1223--1230},
+  publisher    = {{ACM}},
+  year         = {2017},
+  url          = {https://doi.org/10.1145/3067695.3082467},
+  doi          = {10.1145/3067695.3082467},
+  timestamp    = {Tue, 06 Nov 2018 11:06:39 +0100},
+  biburl       = {https://dblp.org/rec/conf/gecco/Luke17.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/gecco/CleggWM07,
+  author       = {Janet Clegg and
+                  James Alfred Walker and
+                  Julian Francis Miller},
+  editor       = {Hod Lipson},
+  title        = {A new crossover technique for Cartesian genetic programming},
+  booktitle    = {Genetic and Evolutionary Computation Conference, {GECCO} 2007, Proceedings,
+                  London, England, UK, July 7-11, 2007},
+  pages        = {1580--1587},
+  publisher    = {{ACM}},
+  year         = {2007},
+  url          = {https://doi.org/10.1145/1276958.1277276},
+  doi          = {10.1145/1276958.1277276},
+  timestamp    = {Tue, 06 Nov 2018 11:06:37 +0100},
+  biburl       = {https://dblp.org/rec/conf/gecco/CleggWM07.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@Inbook{Eiben2015,
+author="Eiben, A. E.
+and Smith, J. E.",
+title="Representation, Mutation, and Recombination",
+bookTitle="Introduction to Evolutionary Computing",
+year="2015",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="49--78",
+abstract="As explained in Chapt. 3, there are two fundamental forces that form the basis of evolutionary systems: variation and selection. In this chapter we discuss the EA components behind the first one. Since variation operators work at the equivalent of the genetic level, that is to say they work on the representation of solutions, rather than on solutions themselves, this chapter is subdivided into sections that deal with different ways in which solutions can be represented and varied within the overall search algorithm.",
+isbn="978-3-662-44874-8",
+doi="10.1007/978-3-662-44874-8_4",
+url="https://doi.org/10.1007/978-3-662-44874-8_4"
+}
+
+@inproceedings{DBLP:conf/eurogp/KalkreuthRD17,
+  author       = {Roman Kalkreuth and
+                  G{\"{u}}nter Rudolph and
+                  Andre Droschinsky},
+  editor       = {James McDermott and
+                  Mauro Castelli and
+                  Luk{\'{a}}s Sekanina and
+                  Evert Haasdijk and
+                  Pablo Garc{\'{\i}}a{-}S{\'{a}}nchez},
+  title        = {A New Subgraph Crossover for Cartesian Genetic Programming},
+  booktitle    = {Genetic Programming - 20th European Conference, EuroGP 2017, Amsterdam,
+                  The Netherlands, April 19-21, 2017, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {10196},
+  pages        = {294--310},
+  year         = {2017},
+  url          = {https://doi.org/10.1007/978-3-319-55696-3\_19},
+  doi          = {10.1007/978-3-319-55696-3\_19},
+  timestamp    = {Tue, 14 May 2019 10:00:50 +0200},
+  biburl       = {https://dblp.org/rec/conf/eurogp/KalkreuthRD17.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/eurogp/HusaK18,
+  author       = {Jakub Husa and
+                  Roman Kalkreuth},
+  editor       = {Mauro Castelli and
+                  Luk{\'{a}}s Sekanina and
+                  Mengjie Zhang and
+                  Stefano Cagnoni and
+                  Pablo Garc{\'{\i}}a{-}S{\'{a}}nchez},
+  title        = {A Comparative Study on Crossover in Cartesian Genetic Programming},
+  booktitle    = {Genetic Programming - 21st European Conference, EuroGP 2018, Parma,
+                  Italy, April 4-6, 2018, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {10781},
+  pages        = {203--219},
+  publisher    = {Springer},
+  year         = {2018},
+  url          = {https://doi.org/10.1007/978-3-319-77553-1\_13},
+  doi          = {10.1007/978-3-319-77553-1\_13},
+  timestamp    = {Wed, 17 Feb 2021 14:43:58 +0100},
+  biburl       = {https://dblp.org/rec/conf/eurogp/HusaK18.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/ppsn/Kalkreuth22,
+  author       = {Roman Kalkreuth},
+  editor       = {G{\"{u}}nter Rudolph and
+                  Anna V. Kononova and
+                  Hern{\'{a}}n E. Aguirre and
+                  Pascal Kerschke and
+                  Gabriela Ochoa and
+                  Tea Tusar},
+  title        = {Towards Discrete Phenotypic Recombination in Cartesian Genetic Programming},
+  booktitle    = {Parallel Problem Solving from Nature - {PPSN} {XVII} - 17th International
+                  Conference, {PPSN} 2022, Dortmund, Germany, September 10-14, 2022,
+                  Proceedings, Part {II}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {13399},
+  pages        = {63--77},
+  publisher    = {Springer},
+  year         = {2022},
+  url          = {https://doi.org/10.1007/978-3-031-14721-0\_5},
+  doi          = {10.1007/978-3-031-14721-0\_5},
+  timestamp    = {Thu, 25 Aug 2022 08:35:33 +0200},
+  biburl       = {https://dblp.org/rec/conf/ppsn/Kalkreuth22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+
+
+@InProceedings{vasicek:2012:EuroGP,
+
+    author = "Zdenek Vasicek and Karel Slany",
+    title = "Efficient Phenotype Evaluation in Cartesian Genetic Programming",
+    booktitle = "Proceedings of the 15th European Conference on Genetic Programming, EuroGP 2012",
+    year = "2012",
+    month = "11-13 " # apr,
+    editor = "Alberto Moraglio and Sara Silva and Krzysztof Krawiec and Penousal Machado and Carlos Cotta",
+    series = "LNCS",
+    volume = "7244",
+    publisher = "Springer Verlag",
+    address = "Malaga, Spain",
+    pages = "266--278",
+    organisation = "EvoStar",
+    isbn13 = "978-3-642-29138-8",
+    URL = "https://www.fit.vut.cz/research/publication/10045",
+    DOI = "doi:10.1007/978-3-642-29139-5_23",
+    code_url = "http://www.fit.vutbr.cz/~vasicek/cgp/",
+    code_url = "http://www.fit.vutbr.cz/~vasicek/cgp/?pg=accel",
+    size = "13 pages",
+    keywords = "genetic algorithms, genetic programming, cartesian genetic programming, Fitness evaluation, Acceleration, Symbolic regression, machine code, evalfunc, AMD64 CPU, mprotect, Machine Code Vectorization, SIMD, SSE",
+    abstract = "This paper describes an efficient acceleration technique designed to speedup the evaluation of candidate solutions in Cartesian Genetic Programming (CGP). The method is based on translation of the CGP phenotype to a binary machine code that is consequently executed. The key feature of the presented approach is that the introduction of the translation mechanism into common fitness evaluation procedure requires only marginal knowledge of target CPU instruction set. The proposed acceleration technique is evaluated using a symbolic regression problem in floating point domain. It is shown that for a cost of small changes in a common CGP implementation, a significant speedup can be obtained even on a common desktop CPU. The accelerated version of CGP implementation accompanied with performance analysis is available for free download from http://www.fit.vutbr.cz/~vasicek/cgp",
+    notes = "SSE 128 bit, ie not AVX
+
+    Also known as \cite{FITPUB10045}
+
+    Part of \cite{Moraglio:2012:GP} EuroGP'2012 held in conjunction with EvoCOP2012 EvoBIO2012, EvoMusArt2012 and EvoApplications2012", 
+
+}
+
+
+@InProceedings{10.1007/978-3-319-77538-8_31,
+author="Miragaia, Rolando
+and Reis, Gustavo
+and Fernand{\'e}z, Francisco
+and In{\'a}cio, Tiago
+and Grilo, Carlos",
+editor="Sim, Kevin
+and Kaufmann, Paul",
+title="CGP4Matlab - A Cartesian Genetic Programming MATLAB Toolbox for Audio and Image Processing",
+booktitle="Applications of Evolutionary Computation",
+year="2018",
+publisher="Springer International Publishing",
+address="Cham",
+pages="455--471",
+abstract="This paper presents and describes CGP4Matlab, a powerful toolbox that allows to run Cartesian Genetic Programming within MATLAB. This toolbox is particularly suited for signal processing and image processing problems. The implementation of CGP4Matlab, which can be freely downloaded, is described. Some encouraging results on the problem of pitch estimation of musical piano notes achieved using this toolbox are also presented. Pitch estimation of audio signals is a very hard problem with still no generic and robust solution found. Due to the highly flexibility of CGP4Matlab, we managed to apply a new cartesian genetic programming based approach to the problem of pitch estimation. The obtained results are comparable with the state of the art algorithms.",
+isbn="978-3-319-77538-8"
+}
+
+
+@software{schmidt_2020_3889163,
+  author       = {Schmidt, Maximilian and
+                  Jordan, Jakob},
+  title        = {{hal-cgp: Cartesian genetic programming in pure 
+                   Python.}},
+  month        = jun,
+  year         = 2020,
+  publisher    = {Zenodo},
+  version      = {0.1.0},
+  doi          = {10.5281/zenodo.3889163},
+  url          = {https://doi.org/10.5281/zenodo.3889163}
+}
+
+@book{ISO:2012:III,
+  added-at = {2012-10-08T01:13:47.000+0200},
+  address = {Geneva, Switzerland},
+  author = {{ISO}},
+  bibdate = {Mon Dec 19 11:12:12 2011},
+  bibsource = {http://www.math.utah.edu/pub/tex/bib/isostd.bib},
+  biburl = {https://www.bibsonomy.org/bibtex/24b660c16d9a5ab0ad595b1555402c797/gron},
+  day = 28,
+  interhash = {ff5df6d7fa67f89d7d5ea964dab3e3c9},
+  intrahash = {4b660c16d9a5ab0ad595b1555402c797},
+  keywords = {C++ Specification Standard},
+  month = feb,
+  pages = {1338 (est.)},
+  publisher = {International Organization for Standardization},
+  remark = {Revises ISO/IEC 14882:2003.},
+  timestamp = {2012-10-08T01:13:47.000+0200},
+  title = {{ISO/IEC 14882:2011 Information technology --- Programming languages --- C++}},
+  url = {http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=50372},
+  year = 2012
+}
+
+@InProceedings{10.1007/978-3-031-46221-4_3,
+author="Kalkreuth, Roman",
+editor="Garibaldi, Jonathan
+and Wagner, Christian
+and B{\"a}ck, Thomas
+and Lam, Hak-Keung
+and Cottrell, Marie
+and Madani, Kurosh
+and Warwick, Kevin",
+title="Crossover in Cartesian Genetic Programming: Evaluation of Two Phenotypic Methods",
+booktitle="Computational Intelligence",
+year="2023",
+publisher="Springer International Publishing",
+address="Cham",
+pages="44--72",
+abstract="The tree-based representation model of Genetic Programming is commonly used with subtree crossover as the predominant genetic operator. In contrast, Cartesian Genetic Programming (CGP) is widely used merely with mutation for genetic variation. Compared to comprehensive and advanced knowledge about crossover in the field of tree-based Genetic Programming, the state of knowledge in CGP appears to be generally weak. Even if CGP was officially introduced over twenty years ago, the role of recombination in CGP has been recently considered to be still an open question. Promising steps have been taken in the last years, but the outcomes show that more studies are needed to evaluate crossover operators in CGP on a wider set of benchmark problems. In this work, we compare algorithms that utilize two phenotypic crossover operators for CGP, called subgraph and block crossover, to the traditional mutation-only approach. The results of our experiments on well-known symbolic regression, Boolean function, and images operator design problems demonstrate that the use of crossover-based algorithms can outperform the mutation-only CGP approach on well-known benchmark problems.",
+isbn="978-3-031-46221-4"
+}
+
+@inproceedings{10.1145/3594805.3607131,
+author = {Kalkreuth, Roman and Va\v{s}\'{\i}\v{c}ek, Zden\v{e}k and Husa, Jakub and Vermetten, Diederick and Ye, Furong and B\"{a}ck, Thomas},
+title = {General Boolean Function Benchmark Suite},
+year = {2023},
+isbn = {9798400702020},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3594805.3607131},
+doi = {10.1145/3594805.3607131},
+abstract = {Just over a decade ago, the first comprehensive review on the state of benchmarking in Genetic Programming (GP) analyzed the mismatch between the problems that are used to test the performance of GP systems and real-world problems. Since then, several benchmark suites in major GP problem domains have been proposed over time, filling some of the major gaps. In the framework of the first review about the state of benchmarking in GP, logic synthesis (LS) was classified as one of the major GP problem domains. However, a diverse and accessible benchmark suite for LS is still missing. In this work, we propose a benchmark suite for LS that covers different types of Boolean functions that are commonly used in the field of GP. We analyze the complexity of the proposed benchmark by using popular complexity measures that are commonly used to classify and characterize Boolean functions and digital circuits.},
+booktitle = {Proceedings of the 17th ACM/SIGEVO Conference on Foundations of Genetic Algorithms},
+pages = {84–95},
+numpages = {12},
+keywords = {Logic Synthesis, Genetic Programming, Benchmarking},
+location = {Potsdam, Germany},
+series = {FOGA '23}
+}
+
+@inproceedings{DBLP:conf/gecco/McDermottWLMCVJKHJO12,
+  author    = {James McDermott and
+               David Robert White and
+               Sean Luke and
+               Luca Manzoni and
+               Mauro Castelli and
+               Leonardo Vanneschi and
+               Wojciech Jaskowski and
+               Krzysztof Krawiec and
+               Robin Harper and
+               Kenneth A. De Jong and
+               Una{-}May O'Reilly},
+  editor    = {Terence Soule and
+               Jason H. Moore},
+  title     = {Genetic programming needs better benchmarks},
+  booktitle = {Genetic and Evolutionary Computation Conference, {GECCO} '12, Philadelphia,
+               PA, USA, July 7-11, 2012},
+  pages     = {791--798},
+  publisher = {{ACM}},
+  year      = {2012},
+  url       = {https://doi.org/10.1145/2330163.2330273},
+  doi       = {10.1145/2330163.2330273},
+  timestamp = {Mon, 15 Jun 2020 17:13:06 +0200},
+  biburl    = {https://dblp.org/rec/conf/gecco/McDermottWLMCVJKHJO12.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{LOPEZIBANEZ201643,
+title = {The irace package: Iterated racing for automatic algorithm configuration},
+journal = {Operations Research Perspectives},
+volume = {3},
+pages = {43-58},
+year = {2016},
+issn = {2214-7160},
+doi = {https://doi.org/10.1016/j.orp.2016.09.002},
+url = {https://www.sciencedirect.com/science/article/pii/S2214716015300270},
+author = {Manuel López-Ibáñez and Jérémie Dubois-Lacoste and Leslie {Pérez Cáceres} and Mauro Birattari and Thomas Stützle},
+keywords = {Automatic algorithm configuration, Racing, Parameter tuning},
+abstract = {Modern optimization algorithms typically require the setting of a large number of parameters to optimize their performance. The immediate goal of automatic algorithm configuration is to find, automatically, the best parameter settings of an optimizer. Ultimately, automatic algorithm configuration has the potential to lead to new design paradigms for optimization software. The irace package is a software package that implements a number of automatic configuration procedures. In particular, it offers iterated racing procedures, which have been used successfully to automatically configure various state-of-the-art algorithms. The iterated racing procedures implemented in irace include the iterated F-race algorithm and several extensions and improvements over it. In this paper, we describe the rationale underlying the iterated racing procedures and introduce a number of recent extensions. Among these, we introduce a restart mechanism to avoid premature convergence, the use of truncated sampling distributions to handle correctly parameter bounds, and an elitist racing procedure for ensuring that the best configurations returned are also those evaluated in the highest number of training instances. We experimentally evaluate the most recent version of irace and demonstrate with a number of example applications the use and potential of irace, in particular, and automatic algorithm configuration, in general.}
+}
+
+@article{DBLP:journals/tec/MillerS06,
+  author       = {Julian F. Miller and
+                  Stephen L. Smith},
+  title        = {Redundancy and Computational Efficiency in Cartesian Genetic Programming},
+  journal      = {{IEEE} Trans. Evol. Comput.},
+  volume       = {10},
+  number       = {2},
+  pages        = {167--174},
+  year         = {2006},
+  url          = {https://doi.org/10.1109/TEVC.2006.871253},
+  doi          = {10.1109/TEVC.2006.871253},
+  timestamp    = {Thu, 23 Jun 2022 20:01:05 +0200},
+  biburl       = {https://dblp.org/rec/journals/tec/MillerS06.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{10.5555/2934046.2934074,
+author = {Miller, Julian F.},
+title = {An empirical study of the efficiency of learning boolean functions using a Cartesian Genetic Programming approach},
+year = {1999},
+isbn = {1558606114},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+abstract = {A new form of Genetic Programming (GP) called Cartesian Genetic Programming (CGP) is proposed in which programs are represented by linear integer chromosomes in the form of connections and functionalities of a rectangular array of primitive functions. The effectiveness of this approach is investigated for boolean even-parity functions (3,4,5), and the 2-bit multiplier. The minimum number of evaluations required to give a 0.99 probability of evolving a target function is used to measure the efficiency of the new approach. It is found that extremely low populations are most effective. A simple probabilistic hillclimber (PH) is devised which proves to be even more effective. For these boolean functions either method appears to be much more efficient than the GP and Evolutionary Programming (EP) methods reported. The efficacy of the PH suggests that boolean function learning may not be an appropriate problem for testing the effectiveness of GP and EP.},
+booktitle = {Proceedings of the 1st Annual Conference on Genetic and Evolutionary Computation - Volume 2},
+pages = {1135–1142},
+numpages = {8},
+location = {Orlando, Florida},
+series = {GECCO'99}
+}
+
+@inproceedings{DBLP:conf/ki/KaufmannK17,
+  author       = {Paul Kaufmann and
+                  Roman Kalkreuth},
+  editor       = {Gabriele Kern{-}Isberner and
+                  Johannes F{\"{u}}rnkranz and
+                  Matthias Thimm},
+  title        = {Parametrizing Cartesian Genetic Programming: An Empirical Study},
+  booktitle    = {{KI} 2017: Advances in Artificial Intelligence - 40th Annual German
+                  Conference on AI, Dortmund, Germany, September 25-29, 2017, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {10505},
+  pages        = {316--322},
+  publisher    = {Springer},
+  year         = {2017},
+  url          = {https://doi.org/10.1007/978-3-319-67190-1\_26},
+  doi          = {10.1007/978-3-319-67190-1\_26},
+  timestamp    = {Tue, 14 May 2019 10:00:49 +0200},
+  biburl       = {https://dblp.org/rec/conf/ki/KaufmannK17.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/ijcci/Kalkreuth22,
+  author       = {Roman Kalkreuth},
+  editor       = {Thomas B{\"{a}}ck and
+                  Bas van Stein and
+                  Christian Wagner and
+                  Jonathan M. Garibaldi and
+                  H. K. Lam and
+                  Marie Cottrell and
+                  Faiyaz Doctor and
+                  Joaquim Filipe and
+                  Kevin Warwick and
+                  Janusz Kacprzyk},
+  title        = {Towards Phenotypic Duplication and Inversion in Cartesian Genetic
+                  Programming},
+  booktitle    = {Proceedings of the 14th International Joint Conference on Computational
+                  Intelligence, {IJCCI} 2022, Valletta, Malta, October 24-26, 2022},
+  pages        = {50--61},
+  publisher    = {{SCITEPRESS}},
+  year         = {2022},
+  url          = {https://doi.org/10.5220/0011551000003332},
+  doi          = {10.5220/0011551000003332},
+  timestamp    = {Tue, 06 Jun 2023 14:58:01 +0200},
+  biburl       = {https://dblp.org/rec/conf/ijcci/Kalkreuth22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{10.1145/3520304.3529065,
+author = {Kalkreuth, Roman},
+title = {Phenotypic duplication and inversion in cartesian genetic programming applied to boolean function learning},
+year = {2022},
+isbn = {9781450392686},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3520304.3529065},
+doi = {10.1145/3520304.3529065},
+abstract = {The search performance of Cartesian Genetic Programming (CGP) relies to a large extent on the sole use of genotypic point mutation in combination with extremely large redundant genotypes. Over the last years, steps have been taken to extend CGP's variation mechanisms by the introduction of advanced methods for recombination and mutation. One branch of these contributions addresses phenotypic variation in CGP. However, recent studies have demonstrated the limitations of phenotypic recombination in Boolean function learning and highlighted the effectiveness of the mutation-only approach. Therefore, in this work, we further explore phenotypic mutation in CGP by the introduction and evaluation of two phenotypic mutation operators that are inspired by chromosomal rearrangement. Our initial findings show that the proposed methods can significantly improve the search performance of CGP on various single- and multiple-output Boolean function benchmarks.},
+booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+pages = {566–569},
+numpages = {4},
+keywords = {boolean function learning, cartesian genetic programming, duplication, inversion, mutation},
+location = {Boston, Massachusetts},
+series = {GECCO '22}
+}
+
+@article{stivala2010dynamicprog,
+title = {Lock-free parallel dynamic programming},
+journal = {Journal of Parallel and Distributed Computing},
+volume = {70},
+number = {8},
+pages = {839-848},
+year = {2010},
+issn = {0743-7315},
+doi = {https://doi.org/10.1016/j.jpdc.2010.01.004},
+url = {https://www.sciencedirect.com/science/article/pii/S0743731510000110},
+author = {Alex Stivala and Peter J. Stuckey and Maria {Garcia de la Banda} and Manuel Hermenegildo and Anthony Wirth},
+keywords = {Dynamic programming, Lock-free hash tables, Constraint programming, Multicores, Parallelism},
+abstract = {We show a method for parallelizing top down dynamic programs in a straightforward way by a careful choice of a lock-free shared hash table implementation and randomization of the order in which the dynamic program computes its subproblems. This generic approach is applied to dynamic programs for knapsack, shortest paths, and RNA structure alignment, as well as to a state-of-the-art solution for minimizing the maximum number of open stacks. Experimental results are provided on three different modern multicore architectures which show that this parallelization is effective and reasonably scalable. In particular, we obtain over 10 times speedup for 32 threads on the open stacks problem.}
+}
+
+@InProceedings{kalkreuth2023crossover,
+author="Kalkreuth, Roman",
+editor="Garibaldi, Jonathan
+and Wagner, Christian
+and B{\"a}ck, Thomas
+and Lam, Hak-Keung
+and Cottrell, Marie
+and Madani, Kurosh
+and Warwick, Kevin",
+title="Crossover in Cartesian Genetic Programming: Evaluation of Two Phenotypic Methods",
+booktitle="Computational Intelligence",
+year="2023",
+publisher="Springer International Publishing",
+address="Cham",
+pages="44--72",
+abstract="The tree-based representation model of Genetic Programming is commonly used with subtree crossover as the predominant genetic operator. In contrast, Cartesian Genetic Programming (CGP) is widely used merely with mutation for genetic variation. Compared to comprehensive and advanced knowledge about crossover in the field of tree-based Genetic Programming, the state of knowledge in CGP appears to be generally weak. Even if CGP was officially introduced over twenty years ago, the role of recombination in CGP has been recently considered to be still an open question. Promising steps have been taken in the last years, but the outcomes show that more studies are needed to evaluate crossover operators in CGP on a wider set of benchmark problems. In this work, we compare algorithms that utilize two phenotypic crossover operators for CGP, called subgraph and block crossover, to the traditional mutation-only approach. The results of our experiments on well-known symbolic regression, Boolean function, and images operator design problems demonstrate that the use of crossover-based algorithms can outperform the mutation-only CGP approach on well-known benchmark problems.",
+isbn="978-3-031-46221-4"
+}
+
+@inproceedings{kalkreuth2023boolfunctbench,
+  author       = {Roman Kalkreuth and
+                  Zdenek Vas{\'{\i}}cek and
+                  Jakub Husa and
+                  Diederick Vermetten and
+                  Furong Ye and
+                  Thomas B{\"{a}}ck},
+  title        = {General Boolean Function Benchmark Suite},
+  booktitle    = {Proceedings of the 17th {ACM/SIGEVO} Conference on Foundations of
+                  Genetic Algorithms, {FOGA} 2023, Potsdam, Germany, 30 August 2023
+                  - 1 September 2023},
+  pages        = {84--95},
+  publisher    = {{ACM}},
+  year         = {2023},
+  url          = {https://doi.org/10.1145/3594805.3607131},
+  doi          = {10.1145/3594805.3607131},
+  timestamp    = {Sat, 05 Aug 2023 00:01:53 +0200},
+  biburl       = {https://dblp.org/rec/conf/foga/KalkreuthVHVYB23.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{bartz2020benchoptimisation,
+  author       = {Thomas Bartz{-}Beielstein and
+                  Carola Doerr and
+                  Jakob Bossek and
+                  Sowmya Chandrasekaran and
+                  Tome Eftimov and
+                  Andreas Fischbach and
+                  Pascal Kerschke and
+                  Manuel L{\'{o}}pez{-}Ib{\'{a}}{\~{n}}ez and
+                  Katherine M. Malan and
+                  Jason H. Moore and
+                  Boris Naujoks and
+                  Patryk Orzechowski and
+                  Vanessa Volz and
+                  Markus Wagner and
+                  Thomas Weise},
+  title        = {Benchmarking in Optimization: Best Practice and Open Issues},
+  journal      = {CoRR},
+  volume       = {abs/2007.03488},
+  year         = {2020},
+  url          = {https://arxiv.org/abs/2007.03488},
+  eprinttype    = {arXiv},
+  eprint       = {2007.03488},
+  timestamp    = {Thu, 03 Feb 2022 17:12:20 +0100},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2007-03488.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@book{kronberger2024sr,
+  title = {Symbolic Regression},
+  author = {Gabriel Kronberger and Bogdan Burlacu and Michael Kommenda and Stephan M. Winkler and Michael Affenzeller},
+  publisher = "Chapman \& Hall / CRC Press",
+  year = "2024",  
+}
+
+@article{kommenda2020parameter,
+  title={Parameter identification for symbolic regression using nonlinear least squares},
+  author={Kommenda, Michael and Burlacu, Bogdan and Kronberger, Gabriel and Affenzeller, Michael},
+  journal={Genetic Programming and Evolvable Machines},
+  volume={21},
+  number={3},
+  pages={471--501},
+  year={2020},
+  publisher={Springer}
+}
+
+@inproceedings{burlacu2020operon,
+  title={Operon C++ an efficient genetic programming framework for symbolic regression},
+  author={Burlacu, Bogdan and Kronberger, Gabriel and Kommenda, Michael},
+  booktitle={Proceedings of the 2020 Genetic and Evolutionary Computation Conference Companion},
+  pages={1562--1570},
+  year={2020}
+}
+
+@article{cranmer2023interpretable,
+  title={Interpretable machine learning for science with PySR and SymbolicRegression. jl},
+  author={Cranmer, Miles},
+  journal={arXiv preprint arXiv:2305.01582},
+  year={2023}
+}
+
+@inproceedings{randall2022bingo,
+  title={Bingo: a customizable framework for symbolic regression with genetic programming},
+  author={Randall, David L and Townsend, Tyler S and Hochhalter, Jacob D and Bomarito, Geoffrey F},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+  pages={2282--2288},
+  year={2022}
+}
+
+@inproceedings{defranca2022transformationsr,
+  title={Transformation-interaction-rational representation for symbolic regression},
+  author={de Fran{\c{c}}a, Fabr{\'\i}cio Olivetti},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference},
+  pages={920--928},
+  year={2022}
+}
+
+@article{brolos2021srapproach,
+  title={An approach to symbolic regression using Feyn},
+  author={Brol{\o}s, Kevin Ren{\'e} and Machado, Meera Vieira and Cave, Chris and Kasak, Jaan and Stentoft-Hansen, Valdemar and Batanero, Victor Galindo and Jelen, Tom and Wilstrup, Casper},
+  journal={arXiv preprint arXiv:2104.05417},
+  year={2021}
+}
+
+@article{lacava2021contemporary,
+  title={Contemporary symbolic regression methods and their relative performance},
+  author={La Cava, William and Burlacu, Bogdan and Virgolin, Marco and Kommenda, Michael and Orzechowski, Patryk and de Fran{\c{c}}a, Fabr{\'\i}cio Olivetti and Jin, Ying and Moore, Jason H},
+  journal={Advances in neural information processing systems},
+  volume={2021},
+  number={DB1},
+  pages={1},
+  year={2021},
+  publisher={NIH Public Access}
+}
+
+@article{defranca2024srbench,
+  title={SRBench++: Principled benchmarking of symbolic regression with domain-expert interpretation},
+  author={de Franca, Fabricio O and Virgolin, Marco and Kommenda, M and Majumder, MS and Cranmer, M and Espada, G and Ingelse, L and Fonseca, A and Landajuela, M and Petersen, B and others},
+  journal={IEEE transactions on evolutionary computation},
+  year={2024},
+  publisher={IEEE}
+}
+@inproceedings{mcdermott2012betterbenchmarks,
+  title={Genetic programming needs better benchmarks},
+  author={McDermott, James and White, David R and Luke, Sean and Manzoni, Luca and Castelli, Mauro and Vanneschi, Leonardo and Jaskowski, Wojciech and Krawiec, Krzysztof and Harper, Robin and De Jong, Kenneth and others},
+  booktitle={Proceedings of the 14th annual conference on Genetic and evolutionary computation},
+  pages={791--798},
+  year={2012}
+}
+
+@inproceedings{orzechowski2018srmethods,
+  title={Where are we now? A large benchmark study of recent symbolic regression methods},
+  author={Orzechowski, Patryk and La Cava, William and Moore, Jason H},
+  booktitle={Proceedings of the genetic and evolutionary computation conference},
+  pages={1183--1190},
+  year={2018}
+}
+
+@inproceedings{wilson2018evoatari,
+  author       = {Dennis G. Wilson and
+                  Sylvain Cussat{-}Blanc and
+                  Herv{\'{e}} Luga and
+                  Julian F. Miller},
+  editor       = {Hern{\'{a}}n E. Aguirre and
+                  Keiki Takadama},
+  title        = {Evolving simple programs for playing atari games},
+  booktitle    = {Proceedings of the Genetic and Evolutionary Computation Conference,
+                  {GECCO} 2018, Kyoto, Japan, July 15-19, 2018},
+  pages        = {229--236},
+  publisher    = {{ACM}},
+  year         = {2018},
+  url          = {https://doi.org/10.1145/3205455.3205578},
+  doi          = {10.1145/3205455.3205578},
+  timestamp    = {Fri, 02 Aug 2024 15:50:42 +0200},
+  biburl       = {https://dblp.org/rec/conf/gecco/WilsonCLM18.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@misc{Sipper2019tinyGP,
+  author = {Sipper, M.},
+  title = {Tiny Genetic Programming in Python},
+  year = {2019},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/moshesipper/tiny_gp} }
+}
+
+@inproceedings{silva2003gplab,
+  title={Gplab-a genetic programming toolbox for matlab},
+  author={Silva, Sara and Almeida, Jonas},
+  booktitle={Proceedings of the Nordic MATLAB conference},
+  pages={273--278},
+  year={2003}
+}
+
+@article{fortin2012deap,
+    author    = " F\'elix-Antoine Fortin and Fran\c{c}ois-Michel {De Rainville} and Marc-Andr\'e Gardner and Marc Parizeau and Christian Gagn\'e ",
+    title     = { {DEAP}: Evolutionary Algorithms Made Easy },
+    pages     = { 2171--2175 },
+    volume    = { 13 },
+    month     = { jul },
+    year      = { 2012 },
+    journal   = { Journal of Machine Learning Research }
+}
+
+@inproceedings{derainville2012deap,
+  title={Deap: A python framework for evolutionary algorithms},
+  author={De Rainville, Fran{\c{c}}ois-Michel and Fortin, F{\'e}lix-Antoine and Gardner, Marc-Andr{\'e} and Parizeau, Marc and Gagn{\'e}, Christian},
+  booktitle={Proceedings of the 14th annual conference companion on Genetic and evolutionary computation},
+  pages={85--92},
+  year={2012}
+}
+
+@article{eckity2023,
+author = {Moshe Sipper and Tomer Halperin and Itai Tzruia and Achiya Elyasaf},
+title = {{EC-KitY}: Evolutionary computation tool kit in {Python} with seamless machine learning integration},
+journal = {SoftwareX},
+volume = {22},
+pages = {101381},
+year = {2023},
+url = {https://www.sciencedirect.com/science/article/pii/S2352711023000778},
+}
+
+@misc{eckity2022git,
+    author = {Sipper, Moshe and Halperin, Tomer and Tzruia, Itai and  Elyasaf, Achiya},
+    title = {{EC-KitY}: Evolutionary Computation Tool Kit in {Python}},
+    year = {2022},
+    publisher = {GitHub},
+    journal = {GitHub repository},
+    howpublished = {\url{https://www.eckity.org/} }
+}
+
+@inproceedings{espada2022data,
+  author={Guilherme Espada and Leon Ingelse and Paulo Canelas and Pedro Barbosa and Alcides Fonseca},
+  editor    = {Bernhard Scholz and Yukiyoshi Kameyama},
+  title={Datatypes as a More Ergonomic Frontend for Grammar-Guided Genetic Programming},
+  booktitle = {{GPCE} '22: Concepts and Experiences, Auckland, NZ, December 6 - 7, 2022},
+  pages     = {1},
+  publisher = {{ACM}},
+  year      = {2022},
+}
+
+@article{wong2024solving,
+  title={Solving Deep Reinforcement Learning Benchmarks with Linear Policy Networks},
+  author={Wong, Annie and de Nobel, Jacob and B{\"a}ck, Thomas and Plaat, Aske and Kononova, Anna V},
+  journal={arXiv preprint arXiv:2402.06912},
+  year={2024}
+}
+
+@article{towers2024gymnasium,
+  title={Gymnasium: A Standard Interface for Reinforcement Learning Environments},
+  author={Towers, Mark and Kwiatkowski, Ariel and Terry, Jordan and Balis, John U and De Cola, Gianluca and Deleu, Tristan and Goul{\~a}o, Manuel and Kallinteris, Andreas and Krimmel, Markus and KG, Arjun and others},
+  journal={arXiv preprint arXiv:2407.17032},
+  year={2024}
+}
+
+@Article{bellemare2013arcade,
+  author = {{Bellemare}, M.~G. and {Naddaf}, Y. and {Veness}, J. and {Bowling}, M.},
+  title = {The Arcade Learning Environment: An Evaluation Platform for General Agents},
+  journal = {Journal of Artificial Intelligence Research},
+  year = "2013",
+  month = "jun",
+  volume = "47",
+  pages = "253--279",
+}
+
+@article{chevalier2023minirl,
+  author       = {Maxime Chevalier-Boisvert and Bolun Dai and Mark Towers and Rodrigo de Lazcano and Lucas Willems and Salem Lahlou and Suman Pal and Pablo Samuel Castro and Jordan Terry},
+  title        = {Minigrid \& Miniworld: Modular \& Customizable Reinforcement Learning Environments for Goal-Oriented Tasks},
+  journal      = {CoRR},
+  volume       = {abs/2306.13831},
+  year         = {2023},
+}
+
+@software{brax2021github,
+  author = {C. Daniel Freeman and Erik Frey and Anton Raichuk and Sertan Girgin and Igor Mordatch and Olivier Bachem},
+  title = {Brax - A Differentiable Physics Engine for Large Scale Rigid Body Simulation},
+  url = {http://github.com/google/brax},
+  version = {0.12.1},
+  year = {2021},
+}
+
+@inproceedings{zhu2020robosuite,
+  title={robosuite: A Modular Simulation Framework and Benchmark for Robot Learning},
+  author={Yuke Zhu and Josiah Wong and Ajay Mandlekar and Roberto Mart\'{i}n-Mart\'{i}n and Abhishek Joshi and Soroush Nasiriany and Yifeng Zhu and Kevin Lin},
+  booktitle={arXiv preprint arXiv:2009.12293},
+  year={2020}
+}
+
+@inproceedings{amaral2022gp4rl, 
+    author = {Amaral, Ryan and Ianta, Alexandru and Bayer, Caleidgh and Smith, Robert J. and Heywood, Malcolm I.}, 
+    title = {Benchmarking genetic programming in a multi-action reinforcement learning locomotion task}, 
+    year = {2022}, 
+    isbn = {9781450392686}, 
+    publisher = {Association for Computing Machinery}, 
+    address = {New York, NY, USA}, 
+    url = {https://doi.org/10.1145/3520304.3528766}, 
+    doi = {10.1145/3520304.3528766}, 
+    booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference Companion}, 
+    pages = {522–525}, 
+    numpages = {4}, 
+    keywords = {continuous control, real-valued actions, reinforcement learning}, 
+    location = {Boston, Massachusetts}, 
+    series = {GECCO '22} 
+}
+
+@inproceedings{helmuth2015psb,
+  author       = {Thomas Helmuth and
+                  Lee Spector},
+  editor       = {Sara Silva and
+                  Anna Isabel Esparcia{-}Alc{\'{a}}zar},
+  title        = {General Program Synthesis Benchmark Suite},
+  booktitle    = {Proceedings of the Genetic and Evolutionary Computation Conference,
+                  {GECCO} 2015, Madrid, Spain, July 11-15, 2015},
+  pages        = {1039--1046},
+  publisher    = {{ACM}},
+  year         = {2015},
+  url          = {https://doi.org/10.1145/2739480.2754769},
+  doi          = {10.1145/2739480.2754769},
+  timestamp    = {Tue, 06 Nov 2018 11:06:42 +0100},
+  biburl       = {https://dblp.org/rec/conf/gecco/HelmuthS15.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{helmuth2021psb2,
+  author       = {Thomas Helmuth and
+                  Peter Kelly},
+  editor       = {Francisco Chicano and
+                  Krzysztof Krawiec},
+  title        = {{PSB2:} the second program synthesis benchmark suite},
+  booktitle    = {{GECCO} '21: Genetic and Evolutionary Computation Conference, Lille,
+                  France, July 10-14, 2021},
+  pages        = {785--794},
+  publisher    = {{ACM}},
+  year         = {2021},
+  url          = {https://doi.org/10.1145/3449639.3459285},
+  doi          = {10.1145/3449639.3459285},
+  timestamp    = {Thu, 24 Jun 2021 13:39:32 +0200},
+  biburl       = {https://dblp.org/rec/conf/gecco/HelmuthK21.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@ARTICLE{rojas2002statparametersga,
+  author={Rojas, I. and Gonzalez, J. and Pomares, H. and Merelo, J.J. and Castillo, P.A. and Romero, G.},
+  journal={IEEE Transactions on Systems, Man, and Cybernetics, Part C (Applications and Reviews)}, 
+  title={Statistical analysis of the main parameters involved in the design of a genetic algorithm}, 
+  year={2002},
+  volume={32},
+  number={1},
+  pages={31-37},
+  keywords={Statistical analysis;Algorithm design and analysis;Genetic algorithms;Analysis of variance;Genetic mutations;Performance analysis;Pattern analysis;Design engineering;Computer architecture;Probability},
+  doi={10.1109/TSMCC.2002.1009128}
+}
+
+@ARTICLE{grefenstette1986parametersga,
+  author={Grefenstette, John J.},
+  journal={IEEE Transactions on Systems, Man, and Cybernetics}, 
+  title={Optimization of Control Parameters for Genetic Algorithms}, 
+  year={1986},
+  volume={16},
+  number={1},
+  pages={122-128},
+  keywords={Genetic algorithms;Response surface methodology;Design optimization;Programmable control;Adaptive control;Adaptive systems;Algorithm design and analysis;Image registration;Process control;Control theory},
+  doi={10.1109/TSMC.1986.289288}}
+
+@article{zhang2010popsize,
+  author       = {Yu{-}an Zhang and
+                  Qinglian Ma and
+                  Makoto Sakamoto and
+                  Hiroshi Furutani},
+  title        = {Effects of population size on the performance of genetic algorithms
+                  and the role of crossover},
+  journal      = {Artif. Life Robotics},
+  volume       = {15},
+  number       = {2},
+  pages        = {239--243},
+  year         = {2010},
+  url          = {https://doi.org/10.1007/s10015-010-0836-1},
+  doi          = {10.1007/S10015-010-0836-1},
+  timestamp    = {Mon, 30 Nov 2020 16:25:04 +0100},
+  biburl       = {https://dblp.org/rec/journals/alr/ZhangMSF10.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{hutter2010mipconfiguration,
+	title = {Automated {Configuration} of {Mixed} {Integer} {Programming} {Solvers}},
+	booktitle = {Proceedings of the 7th {International} {Conference} on the {Integration} of {AI} and {OR} {Techniques} in {Constraint} {Programming} for {Combinatorial} {Optimization} {Problems} ({CPAIOR} 2010)},
+	author = {Hutter, Frank and Hoos, Holger H. and Leyton-Brown, Kevin},
+	year = {2010},
+	pages = {186--202},
+}
+
+@inproceedings{nannen2007evparameters,
+  author       = {Volker Nannen and
+                  {\' A}goston E. Eiben},
+  editor       = {Manuela M. Veloso},
+  title        = {Relevance Estimation and Value Calibration of Evolutionary Algorithm
+                  Parameters},
+  booktitle    = {{IJCAI} 2007, Proceedings of the 20th International Joint Conference
+                  on Artificial Intelligence, Hyderabad, India, January 6-12, 2007},
+  pages        = {975--980},
+  year         = {2007},
+  url          = {http://ijcai.org/Proceedings/07/Papers/157.pdf},
+  timestamp    = {Tue, 20 Aug 2019 16:17:11 +0200},
+  biburl       = {https://dblp.org/rec/conf/ijcai/NannenE07.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+
+@article{hutter2017cssc,
+	title = {The {Configurable} {SAT} {Solver} {Challenge} ({CSSC})},
+	volume = {243},
+	issn = {0004-3702},
+	url = {https://www.sciencedirect.com/science/article/pii/S0004370216301138},
+	doi = {10.1016/j.artint.2016.09.006},
+	urldate = {2025-01-29},
+	journal = {Artificial Intelligence},
+	author = {Hutter, Frank and Lindauer, Marius and Balint, Adrian and Bayless, Sam and Hoos, Holger and Leyton-Brown, Kevin},
+	year = {2017},
+	keywords = {Algorithm configuration, Competition, Empirical evaluation, Propositional satisfiability},
+	pages = {1--25},
+	file = {ScienceDirect Snapshot:/Users/mia/Zotero/storage/QG6HZ8N9/S0004370216301138.html:text/html;Submitted Version:/Users/mia/Zotero/storage/IVCSM8TQ/Hutter et al. - 2017 - The Configurable SAT Solver Challenge (CSSC).pdf:application/pdf},
+}
+
+
+@inproceedings{ansotegui2009gga,
+	title = {A {Gender}-{Based} {Genetic} {Algorithm} for the {Automatic} {Configuration} of {Algorithms}},
+	booktitle = {Proceedings of the 15th {International} {Conference} on {Principles} and {Practice} of {Constraint} {Programming} ({CP} 2009)},
+	author = {Ansótegui, Carlos and Sellmann, Meinolf and Tierney, Kevin},
+	year = {2009},
+	pages = {142--157},
+}
+
+
+@article{hutter2009paramils,
+	title = {{ParamILS}: {An} {Automatic} {Algorithm} {Configuration} {Framework}},
+	volume = {36},
+	copyright = {Copyright (c)},
+	issn = {1076-9757},
+	shorttitle = {{ParamILS}},
+	url = {https://jair.org/index.php/jair/article/view/10628},
+	doi = {10.1613/jair.2861},
+	language = {en},
+	urldate = {2019-05-08},
+	journal = {Journal of Artificial Intelligence Research},
+	author = {Hutter, F. and Hoos, H. H. and Leyton-Brown, K. and Stuetzle, T.},
+	month = oct,
+	year = {2009},
+	pages = {267--306},
+}
+
+@article{lindauer2022smac3,
+  author  = {Marius Lindauer and Katharina Eggensperger and Matthias Feurer and André Biedenkapp and Difan Deng and Carolin Benjamins and Tim Ruhkopf and René Sass and Frank Hutter},
+  title   = {SMAC3: A Versatile Bayesian Optimization Package for Hyperparameter Optimization},
+  journal = {Journal of Machine Learning Research},
+  year    = {2022},
+  volume  = {23},
+  number  = {54},
+  pages   = {1--9},
+  url     = {http://jmlr.org/papers/v23/21-0888.html}
+}
+
+@inproceedings{akiba2019optuna,
+    title={Optuna: A Next-generation Hyperparameter Optimization Framework},
+    author={Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori},
+    booktitle={Proceedings of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery and Data Mining},
+    year={2019}
+}
+
+@article{sutton2018reinforcement,
+  title={Reinforcement learning: An introduction},
+  author={Sutton, Richard S},
+  journal={A Bradford Book},
+  year={2018}
+}
+
+@ARTICLE{doerr2018iohprofiler,
+  author = {Carola Doerr and Hao Wang and Furong Ye and Sander van Rijn and Thomas B{\"a}ck},
+  title = {IOHprofiler: A Benchmarking and Profiling Tool for Iterative Optimization Heuristics},
+  journal = {arXiv e-prints:1810.05281},
+  archivePrefix = {arXiv},
+  eprint = {1810.05281},
+  year = {2018},
+  month = {oct},
+  keywords = {Computer Science - Neural and Evolutionary Computing},
+  url = {https://arxiv.org/abs/1810.05281}
+}
+@article{denobel2024iohexperimenter,
+  title={Iohexperimenter: Benchmarking platform for iterative optimization heuristics},
+  author={de Nobel, Jacob and Ye, Furong and Vermetten, Diederick and Wang, Hao and Doerr, Carola and B{\"a}ck, Thomas},
+  journal={Evolutionary Computation},
+  volume={32},
+  number={3},
+  pages={205--210},
+  year={2024},
+  publisher={MIT Press 255 Main Street, 9th Floor, Cambridge, Massachusetts 02142, USA~…}
+}
+@article{iohanalyzer,
+  title={IOHanalyzer: Detailed performance analyses for iterative optimization heuristics},
+  author={Wang, Hao and Vermetten, Diederick and Ye, Furong and Doerr, Carola and B{\"a}ck, Thomas},
+  journal={ACM Transactions on Evolutionary Learning and Optimization},
+  volume={2},
+  number={1},
+  pages={1--29},
+  year={2022},
+  publisher={ACM New York, NY}
+}
+
+@inproceedings{vermetten2025iohinspector,
+  author       = {Diederick Vermetten and
+                  Jeroen Rook and
+                  Oliver L. Preu{\ss} and
+                  Jacob de Nobel and
+                  Carola Doerr and
+                  Manuel L{\'{o}}pez{-}Ib{\'{a}}{\~{n}}ez and
+                  Heike Trautmann and
+                  Thomas B{\"{a}}ck},
+  editor       = {Hemant K. Singh and
+                  Tapabrata Ray and
+                  Joshua D. Knowles and
+                  Xiaodong Li and
+                  Juergen Branke and
+                  Bing Wang and
+                  Akira Oyama},
+  title        = {MO-IOHinspector: Anytime Benchmarking of Multi-objective Algorithms
+                  Using IOHprofiler},
+  booktitle    = {Evolutionary Multi-Criterion Optimization - 13th International Conference,
+                  {EMO} 2025, Canberra, ACT, Australia, March 4-7, 2025, Proceedings,
+                  Part {I}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {15512},
+  pages        = {242--256},
+  publisher    = {Springer},
+  year         = {2025},
+  url          = {https://doi.org/10.1007/978-981-96-3506-1\_17},
+  doi          = {10.1007/978-981-96-3506-1\_17},
+  timestamp    = {Fri, 28 Mar 2025 11:15:45 +0100},
+  biburl       = {https://dblp.org/rec/conf/emo/VermettenRPNDLTB25.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{kalkreuth2025tinyversegp,
+author = {Kalkreuth, Roman and Olivetti de Fran{\c c}a, Fabricio and Jankovic, Anja and Anastacio, Marie and Dierkes, Julian and Vasicek, Zdenek and Hoos, Holger},
+title = {TinyverseGP: Towards a Modular Cross-domain Benchmarking Framework for Genetic Programming},
+year = {2025},
+noisbn = {9798400714641},
+publisher = {Association for Computing Machinery},
+noaddress = {New York, NY, USA},
+nourl = {https://doi.org/10.1145/3712255.3726697},
+nodoi = {10.1145/3712255.3726697},
+nopages = {127–130},
+nonumpages = {4},
+keywords = {genetic programming, implementation, benchmarking, symbolic regression, logic synthesis, python},
+nolocation = {NH Malaga Hotel, Malaga, Spain},
+series = {GECCO '25 Companion}
+}
