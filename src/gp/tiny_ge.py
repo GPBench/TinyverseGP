@@ -65,9 +65,9 @@ class TinyGE(GPModel):
         self.config = config # overall configuration
         self.best_individual = None  # to keep the best program found so far
         self.num_evaluations = 0  # counter of number of evaluations
-        self.init()
+        self.init_population()
 
-    def init(self):
+    def init_population(self):
         # initial population using uniform initialization
         self.population = [GEIndividual(genome, None) for genome in
                            self.init_uniform(self.hyperparameters.pop_size, self.hyperparameters.genome_length,

@@ -42,7 +42,7 @@ class PLBenchmark(Benchmark):
     """
 
     def __init__(
-        self, env_: gym.Env, ale_=False, ale_args: ALEArgs = None, flatten_obs_=True
+            self, env_: gym.Env, ale_=False, ale_args: ALEArgs = None, flatten_obs_=True
     ):
         self.env = env_
         self.wrapped_env = env_
@@ -72,13 +72,14 @@ class PLBenchmark(Benchmark):
                     terminal_on_life_loss=args.terminal_on_life_loss,
                     scale_obs=args.scale_obs,
                 )
+
+                if args.frame_stack > 0:
+                    self.wrapped_env = gym.wrappers.FrameStackObservation(self.wrapped_env, 4)
+
             else:
                 self.wrapped_env = gym.wrappers.AtariPreprocessing(self.env)
         else:
             self.wrapped_env = self.env
-
-        if args.frame_stack > 0:
-            self.wrapped_env = gym.wrappers.FrameStackObservation(self.wrapped_env, 4)
 
         if self.flatten_obs:
             self.wrapped_env = FlattenObservation(self.wrapped_env)

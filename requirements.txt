@@ -1,6 +1,7 @@
 Box2D==2.3.10
 pygame==2.6.1
 gymnasium==1.0.0
+minatar==1.0.15
 numpy>=1.21.0
 dd>=0.6.0
 swig==4.3.0

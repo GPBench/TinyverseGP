@@ -189,7 +189,7 @@ class TinyLGP(GPModel):
         self.best_individual = None
         self.num_evaluations = 0
         self.config.num_registers += self.hyperparameters.register_slack
-        self.init()
+        self.init_population()
 
     def _create_constant(self):
         return random.random() * 2 - 1
@@ -222,7 +222,7 @@ class TinyLGP(GPModel):
             genome.append(Instruction(dest, operator, operands))
         return genome
 
-    def init(self):
+    def init_population(self):
         self.population = [LGPIndividual(
             self._create_random_genome(self.hyperparameters.min_len, self.hyperparameters.initial_max_len), None) for _
             in range(self.hyperparameters.mu)]

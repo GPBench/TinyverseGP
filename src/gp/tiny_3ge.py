@@ -133,7 +133,7 @@ class Tiny3GE(GPModel):
         self.num_evaluations = 0
         self.best_individual = None
 
-    def init(self):
+    def init_population(self):
         self.population = [TreeGEIndividual(deriv_tree,
                                             self.generate_linear_genome(deriv_tree, self.hyperparameters.codon_size),
                                             None)

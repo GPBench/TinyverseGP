@@ -92,9 +92,9 @@ class TinyTGP(GPModel):
         self.best_individual = None  # to keep the best program found so far
         self.num_evaluations = 0  # conter of number of evaluations
         # initial population using ramped half-and-half
-        self.init()
+        self.init_population()
 
-    def init(self):
+    def init_population(self):
         self.population = [
             TGPIndividual(genome, None)
             for genome in self.init_ramped_half_half(

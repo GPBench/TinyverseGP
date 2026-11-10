@@ -136,7 +136,7 @@ class TinyCGP(GPModel):
         self.init_inputs(terminals_)
         self.init_population()
 
-    def init(self):
+    def init_population(self):
         self.init_population()
 
     def init_population(self) -> list:

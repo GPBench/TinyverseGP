@@ -304,6 +304,13 @@ class GPModel(ABC):
         self.num_evaluations = 0
         random.seed(self.config.global_seed)
 
+    @abstractmethod
+    def init_population(self):
+        """
+        Creates the population the way it is done for the respective GP representation.
+        """
+        pass
+
     def evaluate(self, problem) -> GPIndividual:
         """
         Evaluates the population.
@@ -398,12 +405,6 @@ class GPModel(ABC):
         """
         pass
 
-    @abstractmethod
-    def init(self):
-        """
-        Init procedure before a job is executed.
-        """
-        pass
 
     def reset(self):
         """
@@ -412,7 +413,7 @@ class GPModel(ABC):
         the rng is re-seeded.
         """
 
-        self.init()
+        self.init_population()
 
         self.num_evaluations = 0
         self.generation_number = 0
