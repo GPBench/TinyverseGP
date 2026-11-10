@@ -1,38 +1,34 @@
 # This class defines the problem interface for hyperparameter optimization of GP models using SMAC.
 # Note: This model is tailored to exclusively run on symbolic regression problems.
 
-from copy import deepcopy
-from random import randrange
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from pmlb import fetch_data
 import numpy as np
 import sys
 
-from src.hpo.hpo import SMACInterface
-from src.benchmark.symbolic_regression.srbench1 import SRBench
-from src.gp.tiny_cgp import CGPConfig, CGPHyperparameters, TinyCGP
-from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, TreeGEConfig
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
-from src.gp.tiny_tgp import TinyTGP, TGPHyperparameters, Node
-from src.gp.tiny_ge import GEHyperparameters
-from src.gp.tinyverse import GPHyperparameters, GPConfig, GPModel
-from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
-from src.gp.problem import BlackBox
-from src.gp.loss import absolute_distance
+from hpo.hpo import SMACInterface
+from gp.tiny_cgp import TinyCGP
+from gp.tiny_3ge import Tiny3GE
+from gp.tiny_ge import TinyGE
+from gp.tiny_tgp import TinyTGP
+from gp.tinyverse import GPModel
+from gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
+from gp.problem import BlackBox
+from gp.loss import absolute_distance
 
 seed_ = int(sys.argv[1])
 
 class HPOModel():
     def __init__(
-        self, 
-        representation, 
-        config, 
-        hyperparameters, 
-        dataset, 
-        functions=[ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE], 
-        terminals=[1, 0.5, np.pi, np.sqrt(2)], 
-        grammar=None, 
+        self,
+        representation,
+        config,
+        hyperparameters,
+        dataset,
+        functions=[ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE],
+        terminals=[1, 0.5, np.pi, np.sqrt(2)],
+        grammar=None,
         loss=absolute_distance
     ):
         self.representation = representation
@@ -41,7 +37,7 @@ class HPOModel():
         self.functions = functions
         self.terminals = terminals
         self.grammar = grammar
-        self.dataset = dataset  
+        self.dataset = dataset
         self.loss = loss
 
 
@@ -54,11 +50,11 @@ class HPOModel():
             "<const>": [str(c) for c in [1, 0.5, "3.14159", "1.41421"]],
             "<var>": [],
         }
-    
+
 
     def create_model(self, hyperparameters, num_vars):
 
-        
+
         if self.representation == "TGP":
             model = TinyTGP(
                 self.functions, self.terminals, self.config, hyperparameters
@@ -68,7 +64,8 @@ class HPOModel():
                 self.functions, self.terminals, self.config, hyperparameters
             )
         elif self.representation == "GE" or self.representation == "3GE":
-            newfunctions = {f.name.upper(): f.function for f in self.functions}
+            # NOTE: T.S. Disabled line below (Unused)
+            # newfunctions = {f.name.upper(): f.function for f in self.functions}
             arguments = [f"x{i}" for i in range(num_vars)]
             self.grammar["<var>"] = arguments
             print(f"arguments: {arguments}")
@@ -81,7 +78,7 @@ class HPOModel():
                 model = TinyGE(self.functions, self.grammar, arguments, self.config, hyperparameters)
         else:
             raise ValueError("Invalid representation type")
-        
+
         return model
 
 
@@ -90,7 +87,7 @@ class HPOModel():
         program = model.evolve(problem)
         yhat = np.array([model.predict(program.genome, x)[0] for x in X])
         return r2_score(y, yhat)
-    
+
     def dataset_split(self, dataset, train_size):
         X, y = fetch_data(dataset, return_X_y=True)
         train_X, test_X, train_y, test_y = train_test_split(X, y, train_size=train_size, shuffle=False)
@@ -107,12 +104,12 @@ class HPOModel():
 
             GP_model = self.create_model(self.hyperparameters, train_X.shape[1])
             # GP_model.fit(train_X, train_y)
-            interface = SMACInterface()    
+            interface = SMACInterface()
 
             # run SMAC
             opt_hyperparameters = interface.optimise(GP_model, problem, n_trials, seed_)
             results[dataset] = opt_hyperparameters
-            
+
             train_base = self.evaluate_score(problem, GP_model, train_X, train_y)
             test_base = self.evaluate_score(problem, GP_model, test_X, test_y)
             print("="*50)
@@ -126,7 +123,7 @@ class HPOModel():
             test_opt = self.evaluate_score(problem, opt_GP_model, test_X, test_y)
             print("="*50)
             optimized_GP_model_expression = opt_GP_model.expression(opt_GP_model.best_individual.genome)
-            
+
             print("="*80)
 
             results[dataset] = {

@@ -215,4 +215,8 @@ for bm in benchmarks:
     if ge.is_valid():
         print(f"ge score: {ge.score(tt.inputs, tt.outputs)}")
     else:
+<<<<<<< HEAD
         print(f"GE score cannot be calculated due to invalid genome")
+=======
+        print("GE score cannot be calculated due to invalid genome")
+>>>>>>> origin/main

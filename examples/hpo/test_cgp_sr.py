@@ -2,11 +2,11 @@
 Example script to perform HPO via SMAC for CGP on a simple (toy) symbolic regression problem.
 """
 
-from src.gp.tiny_cgp import *
+from src.gp.tiny_cgp import TinyCGP, CGPConfig, CGPHyperparameters
 from src.gp.problem import BlackBox
 from src.benchmark.symbolic_regression.sr_benchmark import SRBenchmark
-from src.gp.functions import *
-from src.gp.loss import *
+from src.gp.functions import ADD, SUB, MUL, DIV
+from src.gp.loss import absolute_distance
 from src.gp.tinyverse import Var, Const
 from src.hpo.hpo import SMACInterface
 

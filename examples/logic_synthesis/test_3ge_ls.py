@@ -11,15 +11,15 @@ The provided benchmarks are taken from the General Boolean Function Benchmark Su
 
 https://dl.acm.org/doi/10.1145/3594805.3607131
 """
+from gp.tinyverse import GPConfig
+from benchmark.logic_synthesis.ls_benchmark import LSBenchmark
+from gp.tiny_3ge import Tiny3GE
+from gp.functions import AND, OR, NAND, NOR, NOT
+from gp.tiny_3ge import TreeGEHyperparameters
+from gp.loss import hamming_distance_bitwise
+from gp.problem import BlackBox
 
-from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark
-from src.gp.tiny_ge import *
-from src.gp.functions import *
-from src.gp.tiny_3ge import *
-from src.gp.loss import *
-from src.gp.problem import BlackBox
-
-benchmark = LSBenchmark('data/logic_synthesis/plu/add3.plu')
+benchmark = LSBenchmark('plu/add3.plu')
 benchmark.generate()
 truth_table = benchmark.get_truth_table()
 num_inputs = benchmark.benchmark.num_inputs

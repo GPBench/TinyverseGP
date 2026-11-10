@@ -2,7 +2,7 @@
 Benchmark representation module for program synthesis.
 """
 
-from src.benchmark.benchmark import Benchmark
+from benchmark.benchmark import Benchmark
 
 
 class PSBenchmark(Benchmark):

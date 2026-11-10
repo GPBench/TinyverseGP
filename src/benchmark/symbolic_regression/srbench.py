@@ -2,19 +2,17 @@
 This file contains the SRBench class which is used to define the configuration of the symbolic regression benchmarking problem.
 """
 
-from src.gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQRT, SQR, CUBE
-from src.gp.tinyverse import Const, Var, GPConfig, GPHyperparameters
-from src.gp.tiny_cgp import CGPConfig, CGPHyperparameters, TinyCGP
+from gp.functions import ADD, SUB, MUL, DIV, EXP, LOG, SQR, CUBE
+from gp.tinyverse import Const, Var
+from gp.tiny_cgp import TinyCGP
 #from src.gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, TreeGEConfig
-from src.gp.tiny_ge import TinyGE, GEHyperparameters
-from src.gp.tiny_lgp import TinyLGP, LGPHyperparameters
-from src.gp.tiny_tgp import TinyTGP, TGPHyperparameters, Node
-import copy
+from gp.tiny_ge import TinyGE
+from gp.tiny_lgp import TinyLGP
+from gp.tiny_tgp import TinyTGP, Node
 import re
-from src.gp.loss import mean_squared_error, linear_scaling_mse, linear_scaling_coeff
-from src.gp.problem import Problem, BlackBox
+from gp.loss import mean_squared_error, linear_scaling_mse, linear_scaling_coeff
+from gp.problem import BlackBox
 
-import re
 from sklearn.base import RegressorMixin
 import sympy as sp
 import numpy as np
@@ -40,18 +38,18 @@ class SRBench(RegressorMixin):
         functions,
         terminals=[1, 0.5, np.pi, np.sqrt(2)],
         scaling_=False,
-        grammar={"<expr>": ["ADD(<expr>, <expr>)", 
-                          "SUB(<expr>, <expr>)", 
-                          "MUL(<expr>, <expr>)", 
-                          "DIV(<expr>, <expr>)", 
-                          "EXP(<expr>)", 
-                          "LOG(<expr>)", 
-                          "SQR(<expr>)", 
-                          "CUBE(<expr>)", 
-                          "<const>", 
+        grammar={"<expr>": ["ADD(<expr>, <expr>)",
+                          "SUB(<expr>, <expr>)",
+                          "MUL(<expr>, <expr>)",
+                          "DIV(<expr>, <expr>)",
+                          "EXP(<expr>)",
+                          "LOG(<expr>)",
+                          "SQR(<expr>)",
+                          "CUBE(<expr>)",
+                          "<const>",
                           "<var>",
                                 ],
-                "<const>": ["1", "0.5", "3.14159", "1.41421"], 
+                "<const>": ["1", "0.5", "3.14159", "1.41421"],
                 "<var>": []
         },
         loss=mean_squared_error,
@@ -67,7 +65,7 @@ class SRBench(RegressorMixin):
         self.terminals = [Const(c) for c in terminals]
         self.fitted_ = False
         self.config = config
-        self.optimized = optimized 
+        self.optimized = optimized
         self.grammar = grammar
         self.hyperparameters = hyperparameters
 
@@ -81,8 +79,8 @@ class SRBench(RegressorMixin):
             "<var>": [],
         }
 
-    def fit(self, X, y, checkpoint=None):
-        problem = BlackBox(X, y, self.loss, 1e-16, True)
+    def fit(self, X, y, checkpoint=None, **log_kwargs):
+        problem = BlackBox(X, y, self.loss, 1e-16, True, **log_kwargs)
         self.terminals = [Var(i) for i in range(X.shape[1])] + self.terminals
         # Always set <var> in grammar to correct variable names before fitting
         self.grammar["<var>"] = [f"x{i}" for i in range(X.shape[1])]
@@ -92,17 +90,18 @@ class SRBench(RegressorMixin):
                 self.functions, self.terminals, self.config, self.hyperparameters
             )
         elif self.representation == "CGP":
-            #self.functions = [strfun[f] for f in self.functions]
+            # self.functions = [strfun[f] for f in self.functions]
             self.model = TinyCGP(
                 self.functions, self.terminals, self.config, self.hyperparameters
             )
         elif self.representation == "LGP":
-            #self.functions = [strfun[f] for f in self.functions]
+            # self.functions = [strfun[f] for f in self.functions]
             self.model = TinyLGP(
                 self.functions, self.terminals, self.config, self.hyperparameters
             )
         elif self.representation == "GE" or self.representation == "3GE":
-            newfunctions = {f.name.upper(): f.function for f in self.functions}
+            # NOTE: T.S. Disabled unused code
+            # newfunctions = {f.name.upper(): f.function for f in self.functions}
             arguments = [f"x{i}" for i in range(X.shape[1])]
             self.grammar["<var>"] = arguments
             if self.representation == "3GE":
@@ -130,7 +129,11 @@ class SRBench(RegressorMixin):
     def predict(self, X):
         if not self.fitted_:
             raise ValueError("Model not fitted")
-        return np.array([self.model.predict(self.program.genome, x)[0] for x in X])
+        yhat = np.array([self.model.predict(self.program.genome, x)[0] for x in X])
+        # replace NaNs and Infs to calculate score
+        yhat[np.isnan(yhat)] = 1e50
+        yhat[np.isinf(yhat)] = 1e50
+        return yhat
 
     def get_model(self, X=None):
         if not self.fitted_:

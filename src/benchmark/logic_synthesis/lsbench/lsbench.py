@@ -7,12 +7,12 @@ https://dl.acm.org/doi/abs/10.1145/3594805.3607131
 
 from argparse import ArgumentError
 from sklearn.base import RegressorMixin
-from src.benchmark.benchmark import Benchmark
-from src.gp.functions import AND, OR, BUFA, NOTA, NOR, NAND, XOR, XNOR, NOT
-from src.benchmark.logic_synthesis.ls_benchmark import LSBenchmark, FSType
-from src.benchmark.logic_synthesis.boolean_benchmark_tools.benchmark_evaluator import BenchmarkEvaluator
-from src.gp.problem import BlackBox
-import src.gp.util as util
+from benchmark.benchmark import Benchmark
+from gp.functions import AND, OR, BUFA, NOTA, NOR, NAND, XOR, XNOR, NOT
+from benchmark.logic_synthesis.ls_benchmark import LSBenchmark, FSType
+from benchmark.logic_synthesis.boolean_benchmark_tools.benchmark_evaluator import BenchmarkEvaluator
+from gp.problem import BlackBox
+import gp.util as util
 
 strfun = {
     "AND": AND,
@@ -274,7 +274,7 @@ class LSRegressor(RegressorMixin):
     def _make_default_grammar(self, functions, arguments, num_outputs):
         # Ensure grammar uses uppercase function names matching Function objects
         return {
-            "<expr>": ["[" + ', '.join([f"<lexpr>" for _ in range(num_outputs)]) + "]"],
+            "<expr>": ["[" + ', '.join(["<lexpr>" for _ in range(num_outputs)]) + "]"],
             "<lexpr>": [f"{f.name.upper()}(<vexpr>, <vexpr>)" for f in functions if f.arity == 2]
                        + [f"{f.name.upper()}(<vexpr>)" for f in functions if f.arity == 1],
             "<vexpr>": [f"{f.name.upper()}(<vexpr>, <vexpr>)" for f in functions if f.arity == 2]
@@ -283,9 +283,9 @@ class LSRegressor(RegressorMixin):
             "<var>": arguments
         }
 
-    def fit(self, X, y, checkpoint=None):
+    def fit(self, X, y, checkpoint=None, **log_kwargs):
         problem = BlackBox(X, y, self.loss, ideal_=self.config.ideal_fitness,
-                           minimizing_=self.config.minimizing_fitness)
+                           minimizing_=self.config.minimizing_fitness, **log_kwargs)
 
         self.model = util.get_model(self.representation, self.functions, self.arguments,
                                     self.hyperparameters, self.config, self.grammar)

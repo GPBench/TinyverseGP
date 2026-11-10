@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-from src.gp.tiny_cgp import *
-from src.gp.problem import Problem
-from src.gp.tinyverse import Var
+import random
 import requests
+from dataclasses import dataclass
 
-# from dd.cudd import BDD
-# import dd.cudd
-from dd.autoref import BDD, Function
+from src.gp.tiny_cgp import TinyCGP, CGPHyperparameters, CGPConfig
+from src.gp.problem import Problem
+from src.gp.tinyverse import Var, GPModel
+from src.benchmark.logic_synthesis.blif_parser.blif import BlifFile
+from src.gp.tinyverse import Function
+
+from dd.autoref import BDD #, Function  # NOTE: T.S. Disabled due to overloading variable Function
 
 Function.__xor__ = lambda self, other: self._apply("xor", other)
 
-from src.benchmark.logic_synthesis.blif_parser.blif import BlifFile
-from src.gp.tinyverse import Function
 
 AND = Function(2, "AND", lambda x, y: x & y)
 OR = Function(2, "OR", lambda x, y: x | y)
@@ -34,6 +35,7 @@ class LS(Problem):
     actual: list
 
     def __init__(self, blif_: str, minimizing_: bool = True):
+        self.logger = None  # NOTE: Added by T.S. as 'Problem' parent class has a Logger property but we do not call the parent __init__
         self.blif = blif_
         self.minimizing = minimizing_
         self.ideal = 0

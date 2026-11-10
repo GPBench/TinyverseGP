@@ -1,7 +1,7 @@
-from src.gp.tiny_cgp import TinyCGP
-from src.gp.tiny_ge import TinyGE
-from src.gp.tiny_lgp import TinyLGP
-from src.gp.tiny_tgp import TinyTGP
+from gp.tiny_cgp import TinyCGP
+from gp.tiny_ge import TinyGE
+from gp.tiny_lgp import TinyLGP
+from gp.tiny_tgp import TinyTGP
 
 
 def get_model(representation, functions, terminals, hyperparameters, config, grammar=None):

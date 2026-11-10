@@ -13,12 +13,10 @@ Observation space: Box([ -2.5 -2.5 -10. -10. -6.2831855 -10. -0. -0. ],
                        [ 2.5 2.5 10. 10. 6.2831855 10. 1. 1. ], (8,), float32)
 """
 
-from math import sqrt, pi
-from gymnasium.wrappers import FlattenObservation
 
-from src.gp.tiny_3ge import *
-from src.gp.functions import *
-from src.gp.problem import PolicySearch
+from gp.tiny_3ge import Tiny3GE, TreeGEHyperparameters, GPConfig
+from gp.functions import ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT
+from gp.problem import PolicySearch
 import warnings
 import gymnasium as gym
 import numpy
@@ -59,7 +57,7 @@ hyperparameters = TreeGEHyperparameters(
 
 problem = PolicySearch(env=env, ideal_=300, minimizing_=False)
 
-functions = [ADD, SUB, MUL, DIV, AND, OR, NAND, NOR, NOT, IF, LT, GT]
+functions = [ADD, SUB, MUL, DIV, lAND, lOR, lNAND, lNOR, lNOT, IF, LT, GT]
 arguments = ["a", "b", "c", "d", "e", "f", "g", "h"]  # Inputs for the functions
 grammar = {
     "<expr>": [
