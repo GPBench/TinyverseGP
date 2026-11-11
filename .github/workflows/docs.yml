@@ -1,0 +1,51 @@
+name: Update documentation
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+     - 'documentation/**'
+     - 'src/benchmark/**'
+     - 'src/gp/**'
+     - 'src/hpo/**'
+     - 'mkdocs.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+
+    - name: Setup Python
+      uses: actions/setup-python@v7
+      with:
+        python-version: 3.x
+
+    - name: Install Mkdocs
+      run: python -m pip install mkdocs mkdocs-material "mkdocstrings[python]"
+
+    - name: Build docs
+      run: mkdocs build -d docs/docs
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v8
+      with:
+        commit-message: Update documentation build
+        title: Update documentation build
+        base: main
+        branch: update-docs
+        delete-branch: true
+        add-paths: docs/docs

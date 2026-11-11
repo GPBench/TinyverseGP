@@ -19,6 +19,9 @@ theme:
     - toc.follow
     - search.suggest
 
+extra:
+  homepage: https://gpbench.github.io/TinyverseGP
+
 extra_css:
   - style.css
 
